@@ -56,7 +56,7 @@ struct Activity: Identifiable, Equatable, Codable {
         Activity(titleKey: "activity.breakfast", imageName: "fork.knife", hour: 7, minute: 30),
         Activity(titleKey: "activity.teeth", imageName: "mouth.fill", hour: 8, minute: 0),
         Activity(titleKey: "activity.getDressed", imageName: "tshirt.fill", hour: 8, minute: 15),
-        Activity(titleKey: "activity.school", imageName: "backpack.fill", hour: 8, minute: 30),
+        Activity(titleKey: "activity.kindergarten", imageName: "backpack.fill", hour: 8, minute: 30),
         Activity(titleKey: "activity.lunch", imageName: "carrot.fill", hour: 12, minute: 30),
         Activity(titleKey: "activity.play", imageName: "gamecontroller.fill", hour: 15, minute: 0),
         Activity(titleKey: "activity.judo", imageName: "figure.martial.arts", hour: 17, minute: 0),

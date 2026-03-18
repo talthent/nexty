@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld / %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld / %2$lld"
+          }
+        }
+      }
+    },
     "activity.bath" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -86,6 +96,23 @@
         }
       }
     },
+    "activity.kindergarten" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kindergarten"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "גן"
+          }
+        }
+      }
+    },
     "activity.lunch" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -116,23 +143,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "משחק"
-          }
-        }
-      }
-    },
-    "activity.school" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "School"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בית ספר"
           }
         }
       }
@@ -272,6 +282,23 @@
         }
       }
     },
+    "greeting.night" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good night"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לילה טוב"
+          }
+        }
+      }
+    },
     "header.time" : {
       "localizations" : {
         "en" : {
@@ -300,54 +327,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "עכשיו"
-          }
-        }
-      }
-    },
-    "settings.dashboard" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dashboard"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "לוח בקרה"
-          }
-        }
-      }
-    },
-    "settings.dashboardHint" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scan to edit schedule from your phone"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "סרקו כדי לערוך את לוח הזמנים מהטלפון"
-          }
-        }
-      }
-    },
-    "settings.noWifi" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connect to Wi-Fi to enable remote editing"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "התחברו ל-Wi-Fi כדי לאפשר עריכה מרחוק"
           }
         }
       }
@@ -396,6 +375,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "תצוגת שעון"
+          }
+        }
+      }
+    },
+    "settings.dashboard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dashboard"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לוח בקרה"
+          }
+        }
+      }
+    },
+    "settings.dashboardHint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan to edit schedule from your phone"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "סרקו כדי לערוך את לוח הזמנים מהטלפון"
           }
         }
       }
@@ -460,6 +471,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "שם"
+          }
+        }
+      }
+    },
+    "settings.noWifi" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect to Wi-Fi to enable remote editing"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "התחברו ל-Wi-Fi כדי לאפשר עריכה מרחוק"
           }
         }
       }
@@ -610,6 +637,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "כחול רך"
+          }
+        }
+      }
+    },
+    "wallpicker.current" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current Wallpaper"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "טפט נוכחי"
+          }
+        }
+      }
+    },
+    "wallpicker.select" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Wallpaper"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "בחירת טפט"
           }
         }
       }

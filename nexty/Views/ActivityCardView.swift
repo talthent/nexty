@@ -10,21 +10,28 @@ struct ActivityCardView: View {
 
     var body: some View {
         Button { } label: {
-            VStack(spacing: 16) {
-                Text(activity.timeString(use24Hour: use24Hour))
-                    .font(.system(size: 26, weight: .medium, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.7))
+            ZStack {
+                // Background layer — minimal parallax movement
+                VStack(spacing: 16) {
+                    Text(activity.timeString(use24Hour: use24Hour))
+                        .font(.system(size: 30, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white.opacity(0.7))
 
+                    Spacer()
+
+                    Text(activity.title(for: language))
+                        .font(.system(size: 36, weight: .semibold, design: .rounded))
+                        .foregroundStyle(.white)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
+                .padding(.vertical, 24)
+
+                // Foreground layer — icon floats with more parallax depth
                 Image(systemName: activity.imageName)
                     .font(.system(size: 80, weight: .medium))
                     .foregroundStyle(.white)
                     .frame(width: 140, height: 140)
-
-                Text(activity.title(for: language))
-                    .font(.system(size: 36, weight: .semibold, design: .rounded))
-                    .foregroundStyle(.white)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.7)
             }
             .frame(width: 280, height: 340)
             .background(.thinMaterial)
@@ -40,6 +47,7 @@ struct ActivityCardView: View {
         .buttonStyle(.card)
     }
 }
+
 
 #Preview {
     HStack(spacing: 32) {
@@ -82,11 +90,11 @@ private struct NowBadge: View {
 
     var body: some View {
         Text(String(localized: String.LocalizationValue("now"), bundle: language.bundle))
-            .font(.system(size: 18, weight: .heavy, design: .rounded))
+            .font(.system(size: 25, weight: .heavy, design: .rounded))
             .foregroundStyle(.black)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 4)
-            .background(.white, in: .rect(bottomTrailingRadius: 12))
+            .padding(.horizontal, 16)
+            .padding(.vertical, 6)
+            .background(.white, in: .rect(bottomTrailingRadius: 14))
     }
 }
 
@@ -95,10 +103,10 @@ private struct ComingNextBadge: View {
 
     var body: some View {
         Text(String(localized: String.LocalizationValue("comingNext"), bundle: language.bundle))
-            .font(.system(size: 18, weight: .heavy, design: .rounded))
+            .font(.system(size: 25, weight: .heavy, design: .rounded))
             .foregroundStyle(.black)
-            .padding(.horizontal, 14)
-            .padding(.vertical, 4)
-            .background(.yellow, in: .rect(bottomTrailingRadius: 12))
+            .padding(.horizontal, 16)
+            .padding(.vertical, 6)
+            .background(.yellow, in: .rect(bottomTrailingRadius: 14))
     }
 }

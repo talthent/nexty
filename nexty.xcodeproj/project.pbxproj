@@ -6,14 +6,63 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		609965CF2F6B49680090ED6D /* TVServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 609965CE2F6B49680090ED6D /* TVServices.framework */; };
+		609965D62F6B49680090ED6D /* topShelf.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 609965CC2F6B49680090ED6D /* topShelf.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		609965D42F6B49680090ED6D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 609965352F6ABC910090ED6D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 609965CB2F6B49680090ED6D;
+			remoteInfo = topShelf;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		609965DB2F6B49680090ED6D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				609965D62F6B49680090ED6D /* topShelf.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		6099653D2F6ABC910090ED6D /* nexty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nexty.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		609965CC2F6B49680090ED6D /* topShelf.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = topShelf.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		609965CE2F6B49680090ED6D /* TVServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TVServices.framework; path = System/Library/Frameworks/TVServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		609965D72F6B49680090ED6D /* Exceptions for "topShelf" folder in "topShelf" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 609965CB2F6B49680090ED6D /* topShelf */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6099653F2F6ABC910090ED6D /* nexty */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = nexty;
+			sourceTree = "<group>";
+		};
+		609965D02F6B49680090ED6D /* topShelf */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				609965D72F6B49680090ED6D /* Exceptions for "topShelf" folder in "topShelf" target */,
+			);
+			path = topShelf;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,6 +75,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		609965C92F6B49680090ED6D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				609965CF2F6B49680090ED6D /* TVServices.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -33,6 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				6099653F2F6ABC910090ED6D /* nexty */,
+				609965D02F6B49680090ED6D /* topShelf */,
+				609965CD2F6B49680090ED6D /* Frameworks */,
 				6099653E2F6ABC910090ED6D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,8 +100,17 @@
 			isa = PBXGroup;
 			children = (
 				6099653D2F6ABC910090ED6D /* nexty.app */,
+				609965CC2F6B49680090ED6D /* topShelf.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		609965CD2F6B49680090ED6D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				609965CE2F6B49680090ED6D /* TVServices.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -55,10 +123,12 @@
 				609965392F6ABC910090ED6D /* Sources */,
 				6099653A2F6ABC910090ED6D /* Frameworks */,
 				6099653B2F6ABC910090ED6D /* Resources */,
+				609965DB2F6B49680090ED6D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				609965D52F6B49680090ED6D /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				6099653F2F6ABC910090ED6D /* nexty */,
@@ -69,6 +139,28 @@
 			productName = nexty;
 			productReference = 6099653D2F6ABC910090ED6D /* nexty.app */;
 			productType = "com.apple.product-type.application";
+		};
+		609965CB2F6B49680090ED6D /* topShelf */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 609965D82F6B49680090ED6D /* Build configuration list for PBXNativeTarget "topShelf" */;
+			buildPhases = (
+				609965C82F6B49680090ED6D /* Sources */,
+				609965C92F6B49680090ED6D /* Frameworks */,
+				609965CA2F6B49680090ED6D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				609965D02F6B49680090ED6D /* topShelf */,
+			);
+			name = topShelf;
+			packageProductDependencies = (
+			);
+			productName = topShelf;
+			productReference = 609965CC2F6B49680090ED6D /* topShelf.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -81,6 +173,9 @@
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					6099653C2F6ABC910090ED6D = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					609965CB2F6B49680090ED6D = {
 						CreatedOnToolsVersion = 26.3;
 					};
 				};
@@ -101,12 +196,20 @@
 			projectRoot = "";
 			targets = (
 				6099653C2F6ABC910090ED6D /* nexty */,
+				609965CB2F6B49680090ED6D /* topShelf */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6099653B2F6ABC910090ED6D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		609965CA2F6B49680090ED6D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -123,7 +226,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		609965C82F6B49680090ED6D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		609965D52F6B49680090ED6D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 609965CB2F6B49680090ED6D /* topShelf */;
+			targetProxy = 609965D42F6B49680090ED6D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		609965462F6ABC920090ED6D /* Debug */ = {
@@ -252,6 +370,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = nexty/nexty.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9P63DYGH75;
@@ -282,6 +401,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = nexty/nexty.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9P63DYGH75;
@@ -307,6 +427,64 @@
 			};
 			name = Release;
 		};
+		609965D92F6B49680090ED6D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = topShelf/topShelf.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9P63DYGH75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = topShelf/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = topShelf;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.talthent.nexty.topShelf;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Debug;
+		};
+		609965DA2F6B49680090ED6D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = topShelf/topShelf.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9P63DYGH75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = topShelf/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = topShelf;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.talthent.nexty.topShelf;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -324,6 +502,15 @@
 			buildConfigurations = (
 				609965492F6ABC920090ED6D /* Debug */,
 				6099654A2F6ABC920090ED6D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		609965D82F6B49680090ED6D /* Build configuration list for PBXNativeTarget "topShelf" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				609965D92F6B49680090ED6D /* Debug */,
+				609965DA2F6B49680090ED6D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

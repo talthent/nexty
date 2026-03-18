@@ -35,13 +35,17 @@ final class AppState {
         didSet { saveActivities() }
     }
 
+    private static let sharedDefaults = UserDefaults(suiteName: "group.com.talthent.nexty") ?? .standard
+
     private func saveActivities() {
         guard let data = try? JSONEncoder().encode(activities) else { return }
+        Self.sharedDefaults.set(data, forKey: "activities")
         UserDefaults.standard.set(data, forKey: "activities")
     }
 
     private static func loadActivities() -> [Activity] {
-        guard let data = UserDefaults.standard.data(forKey: "activities"),
+        let data = sharedDefaults.data(forKey: "activities") ?? UserDefaults.standard.data(forKey: "activities")
+        guard let data,
               let decoded = try? JSONDecoder().decode([Activity].self, from: data),
               !decoded.isEmpty else {
             return Activity.defaultSchedule
@@ -61,9 +65,11 @@ final class AppState {
     var greeting: String {
         let hour = Calendar.current.component(.hour, from: currentTime)
         let key: String
-        if hour < 12 { key = "greeting.morning" }
+        if hour < 5 { key = "greeting.night" }
+        else if hour < 12 { key = "greeting.morning" }
         else if hour < 17 { key = "greeting.afternoon" }
-        else { key = "greeting.evening" }
+        else if hour < 21 { key = "greeting.evening" }
+        else { key = "greeting.night" }
         return String(localized: String.LocalizationValue(key), bundle: selectedLanguage.bundle)
     }
 

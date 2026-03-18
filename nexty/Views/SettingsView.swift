@@ -74,6 +74,7 @@ struct SettingsView: View {
             }
             .padding(60)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(selectedWallpaper.gradient.ignoresSafeArea())
         .onAppear {
             nameField = kidName
@@ -103,7 +104,7 @@ private struct NameSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(String(localized: String.LocalizationValue("settings.childName"), bundle: language.bundle))
-                .font(.system(size: 28, weight: .semibold, design: .rounded))
+                .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
             TextField(String(localized: String.LocalizationValue("settings.namePlaceholder"), bundle: language.bundle), text: $nameField)
@@ -123,7 +124,7 @@ private struct LocationSection: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(String(localized: String.LocalizationValue("settings.location"), bundle: language.bundle))
-                .font(.system(size: 28, weight: .semibold, design: .rounded))
+                .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
             HStack(spacing: 16) {
@@ -145,14 +146,41 @@ private struct LocationSection: View {
 private struct WallpaperSection: View {
     @Binding var selectedWallpaper: Wallpaper
     let language: Language
+    @State private var showPicker = false
 
     var body: some View {
         VStack(spacing: 16) {
             Text(String(localized: String.LocalizationValue("settings.wallpaper"), bundle: language.bundle))
-                .font(.system(size: 28, weight: .semibold, design: .rounded))
+                .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
-            WallpaperPickerView(selectedWallpaper: $selectedWallpaper, language: language)
+            Button { showPicker = true } label: {
+                HStack(spacing: 14) {
+                    ZStack {
+                        if let imageName = selectedWallpaper.imageName {
+                            Image(imageName)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 80, height: 50)
+                                .clipped()
+                        } else {
+                            selectedWallpaper.gradient
+                        }
+                    }
+                    .frame(width: 80, height: 50)
+                    .clipShape(.rect(cornerRadius: 10))
+
+                    Text(selectedWallpaper.title(for: language))
+                        .font(.system(size: 29, weight: .bold, design: .rounded))
+                        .foregroundStyle(.white)
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 12)
+            }
+            .buttonStyle(.card)
+            .fullScreenCover(isPresented: $showPicker) {
+                WallpaperPickerView(selectedWallpaper: $selectedWallpaper, language: language)
+            }
         }
     }
 }
@@ -190,7 +218,7 @@ private struct LanguagePicker: View {
     var body: some View {
         VStack(spacing: 12) {
             Text(String(localized: String.LocalizationValue("settings.language"), bundle: selectedLanguage.bundle))
-                .font(.system(size: 24, weight: .semibold, design: .rounded))
+                .font(.system(size: 29, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
             Button {
@@ -238,20 +266,20 @@ private struct DashboardSection: View {
     var body: some View {
         VStack(spacing: 16) {
             Text(String(localized: String.LocalizationValue("settings.dashboard"), bundle: language.bundle))
-                .font(.system(size: 28, weight: .semibold, design: .rounded))
+                .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
             if let url = dashboardURL {
                 QRCodeView(url: url)
                 Text(url)
-                    .font(.system(size: 22, weight: .medium, design: .monospaced))
+                    .font(.system(size: 29, weight: .medium, design: .monospaced))
                     .foregroundStyle(.white.opacity(0.9))
                 Text(String(localized: String.LocalizationValue("settings.dashboardHint"), bundle: language.bundle))
-                    .font(.system(size: 20, design: .rounded))
+                    .font(.system(size: 29, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
             } else {
                 Text(String(localized: String.LocalizationValue("settings.noWifi"), bundle: language.bundle))
-                    .font(.system(size: 22, design: .rounded))
+                    .font(.system(size: 29, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
             }
         }
@@ -266,7 +294,7 @@ private struct ToggleSetting: View {
     var body: some View {
         VStack(spacing: 12) {
             Text(title)
-                .font(.system(size: 24, weight: .semibold, design: .rounded))
+                .font(.system(size: 29, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
             Button {

@@ -15,7 +15,6 @@ struct ContentView: View {
 
     @FocusState private var focusedIndex: Int?
     @State private var lastFocusedIndex: Int?
-
     var body: some View {
         VStack(spacing: 30) {
             headerBar
@@ -37,7 +36,7 @@ struct ContentView: View {
                     .ignoresSafeArea()
             }
         }
-        .sheet(isPresented: $showSettings) {
+        .fullScreenCover(isPresented: $showSettings) {
             SettingsView(
                 kidName: Binding(
                     get: { appState.kidName },
