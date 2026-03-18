@@ -1,8 +1,9 @@
 {
   "images" : [
     {
-      "filename" : "icon_store_back.png",
-      "idiom" : "tv"
+      "filename" : "Bluey.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
     }
   ],
   "info" : {

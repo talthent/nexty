@@ -1,8 +1,9 @@
 {
   "images" : [
     {
-      "filename" : "icon_store_back.png",
-      "idiom" : "tv"
+      "filename" : "MinionsGroup.jpg",
+      "idiom" : "universal",
+      "scale" : "1x"
     }
   ],
   "info" : {
