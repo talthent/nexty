@@ -60,7 +60,8 @@ struct ContentView: View {
                     set: { appState.useCelsius = $0 }
                 ),
                 locationService: appState.locationService,
-                onLocationChanged: appState.fetchWeather
+                onLocationChanged: appState.fetchWeather,
+                dashboardURL: appState.dashboardURL
             )
         }
         .onAppear {

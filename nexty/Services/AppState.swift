@@ -31,7 +31,27 @@ final class AppState {
 
     // MARK: - Activities
 
-    let activities = Activity.defaultSchedule
+    var activities: [Activity] {
+        didSet { saveActivities() }
+    }
+
+    private func saveActivities() {
+        guard let data = try? JSONEncoder().encode(activities) else { return }
+        UserDefaults.standard.set(data, forKey: "activities")
+    }
+
+    private static func loadActivities() -> [Activity] {
+        guard let data = UserDefaults.standard.data(forKey: "activities"),
+              let decoded = try? JSONDecoder().decode([Activity].self, from: data),
+              !decoded.isEmpty else {
+            return Activity.defaultSchedule
+        }
+        return decoded
+    }
+
+    func replaceActivities(_ new: [Activity]) {
+        activities = new
+    }
 
     // MARK: - Time
 
@@ -84,11 +104,25 @@ final class AppState {
         Task { await weatherService.fetch(latitude: lat, longitude: lon) }
     }
 
+    // MARK: - Dashboard
+
+    let dashboardServer = DashboardServer()
+
+    var dashboardURL: String? {
+        guard let ip = NetworkInfo.localIPAddress() else { return nil }
+        return "http://\(ip):\(dashboardServer.port)"
+    }
+
     // MARK: - Lifecycle
+
+    init() {
+        activities = Self.loadActivities()
+    }
 
     func start() {
         locationService.requestLocation()
         startClock()
+        dashboardServer.start(appState: self)
     }
 
     private func startClock() {

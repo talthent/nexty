@@ -8,6 +8,7 @@ struct SettingsView: View {
     @Binding var useCelsius: Bool
     let locationService: LocationService
     let onLocationChanged: () -> Void
+    var dashboardURL: String?
     @Environment(\.dismiss) private var dismiss
 
     @State private var nameField = ""
@@ -53,6 +54,9 @@ struct SettingsView: View {
                     }
                 }
                 .focusSection()
+
+                DashboardSection(dashboardURL: dashboardURL, language: selectedLanguage)
+                    .focusSection()
 
                 Button {
                     let trimmed = nameField.trimmingCharacters(in: .whitespaces)
@@ -161,7 +165,8 @@ private struct WallpaperSection: View {
         use24Hour: .constant(true),
         useCelsius: .constant(true),
         locationService: LocationService(),
-        onLocationChanged: {}
+        onLocationChanged: {},
+        dashboardURL: "http://192.168.1.42:8080"
     )
 }
 
@@ -173,7 +178,8 @@ private struct WallpaperSection: View {
         use24Hour: .constant(true),
         useCelsius: .constant(true),
         locationService: LocationService(),
-        onLocationChanged: {}
+        onLocationChanged: {},
+        dashboardURL: "http://192.168.1.42:8080"
     )
 }
 
@@ -220,6 +226,33 @@ private struct LanguagePicker: View {
                 .padding(60)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(.ultraThinMaterial)
+            }
+        }
+    }
+}
+
+private struct DashboardSection: View {
+    let dashboardURL: String?
+    let language: Language
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Text(String(localized: String.LocalizationValue("settings.dashboard"), bundle: language.bundle))
+                .font(.system(size: 28, weight: .semibold, design: .rounded))
+                .foregroundStyle(.white.opacity(0.8))
+
+            if let url = dashboardURL {
+                QRCodeView(url: url)
+                Text(url)
+                    .font(.system(size: 22, weight: .medium, design: .monospaced))
+                    .foregroundStyle(.white.opacity(0.9))
+                Text(String(localized: String.LocalizationValue("settings.dashboardHint"), bundle: language.bundle))
+                    .font(.system(size: 20, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.6))
+            } else {
+                Text(String(localized: String.LocalizationValue("settings.noWifi"), bundle: language.bundle))
+                    .font(.system(size: 22, design: .rounded))
+                    .foregroundStyle(.white.opacity(0.6))
             }
         }
     }

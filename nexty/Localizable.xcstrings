@@ -304,6 +304,54 @@
         }
       }
     },
+    "settings.dashboard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dashboard"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "לוח בקרה"
+          }
+        }
+      }
+    },
+    "settings.dashboardHint" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scan to edit schedule from your phone"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "סרקו כדי לערוך את לוח הזמנים מהטלפון"
+          }
+        }
+      }
+    },
+    "settings.noWifi" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect to Wi-Fi to enable remote editing"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "התחברו ל-Wi-Fi כדי לאפשר עריכה מרחוק"
+          }
+        }
+      }
+    },
     "settings.childName" : {
       "localizations" : {
         "en" : {

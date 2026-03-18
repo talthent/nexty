@@ -22,12 +22,20 @@ enum Language: String, CaseIterable, Identifiable {
     }
 }
 
-struct Activity: Identifiable, Equatable {
-    let id = UUID()
-    let titleKey: String
-    let imageName: String
-    let hour: Int
-    let minute: Int
+struct Activity: Identifiable, Equatable, Codable {
+    var id: UUID
+    var titleKey: String
+    var imageName: String
+    var hour: Int
+    var minute: Int
+
+    init(id: UUID = UUID(), titleKey: String, imageName: String, hour: Int, minute: Int) {
+        self.id = id
+        self.titleKey = titleKey
+        self.imageName = imageName
+        self.hour = hour
+        self.minute = minute
+    }
 
     func title(for language: Language) -> String {
         String(localized: String.LocalizationValue(titleKey), bundle: language.bundle)
