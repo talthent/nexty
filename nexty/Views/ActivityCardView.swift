@@ -32,9 +32,9 @@ struct ActivityCardView: View {
             .overlay(alignment: .topLeading) {
                 switch state.badge {
                 case .now:
-                    NowBadge(language: state.language)
+                    NowBadge()
                 case .comingNext:
-                    ComingNextBadge(language: state.language)
+                    ComingNextBadge()
                 case .none:
                     EmptyView()
                 }
@@ -69,10 +69,10 @@ struct ActivityCardView: View {
 }
 
 private struct NowBadge: View {
-    let language: Language
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
-        Text(String(localized: String.LocalizationValue("now"), bundle: language.bundle))
+        Text("now".localized(language))
             .font(.system(size: 25, weight: .heavy, design: .rounded))
             .foregroundStyle(.black)
             .padding(.horizontal, 16)
@@ -82,10 +82,10 @@ private struct NowBadge: View {
 }
 
 private struct ComingNextBadge: View {
-    let language: Language
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
-        Text(String(localized: String.LocalizationValue("comingNext"), bundle: language.bundle))
+        Text("comingNext".localized(language))
             .font(.system(size: 25, weight: .heavy, design: .rounded))
             .foregroundStyle(.black)
             .padding(.horizontal, 16)

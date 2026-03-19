@@ -2,7 +2,7 @@ import SwiftUI
 
 struct WallpaperPickerView: View {
     @Binding var selectedWallpaper: Wallpaper
-    let language: Language
+    @Environment(\.appLanguage) private var language
     @Environment(\.dismiss) private var dismiss
 
     @State private var previewIndex: Int
@@ -10,9 +10,8 @@ struct WallpaperPickerView: View {
 
     private let wallpapers = Wallpaper.allCases
 
-    init(selectedWallpaper: Binding<Wallpaper>, language: Language) {
+    init(selectedWallpaper: Binding<Wallpaper>) {
         self._selectedWallpaper = selectedWallpaper
-        self.language = language
         let idx = Wallpaper.allCases.firstIndex(of: selectedWallpaper.wrappedValue) ?? 0
         self._previewIndex = State(initialValue: idx)
     }
@@ -69,7 +68,7 @@ struct WallpaperPickerView: View {
                 selectedWallpaper = currentWallpaper
                 dismiss()
             } label: {
-                Text(String(localized: String.LocalizationValue("wallpicker.select"), bundle: language.bundle))
+                Text("wallpicker.select".localized(language))
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
                     .padding(.horizontal, 50)
@@ -115,10 +114,12 @@ struct WallpaperPickerView: View {
 }
 
 #Preview {
-    WallpaperPickerView(selectedWallpaper: .constant(.minions), language: .english)
+    WallpaperPickerView(selectedWallpaper: .constant(.minions))
+        .environment(\.appLanguage, .english)
 }
 
 #Preview("Hebrew") {
-    WallpaperPickerView(selectedWallpaper: .constant(.bluey), language: .hebrew)
+    WallpaperPickerView(selectedWallpaper: .constant(.bluey))
+        .environment(\.appLanguage, .hebrew)
         .environment(\.layoutDirection, .rightToLeft)
 }

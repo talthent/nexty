@@ -58,17 +58,7 @@ enum Wallpaper: String, CaseIterable, Identifiable {
     }
 
     func title(for language: Language) -> String {
-        String(localized: String.LocalizationValue(titleKey), bundle: language.bundle)
+        titleKey.localized(language)
     }
 
-    var iconName: String {
-        switch self {
-        case .softBlue: "cloud.fill"
-        case .minions: "face.smiling.fill"
-        case .minionsGroup: "person.3.fill"
-        case .minionsParty: "party.popper.fill"
-        case .bluey: "dog.fill"
-        case .gabby: "cat.fill"
-        }
-    }
 }

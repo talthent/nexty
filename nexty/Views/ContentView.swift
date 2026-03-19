@@ -42,6 +42,7 @@ struct ContentView: View {
         .onChange(of: appState.locationService.latitude) { _, _ in
             appState.fetchWeather()
         }
+        .environment(\.appLanguage, appState.selectedLanguage)
         .environment(\.layoutDirection, appState.selectedLanguage.isRTL ? .rightToLeft : .leftToRight)
     }
 }

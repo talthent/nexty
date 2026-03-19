@@ -15,7 +15,10 @@ final class AppState {
     }
 
     var selectedLanguage: Language {
-        didSet { UserDefaults.standard.set(selectedLanguage.rawValue, forKey: "language") }
+        didSet {
+            UserDefaults.standard.set(selectedLanguage.rawValue, forKey: "language")
+            Self.sharedDefaults.set(selectedLanguage.rawValue, forKey: "language")
+        }
     }
 
     var use24Hour: Bool {
@@ -67,7 +70,7 @@ final class AppState {
         else if hour < 17 { key = "greeting.afternoon" }
         else if hour < 21 { key = "greeting.evening" }
         else { key = "greeting.night" }
-        return String(localized: String.LocalizationValue(key), bundle: selectedLanguage.bundle)
+        return key.localized(selectedLanguage)
     }
 
     var timeString: String {
@@ -77,17 +80,7 @@ final class AppState {
     }
 
     var currentActivityIndex: Int? {
-        let cal = Calendar.current
-        let nowMinutes = cal.component(.hour, from: currentTime) * 60
-            + cal.component(.minute, from: currentTime)
-
-        var result: Int?
-        for (index, activity) in activities.enumerated() {
-            if nowMinutes >= activity.hour * 60 + activity.minute {
-                result = index
-            }
-        }
-        return result
+        Activity.currentIndex(in: activities, at: currentTime)
     }
 
     var nextActivityIndex: Int? {
@@ -138,6 +131,10 @@ final class AppState {
         activities = Self.loadActivities()
     }
 
+    deinit {
+        clockTimer?.invalidate()
+    }
+
     func start() {
         startClock()
         locationService.preferredLocale = Locale(identifier: selectedLanguage.rawValue)
@@ -156,10 +153,10 @@ final class AppState {
                 fetchWeather()
             }
         }
-        DispatchQueue.main.async {
-            self.dashboardServer.start(appState: self)
-            self.updateDashboardURL()
-            self.isReady = true
+        Task { @MainActor in
+            dashboardServer.start(appState: self)
+            updateDashboardURL()
+            isReady = true
         }
     }
 

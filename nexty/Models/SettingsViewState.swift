@@ -1,7 +1,11 @@
 import SwiftUI
 
 struct SettingsViewState {
-    let appState: AppState
+    private let appState: AppState
+
+    init(appState: AppState) {
+        self.appState = appState
+    }
 
     // MARK: - Read-Only
 
@@ -9,6 +13,7 @@ struct SettingsViewState {
     var wallpaper: Wallpaper { appState.selectedWallpaper }
     var dashboardURL: String? { appState.dashboardURL }
     var cityName: String? { appState.locationService.cityName }
+    var kidName: String { appState.kidName }
     var use24Hour: Bool { appState.use24Hour }
     var useCelsius: Bool { appState.useCelsius }
 

@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     let state: SettingsViewState
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.appLanguage) private var language
 
     @State private var nameField = ""
     @State private var cityField = ""
@@ -10,7 +11,7 @@ struct SettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
-            Text(String(localized: String.LocalizationValue("settings.title"), bundle: state.language.bundle))
+            Text("settings.title".localized(language))
                 .font(.system(size: 48, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
 
@@ -18,28 +19,22 @@ struct SettingsView: View {
                 // MARK: - Left Column: Settings
                 ScrollView {
                     VStack(alignment: .leading, spacing: 30) {
-                        NameSection(nameField: $nameField, language: state.language)
+                        NameSection(nameField: $nameField)
                         .focusSection()
                     LocationSection(
                         cityField: $cityField,
                         isGeocodingCity: isGeocodingCity,
-                        language: state.language,
                         onSubmit: applyCity
                     )
                     .focusSection()
-                    WallpaperSection(
-                        selectedWallpaper: state.wallpaperBinding,
-                        language: state.language
-                    )
+                    WallpaperSection(selectedWallpaper: state.wallpaperBinding)
                     .focusSection()
 
-                    LanguagePicker(
-                        selectedLanguage: state.languageBinding
-                    )
+                    LanguagePicker(selectedLanguage: state.languageBinding)
                     .focusSection()
 
                     SettingsRow(
-                        title: String(localized: String.LocalizationValue("settings.clockFormat"), bundle: state.language.bundle),
+                        title: "settings.clockFormat".localized(language),
                         value: state.use24Hour ? "24H" : "12H"
                     ) {
                         state.toggleClockFormat()
@@ -47,7 +42,7 @@ struct SettingsView: View {
                     .focusSection()
 
                     SettingsRow(
-                        title: String(localized: String.LocalizationValue("settings.temperatureUnit"), bundle: state.language.bundle),
+                        title: "settings.temperatureUnit".localized(language),
                         value: state.useCelsius ? "\u{00B0}C" : "\u{00B0}F"
                     ) {
                         state.toggleTemperatureUnit()
@@ -61,7 +56,7 @@ struct SettingsView: View {
             .focusSection()
 
                 // MARK: - Right Column: Dashboard
-                DashboardSection(dashboardURL: state.dashboardURL, language: state.language)
+                DashboardSection(dashboardURL: state.dashboardURL)
                     .frame(maxWidth: .infinity)
                     .focusSection()
             }
@@ -70,7 +65,7 @@ struct SettingsView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(state.wallpaper.gradient.ignoresSafeArea())
         .onAppear {
-            nameField = state.appState.kidName
+            nameField = state.kidName
             cityField = state.cityName ?? ""
         }
         .onDisappear {
@@ -79,14 +74,12 @@ struct SettingsView: View {
         .onChange(of: state.cityName) { _, newCity in
             if let newCity { cityField = newCity }
         }
-        .onChange(of: state.appState.locationService.latitude) { _, _ in
-            state.fetchWeather()
-        }
         .onChange(of: state.language) { _, newLang in
             Task {
                 await state.onLanguageChanged(newLang)
             }
         }
+        .environment(\.appLanguage, state.language)
         .environment(\.layoutDirection, state.language.isRTL ? .rightToLeft : .leftToRight)
     }
 
@@ -105,16 +98,16 @@ struct SettingsView: View {
 
 private struct NameSection: View {
     @Binding var nameField: String
-    let language: Language
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(String(localized: String.LocalizationValue("settings.childName"), bundle: language.bundle))
+            Text("settings.childName".localized(language))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .multilineTextAlignment(.leading)
                 .foregroundStyle(.white.opacity(0.8))
 
-            TextField(String(localized: String.LocalizationValue("settings.namePlaceholder"), bundle: language.bundle), text: $nameField)
+            TextField("settings.namePlaceholder".localized(language), text: $nameField)
                 .font(.system(size: 32, design: .rounded))
                 .multilineTextAlignment(.leading)
                 .frame(height: 66)
@@ -126,17 +119,17 @@ private struct NameSection: View {
 private struct LocationSection: View {
     @Binding var cityField: String
     let isGeocodingCity: Bool
-    let language: Language
     let onSubmit: () -> Void
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(String(localized: String.LocalizationValue("settings.location"), bundle: language.bundle))
+            Text("settings.location".localized(language))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
             HStack(spacing: 16) {
-                TextField(String(localized: String.LocalizationValue("settings.cityPlaceholder"), bundle: language.bundle), text: $cityField)
+                TextField("settings.cityPlaceholder".localized(language), text: $cityField)
                     .font(.system(size: 32, design: .rounded))
                     .frame(height: 66)
                     .onSubmit(onSubmit)
@@ -153,12 +146,12 @@ private struct LocationSection: View {
 
 private struct WallpaperSection: View {
     @Binding var selectedWallpaper: Wallpaper
-    let language: Language
+    @Environment(\.appLanguage) private var language
     @State private var showPicker = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(String(localized: String.LocalizationValue("settings.wallpaper"), bundle: language.bundle))
+            Text("settings.wallpaper".localized(language))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
@@ -187,7 +180,7 @@ private struct WallpaperSection: View {
             }
             .buttonStyle(.card)
             .fullScreenCover(isPresented: $showPicker) {
-                WallpaperPickerView(selectedWallpaper: $selectedWallpaper, language: language)
+                WallpaperPickerView(selectedWallpaper: $selectedWallpaper)
             }
         }
     }
@@ -203,7 +196,7 @@ private struct LanguagePicker: View {
 
     var body: some View {
         HStack {
-            Text(String(localized: String.LocalizationValue("settings.language"), bundle: selectedLanguage.bundle))
+            Text("settings.language".localized(selectedLanguage))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
@@ -221,7 +214,7 @@ private struct LanguagePicker: View {
             .buttonStyle(.card)
             .sheet(isPresented: $showPicker) {
                 VStack(spacing: 30) {
-                    Text(String(localized: String.LocalizationValue("settings.language"), bundle: selectedLanguage.bundle))
+                    Text("settings.language".localized(selectedLanguage))
                         .font(.system(size: 42, weight: .bold, design: .rounded))
                         .foregroundStyle(.white)
 
@@ -250,11 +243,11 @@ private struct LanguagePicker: View {
 
 private struct DashboardSection: View {
     let dashboardURL: String?
-    let language: Language
+    @Environment(\.appLanguage) private var language
 
     var body: some View {
         VStack(spacing: 20) {
-            Text(String(localized: String.LocalizationValue("settings.dashboard"), bundle: language.bundle))
+            Text("settings.dashboard".localized(language))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
@@ -263,12 +256,12 @@ private struct DashboardSection: View {
                 Text(url)
                     .font(.system(size: 29, weight: .medium, design: .monospaced))
                     .foregroundStyle(.white.opacity(0.9))
-                Text(String(localized: String.LocalizationValue("settings.dashboardHint"), bundle: language.bundle))
+                Text("settings.dashboardHint".localized(language))
                     .font(.system(size: 29, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
                     .multilineTextAlignment(.center)
             } else {
-                Text(String(localized: String.LocalizationValue("settings.noWifi"), bundle: language.bundle))
+                Text("settings.noWifi".localized(language))
                     .font(.system(size: 29, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
             }

@@ -1,12 +1,15 @@
 import Foundation
 import Network
 
-final class DashboardServer: @unchecked Sendable {
-    private var listener: NWListener?
-    private weak var appState: AppState?
+final class DashboardServer: Sendable {
+    private let networkQueue = DispatchQueue(label: "com.talthent.nexty.dashboard")
     let port: UInt16 = 8080
 
-    func start(appState: AppState) {
+    // NWListener and appState are only accessed on networkQueue
+    private nonisolated(unsafe) var listener: NWListener?
+    private nonisolated(unsafe) weak var appState: AppState?
+
+    @MainActor func start(appState: AppState) {
         self.appState = appState
         guard let nwPort = NWEndpoint.Port(rawValue: port) else { return }
         do {
@@ -16,28 +19,31 @@ final class DashboardServer: @unchecked Sendable {
         listener?.newConnectionHandler = { [weak self] connection in
             self?.handleConnection(connection)
         }
-        listener?.start(queue: .main)
+        listener?.start(queue: networkQueue)
     }
 
-    func stop() {
+    @MainActor func stop() {
         listener?.cancel()
         listener = nil
     }
 
-    private func handleConnection(_ connection: NWConnection) {
-        connection.start(queue: .main)
+    private nonisolated func handleConnection(_ connection: NWConnection) {
+        connection.start(queue: networkQueue)
         connection.receive(minimumIncompleteLength: 1, maximumLength: 65536) { [weak self] data, _, _, _ in
             guard let self, let data else {
                 connection.cancel()
                 return
             }
-            let (method, path, body) = self.parseRequest(data)
-            let (status, contentType, responseBody) = self.route(method: method, path: path, body: body)
-            self.sendResponse(connection, status: status, contentType: contentType, body: responseBody)
+            let parsed = Self.parseRequest(data)
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+                let response = self.route(method: parsed.method, path: parsed.path, body: parsed.body)
+                Self.sendResponse(connection, status: response.status, contentType: response.contentType, body: response.body)
+            }
         }
     }
 
-    private func parseRequest(_ data: Data) -> (method: String, path: String, body: Data?) {
+    private static func parseRequest(_ data: Data) -> (method: String, path: String, body: Data?) {
         guard let str = String(data: data, encoding: .utf8) else {
             return ("GET", "/", nil)
         }
@@ -51,7 +57,7 @@ final class DashboardServer: @unchecked Sendable {
         return (method, path, body)
     }
 
-    private func route(method: String, path: String, body: Data?) -> (status: String, contentType: String, body: Data) {
+    @MainActor private func route(method: String, path: String, body: Data?) -> (status: String, contentType: String, body: Data) {
         switch (method, path) {
         case ("GET", "/"):
             return ("200 OK", "text/html; charset=utf-8", Data(DashboardHTML.html.utf8))
@@ -63,9 +69,7 @@ final class DashboardServer: @unchecked Sendable {
 
         case ("PUT", "/activities"):
             if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body) {
-                Task { @MainActor [weak self] in
-                    self?.appState?.replaceActivities(decoded)
-                }
+                appState?.replaceActivities(decoded)
                 return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
             }
             return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid json\"}".utf8))
@@ -75,7 +79,7 @@ final class DashboardServer: @unchecked Sendable {
         }
     }
 
-    private func sendResponse(_ connection: NWConnection, status: String, contentType: String, body: Data) {
+    private static func sendResponse(_ connection: NWConnection, status: String, contentType: String, body: Data) {
         let header = "HTTP/1.1 \(status)\r\nContent-Type: \(contentType)\r\nContent-Length: \(body.count)\r\nAccess-Control-Allow-Origin: *\r\nConnection: close\r\n\r\n"
         var responseData = Data(header.utf8)
         responseData.append(body)

@@ -1,27 +1,5 @@
 import Foundation
 
-enum Language: String, CaseIterable, Identifiable {
-    case english = "en"
-    case hebrew = "he"
-
-    var id: String { rawValue }
-
-    var displayName: String {
-        switch self {
-        case .english: "English"
-        case .hebrew: "עברית"
-        }
-    }
-
-    var isRTL: Bool { self == .hebrew }
-
-    var bundle: Bundle {
-        guard let path = Bundle.main.path(forResource: rawValue, ofType: "lproj"),
-              let bundle = Bundle(path: path) else { return .main }
-        return bundle
-    }
-}
-
 struct Activity: Identifiable, Equatable, Codable {
     var id: UUID
     var titleKey: String
@@ -38,7 +16,7 @@ struct Activity: Identifiable, Equatable, Codable {
     }
 
     func title(for language: Language) -> String {
-        String(localized: String.LocalizationValue(titleKey), bundle: language.bundle)
+        titleKey.localized(language)
     }
 
     func timeString(use24Hour: Bool) -> String {
@@ -49,6 +27,18 @@ struct Activity: Identifiable, Equatable, Codable {
             let period = hour < 12 ? "AM" : "PM"
             return String(format: "%d:%02d %@", displayHour, minute, period)
         }
+    }
+
+    static func currentIndex(in activities: [Activity], at date: Date) -> Int? {
+        let cal = Calendar.current
+        let minutes = cal.component(.hour, from: date) * 60 + cal.component(.minute, from: date)
+        var result: Int?
+        for (index, activity) in activities.enumerated() {
+            if minutes >= activity.hour * 60 + activity.minute {
+                result = index
+            }
+        }
+        return result
     }
 
     static let defaultSchedule: [Activity] = [

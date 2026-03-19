@@ -15,19 +15,30 @@ final class WeatherService {
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
-            let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-            guard let current = json?["current"] as? [String: Any],
-                  let temp = current["temperature_2m"] as? Double,
-                  let code = current["weather_code"] as? Int else {
-                logger.error("Failed to parse weather JSON")
-                return
+            let response = try JSONDecoder().decode(WeatherResponse.self, from: data)
+            let temp = Int(response.current.temperature2m.rounded())
+            let symbol = Self.symbolName(for: response.current.weatherCode)
+            await MainActor.run {
+                temperature = temp
+                symbolName = symbol
             }
-
-            temperature = Int(temp.rounded())
-            symbolName = Self.symbolName(for: code)
-            logger.info("Weather: \(self.temperature ?? 0)°, code \(code)")
+            logger.info("Weather: \(temp)°, code \(response.current.weatherCode)")
         } catch {
             logger.error("Weather fetch error: \(error.localizedDescription)")
+        }
+    }
+
+    private struct WeatherResponse: Decodable {
+        let current: CurrentWeather
+    }
+
+    private struct CurrentWeather: Decodable {
+        let temperature2m: Double
+        let weatherCode: Int
+
+        enum CodingKeys: String, CodingKey {
+            case temperature2m = "temperature_2m"
+            case weatherCode = "weather_code"
         }
     }
 

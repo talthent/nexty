@@ -49,11 +49,22 @@
 			);
 			target = 609965CB2F6B49680090ED6D /* topShelf */;
 		};
+		609965ED2F6BD39E0090ED6D /* Exceptions for "nexty" folder in "topShelf" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/Activity.swift,
+				Models/Language.swift,
+			);
+			target = 609965CB2F6B49680090ED6D /* topShelf */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6099653F2F6ABC910090ED6D /* nexty */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				609965ED2F6BD39E0090ED6D /* Exceptions for "nexty" folder in "topShelf" target */,
+			);
 			path = nexty;
 			sourceTree = "<group>";
 		};
