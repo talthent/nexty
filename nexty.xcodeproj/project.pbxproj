@@ -53,7 +53,9 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Models/Activity.swift,
+				Models/Kid.swift,
 				Models/Language.swift,
+				Models/Wallpaper.swift,
 			);
 			target = 609965CB2F6B49680090ED6D /* topShelf */;
 		};

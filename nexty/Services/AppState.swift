@@ -4,15 +4,70 @@ import SwiftUI
 final class AppState {
     var isReady = false
 
-    // MARK: - Persisted Settings
+    // MARK: - Kids
 
-    var kidName: String {
-        didSet { UserDefaults.standard.set(kidName, forKey: "kidName") }
+    var kids: [Kid] {
+        didSet { saveKids() }
     }
 
-    var selectedWallpaper: Wallpaper {
-        didSet { UserDefaults.standard.set(selectedWallpaper.rawValue, forKey: "wallpaper") }
+    var selectedKidIndex: Int {
+        didSet {
+            let clamped = min(max(selectedKidIndex, 0), kids.count - 1)
+            if clamped != selectedKidIndex { selectedKidIndex = clamped }
+            UserDefaults.standard.set(selectedKidIndex, forKey: "selectedKidIndex")
+        }
     }
+
+    var currentKid: Kid {
+        get { kids[selectedKidIndex] }
+        set { kids[selectedKidIndex] = newValue }
+    }
+
+    // Convenience proxies
+    var kidName: String { currentKid.name }
+    var selectedWallpaper: Wallpaper { currentKid.wallpaper }
+    var activities: [Activity] { currentKid.activities }
+
+    func replaceActivities(_ new: [Activity]) {
+        currentKid.activities = new
+    }
+
+    func replaceActivities(_ new: [Activity], forKidAt index: Int) {
+        guard kids.indices.contains(index) else { return }
+        kids[index].activities = new
+    }
+
+    // MARK: - Kid Management
+
+    func addKid(name: String, avatar: Avatar = .bear) {
+        kids.append(Kid(name: name, avatar: avatar))
+    }
+
+    func removeKid(at index: Int) {
+        guard kids.count > 1, kids.indices.contains(index) else { return }
+        kids.remove(at: index)
+        if selectedKidIndex >= kids.count {
+            selectedKidIndex = kids.count - 1
+        }
+    }
+
+    func updateKidName(_ name: String, at index: Int) {
+        guard kids.indices.contains(index) else { return }
+        let trimmed = name.trimmingCharacters(in: .whitespaces)
+        if !trimmed.isEmpty { kids[index].name = trimmed }
+    }
+
+    func updateKidWallpaper(_ wallpaper: Wallpaper, at index: Int) {
+        guard kids.indices.contains(index) else { return }
+        kids[index].wallpaper = wallpaper
+    }
+
+    func updateKidAvatar(_ avatar: Avatar, at index: Int) {
+        guard kids.indices.contains(index) else { return }
+        kids[index].avatar = avatar
+    }
+
+    // MARK: - Persisted Global Settings
 
     var selectedLanguage: Language {
         didSet {
@@ -29,32 +84,38 @@ final class AppState {
         didSet { UserDefaults.standard.set(useCelsius, forKey: "useCelsius") }
     }
 
-    // MARK: - Activities
-
-    var activities: [Activity] {
-        didSet { saveActivities() }
-    }
+    // MARK: - Persistence
 
     private static let sharedDefaults = UserDefaults(suiteName: "group.com.talthent.nexty") ?? .standard
 
-    private func saveActivities() {
-        guard let data = try? JSONEncoder().encode(activities) else { return }
-        Self.sharedDefaults.set(data, forKey: "activities")
-        UserDefaults.standard.set(data, forKey: "activities")
+    private func saveKids() {
+        guard let data = try? JSONEncoder().encode(kids) else { return }
+        Self.sharedDefaults.set(data, forKey: "kids")
+        UserDefaults.standard.set(data, forKey: "kids")
     }
 
-    private static func loadActivities() -> [Activity] {
-        let data = sharedDefaults.data(forKey: "activities") ?? UserDefaults.standard.data(forKey: "activities")
-        guard let data,
-              let decoded = try? JSONDecoder().decode([Activity].self, from: data),
-              !decoded.isEmpty else {
-            return Activity.defaultSchedule
+    private static func loadKids() -> [Kid] {
+        let data = sharedDefaults.data(forKey: "kids") ?? UserDefaults.standard.data(forKey: "kids")
+        if let data, let decoded = try? JSONDecoder().decode([Kid].self, from: data), !decoded.isEmpty {
+            return decoded
         }
-        return decoded
+        return migrateFromSingleKid()
     }
 
-    func replaceActivities(_ new: [Activity]) {
-        activities = new
+    private static func migrateFromSingleKid() -> [Kid] {
+        let defaults = UserDefaults.standard
+        let name = defaults.string(forKey: "kidName") ?? "Buddy"
+        let wallpaper = Wallpaper(rawValue: defaults.string(forKey: "wallpaper") ?? "") ?? .softBlue
+
+        let activityData = sharedDefaults.data(forKey: "activities") ?? defaults.data(forKey: "activities")
+        let activities: [Activity]
+        if let activityData, let decoded = try? JSONDecoder().decode([Activity].self, from: activityData), !decoded.isEmpty {
+            activities = decoded
+        } else {
+            activities = Activity.defaultSchedule
+        }
+
+        return [Kid(name: name, wallpaper: wallpaper, activities: activities)]
     }
 
     // MARK: - Time
@@ -123,12 +184,14 @@ final class AppState {
     // MARK: - Lifecycle
 
     init() {
-        kidName = UserDefaults.standard.string(forKey: "kidName") ?? "Buddy"
-        selectedWallpaper = Wallpaper(rawValue: UserDefaults.standard.string(forKey: "wallpaper") ?? "") ?? .softBlue
-        selectedLanguage = Language(rawValue: UserDefaults.standard.string(forKey: "language") ?? "") ?? .english
+        kids = Self.loadKids()
+        selectedKidIndex = min(
+            UserDefaults.standard.integer(forKey: "selectedKidIndex"),
+            max(Self.loadKids().count - 1, 0)
+        )
+        selectedLanguage = Language(rawValue: UserDefaults.standard.string(forKey: "language") ?? "") ?? Language.fromSystem
         use24Hour = UserDefaults.standard.object(forKey: "use24Hour") as? Bool ?? true
         useCelsius = UserDefaults.standard.object(forKey: "useCelsius") as? Bool ?? true
-        activities = Self.loadActivities()
     }
 
     deinit {

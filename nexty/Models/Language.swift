@@ -15,6 +15,11 @@ enum Language: String, CaseIterable, Identifiable {
 
     var isRTL: Bool { self == .hebrew }
 
+    static var fromSystem: Language {
+        let preferred = Locale.preferredLanguages.first ?? "en"
+        return Language.allCases.first { preferred.hasPrefix($0.rawValue) } ?? .english
+    }
+
     var bundle: Bundle {
         guard let path = Bundle.main.path(forResource: rawValue, ofType: "lproj"),
               let bundle = Bundle(path: path) else { return .main }

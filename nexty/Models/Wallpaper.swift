@@ -1,6 +1,6 @@
 import SwiftUI
 
-enum Wallpaper: String, CaseIterable, Identifiable {
+enum Wallpaper: String, CaseIterable, Codable, Identifiable {
     case softBlue = "softBlue"
     case minions = "minions"
     case minionsGroup = "minionsGroup"

@@ -7,69 +7,39 @@ enum DashboardHTML {
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Nexty Schedule</title>
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
 
     :root {
-        --bg-top: #FFF5E6;
-        --bg-bottom: #FFE0F0;
+        --bg: #F5F5F7;
         --card-bg: #FFFFFF;
-        --card-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
-        --card-hover: 0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06);
-        --accent: #FF6B6B;
-        --accent-glow: rgba(255,107,107,0.3);
-        --accent-secondary: #4ECDC4;
-        --accent-tertiary: #FFE66D;
-        --text-primary: #2D3436;
-        --text-secondary: #636E72;
-        --text-muted: #B2BEC3;
-        --input-bg: #F8F7FF;
-        --input-border: #E8E4F0;
-        --input-focus: #4ECDC4;
-        --delete-color: #FD79A8;
-        --delete-hover: #E84393;
-        --radius-lg: 20px;
-        --radius-md: 14px;
-        --radius-sm: 10px;
-        --font-display: 'Baloo 2', cursive;
-        --font-body: 'Nunito', sans-serif;
+        --card-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+        --card-hover: 0 4px 12px rgba(0,0,0,0.1);
+        --accent: #3478F6;
+        --accent-light: rgba(52,120,246,0.1);
+        --accent-glow: rgba(52,120,246,0.25);
+        --red: #E5484D;
+        --red-light: rgba(229,72,77,0.1);
+        --text-primary: #1D1D1F;
+        --text-secondary: #6E6E73;
+        --text-muted: #AEAEB2;
+        --input-bg: #F5F5F7;
+        --input-border: #D2D2D7;
+        --input-focus: #3478F6;
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --radius-sm: 8px;
+        --font: 'Nunito', -apple-system, sans-serif;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
-        font-family: var(--font-body);
-        background: linear-gradient(165deg, var(--bg-top) 0%, var(--bg-bottom) 50%, #E0E7FF 100%);
+        font-family: var(--font);
+        background: var(--bg);
         min-height: 100vh;
         min-height: 100dvh;
         padding: 16px 16px 40px;
         overflow-x: hidden;
-        position: relative;
-    }
-
-    body::before {
-        content: '';
-        position: fixed;
-        top: -120px;
-        right: -80px;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(255,230,109,0.35) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 0;
-    }
-
-    body::after {
-        content: '';
-        position: fixed;
-        bottom: -100px;
-        left: -60px;
-        width: 280px;
-        height: 280px;
-        background: radial-gradient(circle, rgba(78,205,196,0.2) 0%, transparent 70%);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 0;
     }
 
     .container {
@@ -96,60 +66,51 @@ enum DashboardHTML {
     }
 
     .logo-icon {
-        width: 42px;
-        height: 42px;
-        background: linear-gradient(135deg, var(--accent) 0%, #FF8E53 100%);
-        border-radius: 14px;
+        width: 38px;
+        height: 38px;
+        background: var(--accent);
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 22px;
-        box-shadow: 0 4px 14px var(--accent-glow);
-        animation: logoPulse 3s ease-in-out infinite;
-    }
-
-    @keyframes logoPulse {
-        0%, 100% { transform: scale(1) rotate(0deg); }
-        50% { transform: scale(1.05) rotate(2deg); }
+        font-size: 20px;
+        color: #fff;
     }
 
     h1 {
-        font-family: var(--font-display);
+        font-family: var(--font);
         color: var(--text-primary);
-        font-size: 26px;
+        font-size: 24px;
         font-weight: 800;
         letter-spacing: -0.3px;
-        background: linear-gradient(135deg, var(--accent) 0%, #FF8E53 60%, var(--accent-tertiary) 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
     }
 
-    .lang-btn {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
+    .lang-select {
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        z-index: 100;
         background: var(--card-bg);
-        border: 2px solid var(--input-border);
+        border: 1.5px solid var(--input-border);
         color: var(--text-secondary);
-        font-family: var(--font-body);
+        font-family: var(--font);
         font-size: 13px;
         font-weight: 700;
-        padding: 7px 14px;
+        padding: 6px 28px 6px 10px;
         border-radius: var(--radius-sm);
         cursor: pointer;
-        transition: all 0.2s ease;
-        letter-spacing: 0.3px;
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236E6E73' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 8px center;
     }
 
-    .lang-btn:hover {
-        border-color: var(--accent-secondary);
-        color: var(--accent-secondary);
-        box-shadow: 0 2px 12px rgba(78,205,196,0.2);
+    [dir="rtl"] .lang-select {
+        right: 12px;
+        left: auto;
     }
-
-    .lang-btn:active { transform: translateY(-50%) scale(0.95); }
 
     /* ---- ACTIVITY CARDS ---- */
     .activity-list {
@@ -161,72 +122,23 @@ enum DashboardHTML {
 
     .card {
         background: var(--card-bg);
-        border-radius: var(--radius-lg);
+        border-radius: var(--radius-md);
         padding: 14px;
         box-shadow: var(--card-shadow);
         display: flex;
         align-items: center;
         gap: 12px;
-        cursor: grab;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid transparent;
-        position: relative;
-        overflow: hidden;
+        transition: all 0.2s ease;
+        border: 1.5px solid transparent;
     }
 
-    .card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--accent-secondary), var(--accent-tertiary), var(--accent));
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .card:hover::before { opacity: 1; }
-    .card:hover { box-shadow: var(--card-hover); transform: translateY(-1px); }
-    .card:active { cursor: grabbing; }
-
-    .card.dragging {
-        opacity: 0.4;
-        transform: scale(0.95) rotate(1deg);
-        box-shadow: none;
-    }
-
-    .card.drag-over {
-        border-color: var(--accent-secondary);
-        background: linear-gradient(180deg, rgba(78,205,196,0.06) 0%, var(--card-bg) 100%);
-    }
-
-    /* ---- DRAG HANDLE ---- */
-    .drag-handle {
-        display: flex;
-        flex-direction: column;
-        gap: 3px;
-        padding: 6px 2px;
-        opacity: 0.25;
-        transition: opacity 0.2s;
-        flex-shrink: 0;
-    }
-
-    .card:hover .drag-handle { opacity: 0.5; }
-
-    .drag-handle span {
-        display: block;
-        width: 14px;
-        height: 2px;
-        background: var(--text-secondary);
-        border-radius: 2px;
-    }
+    .card:hover { box-shadow: var(--card-hover); }
 
     /* ---- ICON BADGE ---- */
     .icon-badge {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -237,31 +149,16 @@ enum DashboardHTML {
         text-align: center;
         line-height: 1.15;
         padding: 4px;
-        letter-spacing: -0.2px;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.15);
-        position: relative;
-        overflow: hidden;
     }
 
-    .icon-badge::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%);
-        border-radius: inherit;
-    }
-
-    .icon-badge.hue-0 { background: linear-gradient(135deg, #FF6B6B, #EE5A24); }
-    .icon-badge.hue-1 { background: linear-gradient(135deg, #4ECDC4, #00B894); }
-    .icon-badge.hue-2 { background: linear-gradient(135deg, #A29BFE, #6C5CE7); }
-    .icon-badge.hue-3 { background: linear-gradient(135deg, #FD79A8, #E84393); }
-    .icon-badge.hue-4 { background: linear-gradient(135deg, #FFEAA7, #FDCB6E); color: #6D4C00; text-shadow: none; }
-    .icon-badge.hue-5 { background: linear-gradient(135deg, #74B9FF, #0984E3); }
-    .icon-badge.hue-6 { background: linear-gradient(135deg, #55EFC4, #00CEC9); }
-    .icon-badge.hue-7 { background: linear-gradient(135deg, #FAB1A0, #E17055); }
+    .icon-badge.hue-0 { background: #E5484D; }
+    .icon-badge.hue-1 { background: #2B9A66; }
+    .icon-badge.hue-2 { background: #6E56CF; }
+    .icon-badge.hue-3 { background: #E54666; }
+    .icon-badge.hue-4 { background: #F5A623; color: #fff; }
+    .icon-badge.hue-5 { background: #3478F6; }
+    .icon-badge.hue-6 { background: #12A594; }
+    .icon-badge.hue-7 { background: #E54D2E; }
 
     /* ---- FIELDS ---- */
     .fields {
@@ -279,11 +176,11 @@ enum DashboardHTML {
     }
 
     select, input[type="number"] {
-        font-family: var(--font-body);
+        font-family: var(--font);
         font-size: 15px;
         font-weight: 600;
         padding: 9px 10px;
-        border: 2px solid var(--input-border);
+        border: 1.5px solid var(--input-border);
         border-radius: var(--radius-sm);
         background: var(--input-bg);
         color: var(--text-primary);
@@ -294,15 +191,15 @@ enum DashboardHTML {
     }
 
     select {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23636E72' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236E6E73' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 10px center;
         padding-right: 28px;
     }
 
     select:focus, input[type="number"]:focus {
-        border-color: var(--input-focus);
-        box-shadow: 0 0 0 3px rgba(78,205,196,0.15);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-light);
         background: #fff;
     }
 
@@ -317,15 +214,15 @@ enum DashboardHTML {
         align-items: center;
         gap: 2px;
         background: var(--input-bg);
-        border: 2px solid var(--input-border);
+        border: 1.5px solid var(--input-border);
         border-radius: var(--radius-sm);
         padding: 0 4px;
         transition: all 0.2s ease;
     }
 
     .time-group:focus-within {
-        border-color: var(--input-focus);
-        box-shadow: 0 0 0 3px rgba(78,205,196,0.15);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px var(--accent-light);
         background: #fff;
     }
 
@@ -335,7 +232,7 @@ enum DashboardHTML {
         border: none !important;
         background: transparent !important;
         padding: 9px 2px !important;
-        font-family: var(--font-display);
+        font-family: var(--font);
         font-size: 17px !important;
         font-weight: 700 !important;
         color: var(--text-primary);
@@ -345,10 +242,10 @@ enum DashboardHTML {
     .time-input:focus { box-shadow: none !important; }
 
     .time-sep {
-        font-family: var(--font-display);
+        font-family: var(--font);
         font-size: 18px;
         font-weight: 800;
-        color: var(--accent);
+        color: var(--text-muted);
         margin: 0 1px;
     }
 
@@ -382,8 +279,8 @@ enum DashboardHTML {
     }
 
     .delete-btn:hover {
-        background: rgba(253,121,168,0.1);
-        color: var(--delete-hover);
+        background: var(--red-light);
+        color: var(--red);
     }
 
     .delete-btn:hover svg { transform: scale(1.15); }
@@ -403,36 +300,36 @@ enum DashboardHTML {
         justify-content: center;
         gap: 8px;
         width: 100%;
-        padding: 15px;
-        border: 2.5px dashed rgba(78,205,196,0.5);
-        border-radius: var(--radius-lg);
-        background: rgba(78,205,196,0.06);
-        color: var(--accent-secondary);
-        font-family: var(--font-body);
-        font-size: 16px;
+        padding: 14px;
+        border: 2px dashed var(--input-border);
+        border-radius: var(--radius-md);
+        background: transparent;
+        color: var(--text-secondary);
+        font-family: var(--font);
+        font-size: 15px;
         font-weight: 700;
         cursor: pointer;
-        transition: all 0.25s ease;
+        transition: all 0.2s ease;
     }
 
     .add-btn:hover {
-        border-color: var(--accent-secondary);
-        background: rgba(78,205,196,0.12);
-        transform: translateY(-1px);
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-light);
     }
 
-    .add-btn:active { transform: translateY(0) scale(0.98); }
+    .add-btn:active { transform: scale(0.98); }
 
     .add-btn .plus-icon {
-        width: 24px;
-        height: 24px;
-        background: var(--accent-secondary);
-        border-radius: 8px;
+        width: 22px;
+        height: 22px;
+        background: var(--accent);
+        border-radius: 6px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: #fff;
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 800;
         line-height: 1;
     }
@@ -445,26 +342,24 @@ enum DashboardHTML {
         width: 100%;
         padding: 16px;
         border: none;
-        border-radius: var(--radius-lg);
-        background: linear-gradient(135deg, var(--accent) 0%, #FF8E53 100%);
+        border-radius: var(--radius-md);
+        background: var(--accent);
         color: #fff;
-        font-family: var(--font-display);
-        font-size: 19px;
+        font-family: var(--font);
+        font-size: 17px;
         font-weight: 800;
         cursor: pointer;
-        box-shadow: 0 6px 24px var(--accent-glow);
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        letter-spacing: 0.3px;
+        box-shadow: 0 4px 14px var(--accent-glow);
+        transition: all 0.2s ease;
     }
 
     .save-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 32px rgba(255,107,107,0.4);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px var(--accent-glow);
     }
 
     .save-btn:active {
-        transform: translateY(0) scale(0.98);
-        box-shadow: 0 4px 16px var(--accent-glow);
+        transform: scale(0.98);
     }
 
     .save-btn svg {
@@ -481,15 +376,15 @@ enum DashboardHTML {
         background: var(--text-primary);
         color: #fff;
         padding: 14px 28px;
-        border-radius: 16px;
-        font-family: var(--font-body);
+        border-radius: var(--radius-md);
+        font-family: var(--font);
         font-size: 15px;
         font-weight: 700;
         opacity: 0;
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.3s ease;
         pointer-events: none;
         z-index: 1000;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         display: flex;
         align-items: center;
         gap: 8px;
@@ -512,25 +407,18 @@ enum DashboardHTML {
     }
 
     .empty-state .empty-emoji {
-        font-size: 48px;
+        font-size: 40px;
         margin-bottom: 12px;
         display: block;
-        animation: emptyBounce 2s ease-in-out infinite;
-    }
-
-    @keyframes emptyBounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
     }
 
     .empty-state p {
-        font-family: var(--font-body);
-        font-size: 16px;
+        font-family: var(--font);
+        font-size: 15px;
         font-weight: 600;
     }
 
     /* ---- RTL ---- */
-    [dir="rtl"] .lang-btn { right: auto; left: 0; }
     [dir="rtl"] .card { direction: rtl; }
     [dir="rtl"] select {
         background-position: left 10px center;
@@ -541,6 +429,67 @@ enum DashboardHTML {
     [dir="rtl"] input { text-align: right; }
     [dir="rtl"] .time-input { text-align: center !important; }
     [dir="rtl"] .time-group { direction: ltr; }
+
+    /* ---- TABS ---- */
+    .tabs {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 20px;
+        background: rgba(0,0,0,0.05);
+        border-radius: var(--radius-sm);
+        padding: 3px;
+    }
+
+    .tab {
+        flex: 1;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        background: transparent;
+        font-family: var(--font);
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .tab.active {
+        background: var(--card-bg);
+        color: var(--text-primary);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .tab:not(.active):hover {
+        color: var(--text-secondary);
+    }
+
+    .copy-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+        padding: 13px;
+        border: 2px dashed var(--input-border);
+        border-radius: var(--radius-md);
+        background: transparent;
+        color: var(--text-secondary);
+        font-family: var(--font);
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-bottom: 10px;
+    }
+
+    .copy-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accent-light);
+    }
+
+    .copy-btn:active { transform: scale(0.98); }
 
     /* ---- SCROLLBAR ---- */
     ::-webkit-scrollbar { width: 4px; }
@@ -557,16 +506,27 @@ enum DashboardHTML {
     </style>
     </head>
     <body>
+    <select class="lang-select" id="langSelect" onchange="setLang(this.value)">
+        <option value="en">English</option>
+        <option value="he">עברית</option>
+    </select>
     <div class="container">
         <div class="header">
             <div class="logo-group">
                 <div class="logo-icon">N</div>
                 <h1 id="pageTitle">Nexty Schedule</h1>
             </div>
-            <button class="lang-btn" onclick="toggleLang()" id="langBtn">עברית</button>
+        </div>
+        <div class="tabs" id="kidTabs" style="display:none"></div>
+        <div class="tabs">
+            <button class="tab active" id="tabToday" onclick="switchTab('today')"><span id="tabTodayLabel">Today</span></button>
+            <button class="tab" id="tabTomorrow" onclick="switchTab('tomorrow')"><span id="tabTomorrowLabel">Tomorrow</span></button>
         </div>
         <div class="activity-list" id="list"></div>
         <div class="actions">
+            <button class="copy-btn" id="copyBtn" onclick="copyFromToday()" style="display:none">
+                <span id="copyBtnLabel">Copy from Today</span>
+            </button>
             <button class="add-btn" id="addBtn" onclick="addActivity()">
                 <span class="plus-icon">+</span>
                 <span id="addBtnLabel">Add Activity</span>
@@ -596,17 +556,25 @@ enum DashboardHTML {
     };
 
     const UI = {
-        en: { title:'Nexty Schedule', add:'Add Activity', save:'Save Changes', saved:'Saved!', error:'Error saving', noConn:'Connection failed', empty:'No activities yet' },
-        he: { title:'לוח זמנים', add:'הוספת פעילות', save:'שמירה', saved:'!נשמר', error:'שגיאה בשמירה', noConn:'אין חיבור', empty:'אין פעילויות עדיין' }
+        en: { title:'Nexty Schedule', add:'Add Activity', save:'Save Changes', saved:'Saved!', error:'Error saving', noConn:'Connection failed', empty:'No activities yet', today:'Today', tomorrow:'Tomorrow', copy:'Copy from Today' },
+        he: { title:'לוח זמנים', add:'הוספת פעילות', save:'שמירה', saved:'!נשמר', error:'שגיאה בשמירה', noConn:'אין חיבור', empty:'אין פעילויות עדיין', today:'היום', tomorrow:'מחר', copy:'העתק מהיום' }
     };
 
+    let kids = [];
+    let selectedKidId = null;
+    let todayActivities = [];
+    let tomorrowActivities = [];
     let activities = [];
+    let activeTab = 'today';
     let lang = localStorage.getItem('nextyLang') || 'en';
-    let dragIdx = null;
 
     function activityName(key) {
         const a = ACTIVITIES[key];
         return a ? a[lang] : key;
+    }
+
+    function sortActivities() {
+        activities.sort((a, b) => (a.hour * 60 + a.minute) - (b.hour * 60 + b.minute));
     }
 
     function selectActivity(idx, key) {
@@ -616,8 +584,71 @@ enum DashboardHTML {
         render();
     }
 
-    function toggleLang() {
-        lang = lang === 'en' ? 'he' : 'en';
+    function setTime(idx, field, value) {
+        activities[idx][field] = +value;
+        sortActivities();
+        render();
+    }
+
+    function switchTab(tab) {
+        if (activeTab === tab) return;
+        syncToStore();
+        activeTab = tab;
+        activities = activeTab === 'today' ? todayActivities : tomorrowActivities;
+        document.getElementById('tabToday').className = 'tab' + (tab === 'today' ? ' active' : '');
+        document.getElementById('tabTomorrow').className = 'tab' + (tab === 'tomorrow' ? ' active' : '');
+        document.getElementById('copyBtn').style.display = tab === 'tomorrow' ? '' : 'none';
+        render();
+    }
+
+    function syncToStore() {
+        if (activeTab === 'today') todayActivities = activities;
+        else tomorrowActivities = activities;
+    }
+
+    function copyFromToday() {
+        tomorrowActivities = JSON.parse(JSON.stringify(todayActivities));
+        tomorrowActivities.forEach(a => a.id = uuid());
+        activities = tomorrowActivities;
+        render();
+    }
+
+    function kidParam() {
+        return selectedKidId ? '?kid=' + selectedKidId : '';
+    }
+
+    function selectKid(id) {
+        if (selectedKidId === id) return;
+        selectedKidId = id;
+        loadActivitiesForKid();
+        renderKidTabs();
+    }
+
+    function renderKidTabs() {
+        const container = document.getElementById('kidTabs');
+        if (kids.length <= 1) { container.style.display = 'none'; return; }
+        container.style.display = 'flex';
+        container.innerHTML = kids.map(k =>
+            `<button class="tab${k.id === selectedKidId ? ' active' : ''}" onclick="selectKid('${k.id}')">${k.name}</button>`
+        ).join('');
+    }
+
+    async function loadActivitiesForKid() {
+        const q = kidParam();
+        const [todayRes, tomorrowRes] = await Promise.all([
+            fetch('/activities' + q),
+            fetch('/activities/tomorrow' + q)
+        ]);
+        todayActivities = await todayRes.json();
+        tomorrowActivities = await tomorrowRes.json();
+        todayActivities.sort((a, b) => (a.hour * 60 + a.minute) - (b.hour * 60 + b.minute));
+        tomorrowActivities.sort((a, b) => (a.hour * 60 + a.minute) - (b.hour * 60 + b.minute));
+        activities = activeTab === 'today' ? todayActivities : tomorrowActivities;
+        render();
+    }
+
+    function setLang(l) {
+        lang = l;
         localStorage.setItem('nextyLang', lang);
         applyLang();
         render();
@@ -628,16 +659,21 @@ enum DashboardHTML {
         document.getElementById('pageTitle').textContent = u.title;
         document.getElementById('addBtnLabel').textContent = u.add;
         document.getElementById('saveBtnLabel').textContent = u.save;
-        document.getElementById('langBtn').textContent = lang === 'en' ? 'עברית' : 'English';
+        document.getElementById('tabTodayLabel').textContent = u.today;
+        document.getElementById('tabTomorrowLabel').textContent = u.tomorrow;
+        document.getElementById('copyBtnLabel').textContent = u.copy;
+        document.getElementById('langSelect').value = lang;
         document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
         document.documentElement.lang = lang;
     }
 
     async function load() {
-        const res = await fetch('/activities');
-        activities = await res.json();
+        const kidsRes = await fetch('/kids');
+        kids = await kidsRes.json();
+        if (kids.length > 0) selectedKidId = kids[0].id;
+        renderKidTabs();
+        await loadActivitiesForKid();
         applyLang();
-        render();
     }
 
     function render() {
@@ -655,56 +691,13 @@ enum DashboardHTML {
         activities.forEach((a, i) => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.draggable = true;
-            card.dataset.index = i;
-
-            card.ondragstart = e => { dragIdx = i; card.classList.add('dragging'); };
-            card.ondragend = () => { dragIdx = null; card.classList.remove('dragging'); };
-            card.ondragover = e => { e.preventDefault(); card.classList.add('drag-over'); };
-            card.ondragleave = () => card.classList.remove('drag-over');
-            card.ondrop = e => {
-                e.preventDefault(); card.classList.remove('drag-over');
-                if (dragIdx !== null && dragIdx !== i) {
-                    const item = activities.splice(dragIdx, 1)[0];
-                    activities.splice(i, 0, item);
-                    render();
-                }
-            };
-
-            // Touch drag support
-            let touchStartY = 0;
-            let touchClone = null;
-            card.addEventListener('touchstart', e => {
-                dragIdx = i;
-                touchStartY = e.touches[0].clientY;
-            }, {passive: true});
-            card.addEventListener('touchmove', e => {
-                e.preventDefault();
-            }, {passive: false});
-            card.addEventListener('touchend', e => {
-                const endY = e.changedTouches[0].clientY;
-                const cards = document.querySelectorAll('.card');
-                let targetIdx = i;
-                cards.forEach((c, ci) => {
-                    const rect = c.getBoundingClientRect();
-                    if (endY > rect.top && endY < rect.bottom && ci !== i) {
-                        targetIdx = ci;
-                    }
-                });
-                if (targetIdx !== i) {
-                    const item = activities.splice(i, 1)[0];
-                    activities.splice(targetIdx, 0, item);
-                    render();
-                }
-                dragIdx = null;
-            });
 
             const titleOptions = Object.keys(ACTIVITIES).map(k =>
                 `<option value="${k}" ${k===a.titleKey?'selected':''}>${activityName(k)}</option>`
             ).join('');
 
             card.innerHTML = `
-                <div class="drag-handle"><span></span><span></span><span></span></div>
+                <div class="icon-badge hue-${i % 8}">${String(a.hour).padStart(2,'0')}<br>${String(a.minute).padStart(2,'0')}</div>
                 <div class="fields">
                     <div class="row">
                         <select class="title-select" onchange="selectActivity(${i}, this.value)">
@@ -712,11 +705,11 @@ enum DashboardHTML {
                         </select>
                         <div class="time-group">
                             <input class="time-input" type="number" min="0" max="23" value="${a.hour}"
-                                oninput="activities[${i}].hour=+this.value"
+                                onchange="setTime(${i},'hour',this.value)"
                                 onfocus="this.select()">
                             <span class="time-sep">:</span>
                             <input class="time-input" type="number" min="0" max="59" value="${String(a.minute).padStart(2,'0')}"
-                                oninput="activities[${i}].minute=+this.value"
+                                onchange="setTime(${i},'minute',this.value)"
                                 onfocus="this.select()">
                         </div>
                     </div>
@@ -744,17 +737,19 @@ enum DashboardHTML {
             hour: 12,
             minute: 0
         });
+        sortActivities();
         render();
-        setTimeout(() => window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'}), 50);
     }
 
     async function save() {
+        syncToStore();
         const u = UI[lang];
         const btn = document.getElementById('saveBtn');
         btn.style.transform = 'scale(0.96)';
         setTimeout(() => btn.style.transform = '', 150);
+        const endpoint = (activeTab === 'today' ? '/activities' : '/activities/tomorrow') + kidParam();
         try {
-            const res = await fetch('/activities', {
+            const res = await fetch(endpoint, {
                 method: 'PUT',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify(activities)
@@ -770,7 +765,7 @@ enum DashboardHTML {
         const msgEl = document.getElementById('toastMsg');
         icon.textContent = success ? '\u2714' : '\u2716';
         msgEl.textContent = msg;
-        t.style.background = success ? '#00B894' : '#E17055';
+        t.style.background = success ? '#2B9A66' : '#E5484D';
         t.classList.add('show');
         setTimeout(() => t.classList.remove('show'), 2500);
     }

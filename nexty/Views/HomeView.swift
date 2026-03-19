@@ -3,12 +3,19 @@ import SwiftUI
 struct HomeView: View {
     let state: HomeState
     var onSettingsTapped: () -> Void = {}
+    var onKidSelected: (Int) -> Void = { _ in }
+    var onAddKid: (String, Avatar) -> Void = { _, _ in }
+    var onUpdateKidName: (String, Int) -> Void = { _, _ in }
+    var onUpdateKidAvatar: (Avatar, Int) -> Void = { _, _ in }
+    var onUpdateKidWallpaper: (Wallpaper, Int) -> Void = { _, _ in }
+    var onRemoveKid: (Int) -> Void = { _ in }
 
     @FocusState private var focusedIndex: Int?
     @State private var lastFocusedIndex: Int?
     @State private var scrollProxy: ScrollViewProxy?
     @State private var idleTimer: Timer?
     @State private var visibleCards: Set<Int> = []
+    @State private var showProfiles = false
 
     var body: some View {
         VStack(spacing: 30) {
@@ -50,14 +57,48 @@ struct HomeView: View {
 
             Spacer()
 
-            Button(action: onSettingsTapped) {
-                Image(systemName: "gearshape.fill")
-                    .font(.system(size: 36))
-                    .foregroundStyle(.white.opacity(0.8))
-                    .padding(16)
-                    .background(.thinMaterial)
+            HStack(spacing: 30) {
+                Button { showProfiles = true } label: {
+                    Image(state.kids[state.selectedKidIndex].avatar.imageName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 48, height: 48)
+                        .clipShape(Circle())
+                        .padding(10)
+                        .background(.thinMaterial)
+                }
+                .buttonStyle(.card)
+                .fullScreenCover(isPresented: $showProfiles) {
+                    ProfileView(
+                        kids: state.kids,
+                        selectedIndex: state.selectedKidIndex,
+                        onSelect: { index in
+                            onKidSelected(index)
+                            showProfiles = false
+                        },
+                        onAdd: { name, avatar in
+                            onAddKid(name, avatar)
+                            showProfiles = false
+                        },
+                        onUpdateName: onUpdateKidName,
+                        onUpdateAvatar: onUpdateKidAvatar,
+                        onUpdateWallpaper: onUpdateKidWallpaper,
+                        onRemove: { index in
+                            onRemoveKid(index)
+                            showProfiles = false
+                        }
+                    )
+                }
+
+                Button(action: onSettingsTapped) {
+                    Image(systemName: "gearshape.fill")
+                        .font(.system(size: 36))
+                        .foregroundStyle(.white.opacity(0.8))
+                        .padding(16)
+                        .background(.thinMaterial)
+                }
+                .buttonStyle(.card)
             }
-            .buttonStyle(.card)
         }
         .padding(.horizontal, 80)
     }

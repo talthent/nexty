@@ -14,9 +14,19 @@ struct ContentView: View {
     var body: some View {
         Group {
             if appState.isReady {
-                HomeView(state: HomeState(appState: appState)) {
-                    showSettings = true
-                }
+                HomeView(
+                    state: HomeState(appState: appState),
+                    onSettingsTapped: { showSettings = true },
+                    onKidSelected: { appState.selectedKidIndex = $0 },
+                    onAddKid: { name, avatar in
+                        appState.addKid(name: name, avatar: avatar)
+                        appState.selectedKidIndex = appState.kids.count - 1
+                    },
+                    onUpdateKidName: { appState.updateKidName($0, at: $1) },
+                    onUpdateKidAvatar: { appState.updateKidAvatar($0, at: $1) },
+                    onUpdateKidWallpaper: { appState.updateKidWallpaper($0, at: $1) },
+                    onRemoveKid: { appState.removeKid(at: $0) }
+                )
             } else {
                 LoadingView(headerState: HeaderViewState(appState: appState))
             }

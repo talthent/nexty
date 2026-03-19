@@ -5,7 +5,6 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var language
 
-    @State private var nameField = ""
     @State private var cityField = ""
     @State private var isGeocodingCity = false
 
@@ -19,41 +18,37 @@ struct SettingsView: View {
                 // MARK: - Left Column: Settings
                 ScrollView {
                     VStack(alignment: .leading, spacing: 30) {
-                        NameSection(nameField: $nameField)
+                        LocationSection(
+                            cityField: $cityField,
+                            isGeocodingCity: isGeocodingCity,
+                            onSubmit: applyCity
+                        )
                         .focusSection()
-                    LocationSection(
-                        cityField: $cityField,
-                        isGeocodingCity: isGeocodingCity,
-                        onSubmit: applyCity
-                    )
-                    .focusSection()
-                    WallpaperSection(selectedWallpaper: state.wallpaperBinding)
-                    .focusSection()
 
-                    LanguagePicker(selectedLanguage: state.languageBinding)
-                    .focusSection()
+                        LanguagePicker(selectedLanguage: state.languageBinding)
+                            .focusSection()
 
-                    SettingsRow(
-                        title: "settings.clockFormat".localized(language),
-                        value: state.use24Hour ? "24H" : "12H"
-                    ) {
-                        state.toggleClockFormat()
+                        SettingsRow(
+                            title: "settings.clockFormat".localized(language),
+                            value: state.use24Hour ? "24H" : "12H"
+                        ) {
+                            state.toggleClockFormat()
+                        }
+                        .focusSection()
+
+                        SettingsRow(
+                            title: "settings.temperatureUnit".localized(language),
+                            value: state.useCelsius ? "\u{00B0}C" : "\u{00B0}F"
+                        ) {
+                            state.toggleTemperatureUnit()
+                        }
+                        .focusSection()
                     }
-                    .focusSection()
-
-                    SettingsRow(
-                        title: "settings.temperatureUnit".localized(language),
-                        value: state.useCelsius ? "\u{00B0}C" : "\u{00B0}F"
-                    ) {
-                        state.toggleTemperatureUnit()
-                    }
-                    .focusSection()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(20)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(20)
-            }
-            .scrollClipDisabled()
-            .focusSection()
+                .scrollClipDisabled()
+                .focusSection()
 
                 // MARK: - Right Column: Dashboard
                 DashboardSection(dashboardURL: state.dashboardURL)
@@ -65,11 +60,7 @@ struct SettingsView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(state.wallpaper.gradient.ignoresSafeArea())
         .onAppear {
-            nameField = state.kidName
             cityField = state.cityName ?? ""
-        }
-        .onDisappear {
-            state.applyName(nameField)
         }
         .onChange(of: state.cityName) { _, newCity in
             if let newCity { cityField = newCity }
@@ -96,26 +87,6 @@ struct SettingsView: View {
 
 // MARK: - Extracted Subviews
 
-private struct NameSection: View {
-    @Binding var nameField: String
-    @Environment(\.appLanguage) private var language
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("settings.childName".localized(language))
-                .font(.system(size: 31, weight: .semibold, design: .rounded))
-                .multilineTextAlignment(.leading)
-                .foregroundStyle(.white.opacity(0.8))
-
-            TextField("settings.namePlaceholder".localized(language), text: $nameField)
-                .font(.system(size: 32, design: .rounded))
-                .multilineTextAlignment(.leading)
-                .frame(height: 66)
-                .frame(maxWidth: 600, alignment: .leading)
-        }
-    }
-}
-
 private struct LocationSection: View {
     @Binding var cityField: String
     let isGeocodingCity: Bool
@@ -140,48 +111,6 @@ private struct LocationSection: View {
                 }
             }
             .frame(maxWidth: 600, alignment: .leading)
-        }
-    }
-}
-
-private struct WallpaperSection: View {
-    @Binding var selectedWallpaper: Wallpaper
-    @Environment(\.appLanguage) private var language
-    @State private var showPicker = false
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("settings.wallpaper".localized(language))
-                .font(.system(size: 31, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.8))
-
-            Button { showPicker = true } label: {
-                HStack(spacing: 14) {
-                    ZStack {
-                        if let imageName = selectedWallpaper.imageName {
-                            Image(imageName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 80, height: 50)
-                                .clipped()
-                        } else {
-                            selectedWallpaper.gradient
-                        }
-                    }
-                    .frame(width: 80, height: 50)
-                    .clipShape(.rect(cornerRadius: 10))
-
-                    Text(selectedWallpaper.title(for: language))
-                        .font(.system(size: 29, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white)
-                }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
-            }
-            .buttonStyle(.card)
-            .fullScreenCover(isPresented: $showPicker) {
-                WallpaperPickerView(selectedWallpaper: $selectedWallpaper)
-            }
         }
     }
 }

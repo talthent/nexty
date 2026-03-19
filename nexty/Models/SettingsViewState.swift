@@ -13,18 +13,10 @@ struct SettingsViewState {
     var wallpaper: Wallpaper { appState.selectedWallpaper }
     var dashboardURL: String? { appState.dashboardURL }
     var cityName: String? { appState.locationService.cityName }
-    var kidName: String { appState.kidName }
     var use24Hour: Bool { appState.use24Hour }
     var useCelsius: Bool { appState.useCelsius }
 
     // MARK: - Bindings
-
-    var wallpaperBinding: Binding<Wallpaper> {
-        Binding(
-            get: { appState.selectedWallpaper },
-            set: { appState.selectedWallpaper = $0 }
-        )
-    }
 
     var languageBinding: Binding<Language> {
         Binding(
@@ -34,11 +26,6 @@ struct SettingsViewState {
     }
 
     // MARK: - Actions
-
-    func applyName(_ name: String) {
-        let trimmed = name.trimmingCharacters(in: .whitespaces)
-        if !trimmed.isEmpty { appState.kidName = trimmed }
-    }
 
     func toggleClockFormat() {
         appState.use24Hour.toggle()
@@ -58,9 +45,5 @@ struct SettingsViewState {
         guard let lat = appState.locationService.latitude,
               let lon = appState.locationService.longitude else { return }
         await appState.locationService.reverseGeocode(latitude: lat, longitude: lon)
-    }
-
-    func fetchWeather() {
-        appState.fetchWeather()
     }
 }
