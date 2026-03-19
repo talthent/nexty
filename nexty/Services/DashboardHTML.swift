@@ -583,7 +583,7 @@ enum DashboardHTML {
         'activity.wakeUp':       {en:'Wake Up',       he:'השכמה',        icon:'sun.max.fill'},
         'activity.breakfast':    {en:'Breakfast',      he:'ארוחת בוקר',   icon:'fork.knife'},
         'activity.teeth':        {en:'Brush Teeth',    he:'צחצוח שיניים', icon:'mouth.fill'},
-        'activity.getDressed':   {en:'Get Dressed',    he:'התלבשות',      icon:'tshirt.fill'},
+        'activity.getDressed':   {en:'Get Dressed',    he:'להתלבש',      icon:'tshirt.fill'},
         'activity.kindergarten': {en:'Kindergarten',   he:'גן',           icon:'backpack.fill'},
         'activity.lunch':        {en:'Lunch',          he:'ארוחת צהריים', icon:'carrot.fill'},
         'activity.play':         {en:'Play',           he:'משחק',         icon:'gamecontroller.fill'},

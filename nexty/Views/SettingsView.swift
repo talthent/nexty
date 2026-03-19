@@ -1,14 +1,7 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Binding var kidName: String
-    @Binding var selectedWallpaper: Wallpaper
-    @Binding var selectedLanguage: Language
-    @Binding var use24Hour: Bool
-    @Binding var useCelsius: Bool
-    let locationService: LocationService
-    let onLocationChanged: () -> Void
-    var dashboardURL: String?
+    let state: SettingsViewState
     @Environment(\.dismiss) private var dismiss
 
     @State private var nameField = ""
@@ -16,71 +9,85 @@ struct SettingsView: View {
     @State private var isGeocodingCity = false
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 30) {
-                Text(String(localized: String.LocalizationValue("settings.title"), bundle: selectedLanguage.bundle))
-                    .font(.system(size: 48, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
+        VStack(alignment: .leading, spacing: 30) {
+            Text(String(localized: String.LocalizationValue("settings.title"), bundle: state.language.bundle))
+                .font(.system(size: 48, weight: .bold, design: .rounded))
+                .foregroundStyle(.white)
 
-                NameSection(nameField: $nameField, language: selectedLanguage)
-                    .focusSection()
-                LocationSection(
-                    cityField: $cityField,
-                    isGeocodingCity: isGeocodingCity,
-                    language: selectedLanguage,
-                    onSubmit: applyCity
-                )
-                .focusSection()
-                WallpaperSection(selectedWallpaper: $selectedWallpaper, language: selectedLanguage)
-                    .focusSection()
-
-                HStack(spacing: 30) {
-                    LanguagePicker(
-                        selectedLanguage: $selectedLanguage
+            HStack(alignment: .top, spacing: 60) {
+                // MARK: - Left Column: Settings
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 30) {
+                        NameSection(nameField: $nameField, language: state.language)
+                        .focusSection()
+                    LocationSection(
+                        cityField: $cityField,
+                        isGeocodingCity: isGeocodingCity,
+                        language: state.language,
+                        onSubmit: applyCity
                     )
-
-                    ToggleSetting(
-                        title: String(localized: String.LocalizationValue("settings.clockFormat"), bundle: selectedLanguage.bundle),
-                        value: use24Hour ? "24H" : "12H"
-                    ) {
-                        use24Hour.toggle()
-                    }
-
-                    ToggleSetting(
-                        title: String(localized: String.LocalizationValue("settings.temperatureUnit"), bundle: selectedLanguage.bundle),
-                        value: useCelsius ? "\u{00B0}C" : "\u{00B0}F"
-                    ) {
-                        useCelsius.toggle()
-                    }
-                }
-                .focusSection()
-
-                DashboardSection(dashboardURL: dashboardURL, language: selectedLanguage)
+                    .focusSection()
+                    WallpaperSection(
+                        selectedWallpaper: state.wallpaperBinding,
+                        language: state.language
+                    )
                     .focusSection()
 
-                Button {
-                    let trimmed = nameField.trimmingCharacters(in: .whitespaces)
-                    if !trimmed.isEmpty { kidName = trimmed }
-                    dismiss()
-                } label: {
-                    Text(String(localized: String.LocalizationValue("settings.done"), bundle: selectedLanguage.bundle))
-                        .font(.system(size: 32, weight: .semibold, design: .rounded))
-                        .foregroundStyle(.white)
-                        .padding(.horizontal, 40)
-                        .padding(.vertical, 14)
+                    LanguagePicker(
+                        selectedLanguage: state.languageBinding
+                    )
+                    .focusSection()
+
+                    SettingsRow(
+                        title: String(localized: String.LocalizationValue("settings.clockFormat"), bundle: state.language.bundle),
+                        value: state.use24Hour ? "24H" : "12H"
+                    ) {
+                        state.toggleClockFormat()
+                    }
+                    .focusSection()
+
+                    SettingsRow(
+                        title: String(localized: String.LocalizationValue("settings.temperatureUnit"), bundle: state.language.bundle),
+                        value: state.useCelsius ? "\u{00B0}C" : "\u{00B0}F"
+                    ) {
+                        state.toggleTemperatureUnit()
+                    }
+                    .focusSection()
                 }
-                .buttonStyle(.card)
-                .padding(.top, 20)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(20)
             }
-            .padding(60)
+            .scrollClipDisabled()
+            .focusSection()
+
+                // MARK: - Right Column: Dashboard
+                DashboardSection(dashboardURL: state.dashboardURL, language: state.language)
+                    .frame(maxWidth: .infinity)
+                    .focusSection()
+            }
         }
+        .padding(60)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(selectedWallpaper.gradient.ignoresSafeArea())
+        .background(state.wallpaper.gradient.ignoresSafeArea())
         .onAppear {
-            nameField = kidName
-            cityField = locationService.cityName ?? ""
+            nameField = state.appState.kidName
+            cityField = state.cityName ?? ""
         }
-        .environment(\.layoutDirection, selectedLanguage.isRTL ? .rightToLeft : .leftToRight)
+        .onDisappear {
+            state.applyName(nameField)
+        }
+        .onChange(of: state.cityName) { _, newCity in
+            if let newCity { cityField = newCity }
+        }
+        .onChange(of: state.appState.locationService.latitude) { _, _ in
+            state.fetchWeather()
+        }
+        .onChange(of: state.language) { _, newLang in
+            Task {
+                await state.onLanguageChanged(newLang)
+            }
+        }
+        .environment(\.layoutDirection, state.language.isRTL ? .rightToLeft : .leftToRight)
     }
 
     private func applyCity() {
@@ -88,9 +95,8 @@ struct SettingsView: View {
         guard !city.isEmpty else { return }
         isGeocodingCity = true
         Task {
-            let success = await locationService.geocodeCity(city)
+            _ = await state.geocodeCity(city)
             isGeocodingCity = false
-            if success { onLocationChanged() }
         }
     }
 }
@@ -105,13 +111,15 @@ private struct NameSection: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(String(localized: String.LocalizationValue("settings.childName"), bundle: language.bundle))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
+                .multilineTextAlignment(.leading)
                 .foregroundStyle(.white.opacity(0.8))
 
             TextField(String(localized: String.LocalizationValue("settings.namePlaceholder"), bundle: language.bundle), text: $nameField)
                 .font(.system(size: 32, design: .rounded))
+                .multilineTextAlignment(.leading)
                 .frame(height: 66)
+                .frame(maxWidth: 600, alignment: .leading)
         }
-        .frame(maxWidth: 600)
     }
 }
 
@@ -138,8 +146,8 @@ private struct LocationSection: View {
                         .tint(.white)
                 }
             }
+            .frame(maxWidth: 600, alignment: .leading)
         }
-        .frame(maxWidth: 600)
     }
 }
 
@@ -149,7 +157,7 @@ private struct WallpaperSection: View {
     @State private var showPicker = false
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: 16) {
             Text(String(localized: String.LocalizationValue("settings.wallpaper"), bundle: language.bundle))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
@@ -186,29 +194,7 @@ private struct WallpaperSection: View {
 }
 
 #Preview {
-    SettingsView(
-        kidName: .constant("Buddy"),
-        selectedWallpaper: .constant(.softBlue),
-        selectedLanguage: .constant(.english),
-        use24Hour: .constant(true),
-        useCelsius: .constant(true),
-        locationService: LocationService(),
-        onLocationChanged: {},
-        dashboardURL: "http://192.168.1.42:8080"
-    )
-}
-
-#Preview("Hebrew") {
-    SettingsView(
-        kidName: .constant("חברה"),
-        selectedWallpaper: .constant(.softBlue),
-        selectedLanguage: .constant(.hebrew),
-        use24Hour: .constant(true),
-        useCelsius: .constant(true),
-        locationService: LocationService(),
-        onLocationChanged: {},
-        dashboardURL: "http://192.168.1.42:8080"
-    )
+    SettingsView(state: SettingsViewState(appState: AppState()))
 }
 
 private struct LanguagePicker: View {
@@ -216,10 +202,12 @@ private struct LanguagePicker: View {
     @State private var showPicker = false
 
     var body: some View {
-        VStack(spacing: 12) {
+        HStack {
             Text(String(localized: String.LocalizationValue("settings.language"), bundle: selectedLanguage.bundle))
-                .font(.system(size: 29, weight: .semibold, design: .rounded))
+                .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
+
+            Spacer()
 
             Button {
                 showPicker = true
@@ -256,6 +244,7 @@ private struct LanguagePicker: View {
                 .background(.ultraThinMaterial)
             }
         }
+        .frame(maxWidth: 600)
     }
 }
 
@@ -264,7 +253,7 @@ private struct DashboardSection: View {
     let language: Language
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 20) {
             Text(String(localized: String.LocalizationValue("settings.dashboard"), bundle: language.bundle))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
@@ -277,29 +266,32 @@ private struct DashboardSection: View {
                 Text(String(localized: String.LocalizationValue("settings.dashboardHint"), bundle: language.bundle))
                     .font(.system(size: 29, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
+                    .multilineTextAlignment(.center)
             } else {
                 Text(String(localized: String.LocalizationValue("settings.noWifi"), bundle: language.bundle))
                     .font(.system(size: 29, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
             }
         }
+        .padding(40)
+        .background(.ultraThinMaterial, in: .rect(cornerRadius: 24))
     }
 }
 
-private struct ToggleSetting: View {
+private struct SettingsRow: View {
     let title: String
     let value: String
     let action: () -> Void
 
     var body: some View {
-        VStack(spacing: 12) {
+        HStack {
             Text(title)
-                .font(.system(size: 29, weight: .semibold, design: .rounded))
+                .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
-            Button {
-                action()
-            } label: {
+            Spacer()
+
+            Button(action: action) {
                 Text(value)
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
@@ -308,5 +300,6 @@ private struct ToggleSetting: View {
             }
             .buttonStyle(.card)
         }
+        .frame(maxWidth: 600)
     }
 }

@@ -2,31 +2,28 @@ import SwiftUI
 
 @Observable
 final class AppState {
+    var isReady = false
+
     // MARK: - Persisted Settings
 
     var kidName: String {
-        get { UserDefaults.standard.string(forKey: "kidName") ?? "Buddy" }
-        set { UserDefaults.standard.set(newValue, forKey: "kidName") }
+        didSet { UserDefaults.standard.set(kidName, forKey: "kidName") }
     }
 
     var selectedWallpaper: Wallpaper {
-        get { Wallpaper(rawValue: UserDefaults.standard.string(forKey: "wallpaper") ?? "") ?? .softBlue }
-        set { UserDefaults.standard.set(newValue.rawValue, forKey: "wallpaper") }
+        didSet { UserDefaults.standard.set(selectedWallpaper.rawValue, forKey: "wallpaper") }
     }
 
     var selectedLanguage: Language {
-        get { Language(rawValue: UserDefaults.standard.string(forKey: "language") ?? "") ?? .english }
-        set { UserDefaults.standard.set(newValue.rawValue, forKey: "language") }
+        didSet { UserDefaults.standard.set(selectedLanguage.rawValue, forKey: "language") }
     }
 
     var use24Hour: Bool {
-        get { UserDefaults.standard.object(forKey: "use24Hour") as? Bool ?? true }
-        set { UserDefaults.standard.set(newValue, forKey: "use24Hour") }
+        didSet { UserDefaults.standard.set(use24Hour, forKey: "use24Hour") }
     }
 
     var useCelsius: Bool {
-        get { UserDefaults.standard.object(forKey: "useCelsius") as? Bool ?? true }
-        set { UserDefaults.standard.set(newValue, forKey: "useCelsius") }
+        didSet { UserDefaults.standard.set(useCelsius, forKey: "useCelsius") }
     }
 
     // MARK: - Activities
@@ -94,9 +91,10 @@ final class AppState {
     }
 
     var nextActivityIndex: Int? {
-        guard let current = currentActivityIndex,
-              current + 1 < activities.count else { return nil }
-        return current + 1
+        guard let current = currentActivityIndex else {
+            return activities.isEmpty ? nil : 0
+        }
+        return current + 1 < activities.count ? current + 1 : nil
     }
 
     // MARK: - Weather & Location
@@ -114,21 +112,55 @@ final class AppState {
 
     let dashboardServer = DashboardServer()
 
-    var dashboardURL: String? {
-        guard let ip = NetworkInfo.localIPAddress() else { return nil }
-        return "http://\(ip):\(dashboardServer.port)"
+    private(set) var dashboardURL: String?
+
+    private func updateDashboardURL() {
+        Task.detached {
+            let ip = NetworkInfo.localIPAddress()
+            await MainActor.run {
+                if let ip {
+                    self.dashboardURL = "http://\(ip):\(self.dashboardServer.port)"
+                } else {
+                    self.dashboardURL = nil
+                }
+            }
+        }
     }
 
     // MARK: - Lifecycle
 
     init() {
+        kidName = UserDefaults.standard.string(forKey: "kidName") ?? "Buddy"
+        selectedWallpaper = Wallpaper(rawValue: UserDefaults.standard.string(forKey: "wallpaper") ?? "") ?? .softBlue
+        selectedLanguage = Language(rawValue: UserDefaults.standard.string(forKey: "language") ?? "") ?? .english
+        use24Hour = UserDefaults.standard.object(forKey: "use24Hour") as? Bool ?? true
+        useCelsius = UserDefaults.standard.object(forKey: "useCelsius") as? Bool ?? true
         activities = Self.loadActivities()
     }
 
     func start() {
-        locationService.requestLocation()
         startClock()
-        dashboardServer.start(appState: self)
+        locationService.preferredLocale = Locale(identifier: selectedLanguage.rawValue)
+        if locationService.hasLocation {
+            fetchWeather()
+            if locationService.needsLocaleUpdate {
+                Task {
+                    guard let lat = locationService.latitude,
+                          let lon = locationService.longitude else { return }
+                    await locationService.reverseGeocode(latitude: lat, longitude: lon)
+                }
+            }
+        } else {
+            Task {
+                await locationService.resolveFromDeviceRegion()
+                fetchWeather()
+            }
+        }
+        DispatchQueue.main.async {
+            self.dashboardServer.start(appState: self)
+            self.updateDashboardURL()
+            self.isReady = true
+        }
     }
 
     private func startClock() {

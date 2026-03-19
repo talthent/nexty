@@ -1,7 +1,7 @@
 import Foundation
 
 enum NetworkInfo {
-    static func localIPAddress() -> String? {
+    nonisolated static func localIPAddress() -> String? {
         var ifaddr: UnsafeMutablePointer<ifaddrs>?
         guard getifaddrs(&ifaddr) == 0, let firstAddr = ifaddr else { return nil }
         defer { freeifaddrs(ifaddr) }

@@ -1,4 +1,7 @@
 import Foundation
+import os
+
+private let logger = Logger(subsystem: "com.talthent.nexty", category: "WeatherService")
 
 @Observable
 final class WeatherService {
@@ -6,19 +9,25 @@ final class WeatherService {
     var symbolName: String?
 
     func fetch(latitude: Double, longitude: Double) async {
-        guard let url = URL(string: "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current=temperature_2m,weather_code") else { return }
+        let urlString = "https://api.open-meteo.com/v1/forecast?latitude=\(latitude)&longitude=\(longitude)&current=temperature_2m,weather_code"
+        logger.info("Fetching weather: \(urlString)")
+        guard let url = URL(string: urlString) else { return }
 
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
             guard let current = json?["current"] as? [String: Any],
                   let temp = current["temperature_2m"] as? Double,
-                  let code = current["weather_code"] as? Int else { return }
+                  let code = current["weather_code"] as? Int else {
+                logger.error("Failed to parse weather JSON")
+                return
+            }
 
             temperature = Int(temp.rounded())
             symbolName = Self.symbolName(for: code)
+            logger.info("Weather: \(self.temperature ?? 0)°, code \(code)")
         } catch {
-            // Weather is optional — fail silently
+            logger.error("Weather fetch error: \(error.localizedDescription)")
         }
     }
 

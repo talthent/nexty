@@ -1,46 +1,42 @@
 import SwiftUI
 
 struct ActivityCardView: View {
-    let activity: Activity
-    let language: Language
-    let use24Hour: Bool
-    let isCurrent: Bool
-    let isNext: Bool
-    let isPast: Bool
+    let state: ActivityCardState
 
     var body: some View {
         Button { } label: {
             ZStack {
-                // Background layer — minimal parallax movement
                 VStack(spacing: 16) {
-                    Text(activity.timeString(use24Hour: use24Hour))
+                    Text(state.timeString)
                         .font(.system(size: 30, weight: .semibold, design: .rounded))
                         .foregroundStyle(.white.opacity(0.7))
 
                     Spacer()
 
-                    Text(activity.title(for: language))
+                    Text(state.title)
                         .font(.system(size: 36, weight: .semibold, design: .rounded))
                         .foregroundStyle(.white)
                         .lineLimit(1)
                         .minimumScaleFactor(0.7)
                 }
-                .padding(.vertical, 24)
+                .padding(.vertical, 54)
 
-                // Foreground layer — icon floats with more parallax depth
-                Image(systemName: activity.imageName)
+                Image(systemName: state.imageName)
                     .font(.system(size: 80, weight: .medium))
                     .foregroundStyle(.white)
                     .frame(width: 140, height: 140)
             }
             .frame(width: 280, height: 340)
-            .background(.thinMaterial)
-            .opacity(isPast ? 0.6 : 1.0)
+            .background(.ultraThinMaterial)
+            .opacity(state.opacity)
             .overlay(alignment: .topLeading) {
-                if isCurrent {
-                    NowBadge(language: language)
-                } else if isNext {
-                    ComingNextBadge(language: language)
+                switch state.badge {
+                case .now:
+                    NowBadge(language: state.language)
+                case .comingNext:
+                    ComingNextBadge(language: state.language)
+                case .none:
+                    EmptyView()
                 }
             }
         }
@@ -48,33 +44,20 @@ struct ActivityCardView: View {
     }
 }
 
-
 #Preview {
     HStack(spacing: 32) {
-        ActivityCardView(
+        ActivityCardView(state: ActivityCardState(
             activity: Activity(titleKey: "activity.breakfast", imageName: "fork.knife", hour: 7, minute: 30),
-            language: .english,
-            use24Hour: true,
-            isCurrent: false,
-            isNext: false,
-            isPast: true
-        )
-        ActivityCardView(
-            activity: Activity(titleKey: "activity.school", imageName: "backpack.fill", hour: 8, minute: 30),
-            language: .english,
-            use24Hour: true,
-            isCurrent: true,
-            isNext: false,
-            isPast: false
-        )
-        ActivityCardView(
+            language: .english, use24Hour: true, isCurrent: false, isNext: false, isPast: true
+        ))
+        ActivityCardView(state: ActivityCardState(
+            activity: Activity(titleKey: "activity.kindergarten", imageName: "backpack.fill", hour: 8, minute: 30),
+            language: .english, use24Hour: true, isCurrent: true, isNext: false, isPast: false
+        ))
+        ActivityCardView(state: ActivityCardState(
             activity: Activity(titleKey: "activity.lunch", imageName: "carrot.fill", hour: 12, minute: 30),
-            language: .english,
-            use24Hour: true,
-            isCurrent: false,
-            isNext: true,
-            isPast: false
-        )
+            language: .english, use24Hour: true, isCurrent: false, isNext: true, isPast: false
+        ))
     }
     .padding()
     .background {

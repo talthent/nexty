@@ -1,53 +1,35 @@
 import SwiftUI
 
 struct HeaderView: View {
-    let greeting: String
-    let kidName: String
-    let timeString: String
-    let language: Language
-    let weatherTemperature: Int?
-    let weatherSymbol: String?
-    let useCelsius: Bool
-
-    private var headlineText: String {
-        let format = String(localized: String.LocalizationValue("header.time"), bundle: language.bundle)
-        return String(format: format, greeting, kidName, timeString)
-    }
-
-    private var temperatureText: String {
-        guard let temp = weatherTemperature else { return "" }
-        let displayTemp = useCelsius ? temp : Int(Double(temp) * 9.0 / 5.0 + 32)
-        return "\(displayTemp)\u{00B0}\(useCelsius ? "C" : "F")"
-    }
+    let state: HeaderViewState
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(headlineText)
+            Text(state.headlineText)
                 .font(.system(size: 48, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
+                .shadow(color: .black.opacity(0.5), radius: 12, y: 4)
                 .contentTransition(.numericText())
-                .animation(.easeInOut(duration: 0.6), value: timeString)
+                .animation(.easeInOut(duration: 0.6), value: state.timeString)
 
-            if let symbol = weatherSymbol {
-                HStack(spacing: 10) {
-                    Image(systemName: symbol)
-                        .symbolRenderingMode(.multicolor)
-                        .font(.system(size: 30))
-                        .transition(.scale.combined(with: .opacity))
-                    Text(temperatureText)
-                        .font(.system(size: 34, weight: .semibold, design: .rounded))
-                        .contentTransition(.numericText())
-                }
-                .foregroundStyle(.white.opacity(0.9))
-                .animation(.easeInOut(duration: 0.8), value: symbol)
+            HStack(spacing: 10) {
+                Image(systemName: state.weatherSymbol ?? "sun.max.fill")
+                    .symbolRenderingMode(.multicolor)
+                    .font(.system(size: 30))
+                    .transition(.scale.combined(with: .opacity))
+                Text(state.weatherTemperature != nil ? state.temperatureText : "--\u{00B0}\(state.useCelsius ? "C" : "F")")
+                    .font(.system(size: 34, weight: .semibold, design: .rounded))
+                    .contentTransition(.numericText())
             }
+            .foregroundStyle(.white.opacity(0.9))
+            .shadow(color: .black.opacity(0.5), radius: 10, y: 3)
+            .animation(.easeInOut(duration: 0.8), value: state.weatherSymbol)
         }
-        .animation(.easeInOut(duration: 0.8), value: weatherSymbol)
     }
 }
 
 #Preview("English with weather") {
-    HeaderView(
+    HeaderView(state: HeaderViewState(
         greeting: "Good morning",
         kidName: "Ariel",
         timeString: "8:30",
@@ -55,7 +37,7 @@ struct HeaderView: View {
         weatherTemperature: 22,
         weatherSymbol: "sun.max.fill",
         useCelsius: true
-    )
+    ))
     .padding(60)
     .frame(maxWidth: .infinity, alignment: .leading)
     .background {
@@ -67,7 +49,7 @@ struct HeaderView: View {
 }
 
 #Preview("Hebrew") {
-    HeaderView(
+    HeaderView(state: HeaderViewState(
         greeting: "בוקר טוב",
         kidName: "אריאל",
         timeString: "8:30",
@@ -75,7 +57,7 @@ struct HeaderView: View {
         weatherTemperature: 22,
         weatherSymbol: "cloud.sun.fill",
         useCelsius: true
-    )
+    ))
     .padding(60)
     .frame(maxWidth: .infinity, alignment: .trailing)
     .background {
@@ -88,7 +70,7 @@ struct HeaderView: View {
 }
 
 #Preview("No weather") {
-    HeaderView(
+    HeaderView(state: HeaderViewState(
         greeting: "Good afternoon",
         kidName: "Ariel",
         timeString: "2:15 PM",
@@ -96,7 +78,7 @@ struct HeaderView: View {
         weatherTemperature: nil,
         weatherSymbol: nil,
         useCelsius: false
-    )
+    ))
     .padding(60)
     .frame(maxWidth: .infinity, alignment: .leading)
     .background(Color(red: 0.42, green: 0.56, blue: 0.78))

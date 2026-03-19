@@ -74,7 +74,7 @@
         "he" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "התלבשות"
+            "value" : "להתלבש"
           }
         }
       }
@@ -412,6 +412,7 @@
       }
     },
     "settings.done" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -642,6 +643,7 @@
       }
     },
     "wallpicker.current" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

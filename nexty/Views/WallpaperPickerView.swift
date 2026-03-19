@@ -6,6 +6,7 @@ struct WallpaperPickerView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State private var previewIndex: Int
+    @FocusState private var isFocused: Bool
 
     private let wallpapers = Wallpaper.allCases
 
@@ -62,9 +63,24 @@ struct WallpaperPickerView: View {
             Text("\(previewIndex + 1) / \(wallpapers.count)")
                 .font(.system(size: 29, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.7))
-                .padding(.bottom, 60)
+                .padding(.bottom, 20)
+
+            Button {
+                selectedWallpaper = currentWallpaper
+                dismiss()
+            } label: {
+                Text(String(localized: String.LocalizationValue("wallpicker.select"), bundle: language.bundle))
+                    .font(.system(size: 32, weight: .bold, design: .rounded))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 50)
+                    .padding(.vertical, 16)
+            }
+            .buttonStyle(.card)
+            .focused($isFocused)
+            .padding(.bottom, 60)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear { isFocused = true }
         .background {
             ZStack {
                 Color.black
@@ -94,7 +110,6 @@ struct WallpaperPickerView: View {
                     break
                 }
             }
-            selectedWallpaper = currentWallpaper
         }
     }
 }
