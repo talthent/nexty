@@ -13,6 +13,7 @@ final class DashboardServer: Sendable {
     @MainActor func start(appState: AppState) {
         self.appState = appState
         promoteTomorrowIfNeeded()
+        Self.pruneOldWeekDays()
         guard let nwPort = NWEndpoint.Port(rawValue: port) else { return }
         do {
             listener = try NWListener(using: .tcp, on: nwPort)
@@ -74,6 +75,77 @@ final class DashboardServer: Sendable {
         guard let data = try? JSONEncoder().encode(activities) else { return }
         defaults.set(data, forKey: "tomorrow.\(kidId).activities")
         defaults.set(tomorrowString(), forKey: "tomorrow.\(kidId).date")
+    }
+
+    // MARK: - Weekly Template Storage (per-kid)
+
+    private static func loadTemplate(kidId: String, day: Int) -> [Activity] {
+        guard let data = defaults.data(forKey: "weekTemplate.\(kidId).\(day)"),
+              let decoded = try? JSONDecoder().decode([Activity].self, from: data) else {
+            return Activity.defaultSchedule
+        }
+        return decoded
+    }
+
+    private static func saveTemplate(_ activities: [Activity], kidId: String, day: Int) {
+        guard let data = try? JSONEncoder().encode(activities) else { return }
+        defaults.set(data, forKey: "weekTemplate.\(kidId).\(day)")
+    }
+
+    private static func loadAllTemplates(kidId: String) -> [Int: [Activity]] {
+        var result: [Int: [Activity]] = [:]
+        for day in 0..<7 {
+            result[day] = loadTemplate(kidId: kidId, day: day)
+        }
+        return result
+    }
+
+    // MARK: - Weekly Day Storage (per-kid, per-date)
+
+    private static func loadWeekDay(kidId: String, date: String) -> [Activity]? {
+        guard let data = defaults.data(forKey: "weekDay.\(kidId).\(date)"),
+              let decoded = try? JSONDecoder().decode([Activity].self, from: data) else {
+            return nil
+        }
+        return decoded
+    }
+
+    private static func saveWeekDay(_ activities: [Activity], kidId: String, date: String) {
+        guard let data = try? JSONEncoder().encode(activities) else { return }
+        defaults.set(data, forKey: "weekDay.\(kidId).\(date)")
+    }
+
+    // MARK: - Date Helpers
+
+    private static let dateFormatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd"
+        return f
+    }()
+
+    private static func weekdayIndex(from dateString: String) -> Int? {
+        guard let date = dateFormatter.date(from: dateString) else { return nil }
+        // Calendar weekday: 1=Sun, 7=Sat → convert to 0=Sun, 6=Sat
+        return Calendar.current.component(.weekday, from: date) - 1
+    }
+
+    private static func weekDates(from weekStart: String) -> [String] {
+        guard let start = dateFormatter.date(from: weekStart) else { return [] }
+        return (0..<7).compactMap { offset in
+            Calendar.current.date(byAdding: .day, value: offset, to: start).map { dateFormatter.string(from: $0) }
+        }
+    }
+
+    private static func pruneOldWeekDays() {
+        let cutoff = Calendar.current.date(byAdding: .day, value: -14, to: Date())!
+        let cutoffString = dateFormatter.string(from: cutoff)
+        for key in defaults.dictionaryRepresentation().keys where key.hasPrefix("weekDay.") {
+            let parts = key.components(separatedBy: ".")
+            // weekDay.<kidId>.<yyyy-MM-dd>
+            if parts.count == 3, parts[2] < cutoffString {
+                defaults.removeObject(forKey: key)
+            }
+        }
     }
 
     // MARK: - HTTP
@@ -167,6 +239,79 @@ final class DashboardServer: Sendable {
                 return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
             }
             return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid json\"}".utf8))
+
+        // MARK: Weekly Template
+        case ("GET", "/weekly/template/all"):
+            let idx = kidIndex(from: query)
+            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+            let templates = Self.loadAllTemplates(kidId: kidId)
+            var dict: [String: [[String: Any]]] = [:]
+            for (day, activities) in templates {
+                if let encoded = try? JSONEncoder().encode(activities),
+                   let arr = try? JSONSerialization.jsonObject(with: encoded) as? [[String: Any]] {
+                    dict["\(day)"] = arr
+                } else {
+                    dict["\(day)"] = []
+                }
+            }
+            let data = (try? JSONSerialization.data(withJSONObject: dict)) ?? Data("{}".utf8)
+            return ("200 OK", "application/json", data)
+
+        case ("PUT", "/weekly/template"):
+            if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body),
+               let dayStr = query["day"], let day = Int(dayStr), (0..<7).contains(day) {
+                let idx = kidIndex(from: query)
+                let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+                if !kidId.isEmpty { Self.saveTemplate(decoded, kidId: kidId, day: day) }
+                return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
+            }
+            return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid request\"}".utf8))
+
+        // MARK: Weekly Days
+        case ("GET", "/weekly/week"):
+            let idx = kidIndex(from: query)
+            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+            let weekStart = query["weekStart"] ?? ""
+            let dates = Self.weekDates(from: weekStart)
+            let today = Self.todayString()
+            let templates = Self.loadAllTemplates(kidId: kidId)
+            var dict: [String: [[String: Any]]] = [:]
+            for dateStr in dates {
+                let acts: [Activity]
+                if dateStr == today {
+                    acts = appState?.kids[safe: idx]?.activities ?? []
+                } else if let stored = Self.loadWeekDay(kidId: kidId, date: dateStr) {
+                    acts = stored
+                } else if let dayIdx = Self.weekdayIndex(from: dateStr) {
+                    acts = templates[dayIdx] ?? []
+                } else {
+                    acts = []
+                }
+                if let encoded = try? JSONEncoder().encode(acts),
+                   let arr = try? JSONSerialization.jsonObject(with: encoded) as? [[String: Any]] {
+                    dict[dateStr] = arr
+                } else {
+                    dict[dateStr] = []
+                }
+            }
+            let data = (try? JSONSerialization.data(withJSONObject: dict)) ?? Data("{}".utf8)
+            return ("200 OK", "application/json", data)
+
+        case ("PUT", "/weekly/day"):
+            if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body),
+               let dateStr = query["date"], !dateStr.isEmpty {
+                let idx = kidIndex(from: query)
+                let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+                if !kidId.isEmpty {
+                    if dateStr == Self.todayString() {
+                        appState?.replaceActivities(decoded, forKidAt: idx)
+                    } else {
+                        Self.saveWeekDay(decoded, kidId: kidId, date: dateStr)
+                    }
+                }
+                return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
+            }
+            return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid request\"}".utf8))
 
         default:
             return ("404 Not Found", "text/plain", Data("Not Found".utf8))

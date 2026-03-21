@@ -12,12 +12,29 @@ struct HomeState {
 extension HomeState {
     init(appState: AppState) {
         self.headerState = HeaderViewState(appState: appState)
-        self.currentActivityIndex = appState.currentActivityIndex
-        self.nextActivityIndex = appState.nextActivityIndex
         self.kids = appState.kids
         self.selectedKidIndex = appState.selectedKidIndex
-        self.activityCards = appState.activities.enumerated().map { index, activity in
-            ActivityCardState(activity: activity, index: index, appState: appState)
+        let sortedActivities = appState.activities.sorted { a, b in
+            (a.hour * 60 + a.minute) < (b.hour * 60 + b.minute)
+        }
+        let currentIndex = Activity.currentIndex(in: sortedActivities, at: appState.currentTime)
+        self.currentActivityIndex = currentIndex
+        if let current = currentIndex {
+            self.nextActivityIndex = current + 1 < sortedActivities.count ? current + 1 : nil
+        } else {
+            self.nextActivityIndex = sortedActivities.isEmpty ? nil : 0
+        }
+        let nextIndex = self.nextActivityIndex
+        self.activityCards = sortedActivities.enumerated().map { index, activity in
+            ActivityCardState(
+                activity: activity,
+                index: index,
+                language: appState.selectedLanguage,
+                use24Hour: appState.use24Hour,
+                isCurrent: index == currentIndex,
+                isNext: index == nextIndex,
+                isPast: index < (currentIndex ?? 0)
+            )
         }
     }
 }

@@ -25,7 +25,8 @@ struct ContentView: View {
                     onUpdateKidName: { appState.updateKidName($0, at: $1) },
                     onUpdateKidAvatar: { appState.updateKidAvatar($0, at: $1) },
                     onUpdateKidWallpaper: { appState.updateKidWallpaper($0, at: $1) },
-                    onRemoveKid: { appState.removeKid(at: $0) }
+                    onRemoveKid: { appState.removeKid(at: $0) },
+                    onAddActivity: { appState.addActivity($0) }
                 )
             } else {
                 LoadingView(headerState: HeaderViewState(appState: appState))

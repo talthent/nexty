@@ -1,12 +1,15 @@
 import Foundation
 
-struct ActivityCardState {
+struct ActivityCardState: Identifiable {
     let activity: Activity
+    let index: Int
     let language: Language
     let use24Hour: Bool
     let isCurrent: Bool
     let isNext: Bool
     let isPast: Bool
+
+    var id: UUID { activity.id }
 
     var timeString: String {
         activity.timeString(use24Hour: use24Hour)
@@ -38,6 +41,7 @@ struct ActivityCardState {
 extension ActivityCardState {
     init(activity: Activity, index: Int, appState: AppState) {
         self.activity = activity
+        self.index = index
         self.language = appState.selectedLanguage
         self.use24Hour = appState.use24Hour
         self.isCurrent = index == appState.currentActivityIndex

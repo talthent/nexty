@@ -28,6 +28,10 @@ final class AppState {
     var selectedWallpaper: Wallpaper { currentKid.wallpaper }
     var activities: [Activity] { currentKid.activities }
 
+    func addActivity(_ activity: Activity) {
+        currentKid.activities.append(activity)
+    }
+
     func replaceActivities(_ new: [Activity]) {
         currentKid.activities = new
     }

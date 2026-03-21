@@ -21,9 +21,11 @@ struct ActivityCardView: View {
                 }
                 .padding(.vertical, 54)
 
-                Image(systemName: state.imageName)
-                    .font(.system(size: 80, weight: .medium))
+                Image("lucide-\(state.imageName)")
+                    .resizable()
+                    .scaledToFit()
                     .foregroundStyle(.white)
+                    .frame(width: 80, height: 80)
                     .frame(width: 140, height: 140)
             }
             .frame(width: 280, height: 340)
@@ -47,16 +49,16 @@ struct ActivityCardView: View {
 #Preview {
     HStack(spacing: 32) {
         ActivityCardView(state: ActivityCardState(
-            activity: Activity(titleKey: "activity.breakfast", imageName: "fork.knife", hour: 7, minute: 30),
-            language: .english, use24Hour: true, isCurrent: false, isNext: false, isPast: true
+            activity: Activity(titleKey: "activity.breakfast", imageName: "utensils", hour: 7, minute: 30),
+            index: 0, language: .english, use24Hour: true, isCurrent: false, isNext: false, isPast: true
         ))
         ActivityCardView(state: ActivityCardState(
-            activity: Activity(titleKey: "activity.kindergarten", imageName: "backpack.fill", hour: 8, minute: 30),
-            language: .english, use24Hour: true, isCurrent: true, isNext: false, isPast: false
+            activity: Activity(titleKey: "activity.kindergarten", imageName: "backpack", hour: 8, minute: 30),
+            index: 1, language: .english, use24Hour: true, isCurrent: true, isNext: false, isPast: false
         ))
         ActivityCardView(state: ActivityCardState(
-            activity: Activity(titleKey: "activity.lunch", imageName: "carrot.fill", hour: 12, minute: 30),
-            language: .english, use24Hour: true, isCurrent: false, isNext: true, isPast: false
+            activity: Activity(titleKey: "activity.lunch", imageName: "carrot", hour: 12, minute: 30),
+            index: 2, language: .english, use24Hour: true, isCurrent: false, isNext: true, isPast: false
         ))
     }
     .padding()

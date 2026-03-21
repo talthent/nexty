@@ -9,6 +9,7 @@ struct HomeView: View {
     var onUpdateKidAvatar: (Avatar, Int) -> Void = { _, _ in }
     var onUpdateKidWallpaper: (Wallpaper, Int) -> Void = { _, _ in }
     var onRemoveKid: (Int) -> Void = { _ in }
+    var onAddActivity: (Activity) -> Void = { _ in }
 
     @FocusState private var focusedIndex: Int?
     @State private var lastFocusedIndex: Int?
@@ -16,6 +17,7 @@ struct HomeView: View {
     @State private var idleTimer: Timer?
     @State private var visibleCards: Set<Int> = []
     @State private var showProfiles = false
+    @State private var showAddActivity = false
 
     var body: some View {
         VStack(spacing: 30) {
@@ -109,27 +111,42 @@ struct HomeView: View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 32) {
-                    ForEach(Array(state.activityCards.enumerated()), id: \.offset) { index, card in
+                    ForEach(state.activityCards) { card in
                         ActivityCardView(state: card)
-                            .focused($focusedIndex, equals: index)
-                            .id(index)
-                            .scaleEffect(visibleCards.contains(index) ? 1 : 0.7)
-                            .opacity(visibleCards.contains(index) ? 1 : 0)
+                            .focused($focusedIndex, equals: card.index)
+                            .scaleEffect(visibleCards.contains(card.index) ? 1 : 0.7)
+                            .opacity(visibleCards.contains(card.index) ? 1 : 0)
+                    }
+
+                    Button { showAddActivity = true } label: {
+                        VStack(spacing: 16) {
+                            Image(systemName: "plus")
+                                .font(.system(size: 50, weight: .medium))
+                                .foregroundStyle(.white.opacity(0.6))
+                        }
+                        .frame(width: 280, height: 340)
+                        .background(.ultraThinMaterial.opacity(0.5))
+                    }
+                    .buttonStyle(.card)
+                    .id("add")
+                    .fullScreenCover(isPresented: $showAddActivity) {
+                        AddActivityView(onAdd: onAddActivity)
                     }
                 }
                 .scrollTargetLayout()
                 .padding(.vertical, 30)
+                .animation(.spring(duration: 0.5, bounce: 0.2), value: state.activityCards.map(\.id))
             }
             .scrollTargetBehavior(.viewAligned)
             .contentMargins(.horizontal, 80)
             .onAppear {
                 scrollProxy = proxy
-                let target = state.currentActivityIndex ?? state.nextActivityIndex
-                if let target {
-                    proxy.scrollTo(target, anchor: .center)
+                let targetIndex = state.currentActivityIndex ?? state.nextActivityIndex
+                if let targetIndex, let card = state.activityCards.first(where: { $0.index == targetIndex }) {
+                    proxy.scrollTo(card.id, anchor: .center)
                 }
                 DispatchQueue.main.async {
-                    focusedIndex = target
+                    focusedIndex = targetIndex
                 }
             }
         }
@@ -151,9 +168,10 @@ struct HomeView: View {
     // MARK: - Actions
 
     private func scrollToNow() {
-        guard let idx = state.currentActivityIndex else { return }
+        guard let idx = state.currentActivityIndex,
+              let card = state.activityCards.first(where: { $0.index == idx }) else { return }
         withAnimation(.easeInOut(duration: 0.5)) {
-            scrollProxy?.scrollTo(idx, anchor: .center)
+            scrollProxy?.scrollTo(card.id, anchor: .center)
         }
     }
 
