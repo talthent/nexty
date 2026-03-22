@@ -927,7 +927,7 @@ enum DashboardHTML {
     let lang = localStorage.getItem('nextyLang') || 'en';
     let weekStartDay = +(localStorage.getItem('nextyWeekStart') || '0'); // 0=Sun, 1=Mon
 
-    let weeklyMode = 'thisWeek';
+    let weeklyMode = localStorage.getItem('nextyWeeklyMode') || 'thisWeek';
     let selectedWeekDay = 0; // index into ordered days (0=first day of week)
     let templateData = {};   // {0:[], 1:[], ...} keyed by canonical day (0=Sun)
     let weekData = {};       // {"2026-03-15":[], ...}
@@ -1038,6 +1038,7 @@ enum DashboardHTML {
         container.classList.add(slideOut);
         setTimeout(() => {
             weeklyMode = mode;
+            localStorage.setItem('nextyWeeklyMode', mode);
             const isTemplate = mode === 'template';
             document.body.classList.toggle('template-mode', isTemplate);
             document.getElementById('backBar').style.display = isTemplate ? '' : 'none';
@@ -1223,6 +1224,11 @@ enum DashboardHTML {
         if (kids.length > 0) selectedKidId = kids[0].id;
         renderKidTabs();
         await loadWeeklyData();
+        // Restore template mode if it was active before page reload
+        const isTemplate = weeklyMode === 'template';
+        document.body.classList.toggle('template-mode', isTemplate);
+        document.getElementById('backBar').style.display = isTemplate ? '' : 'none';
+        document.querySelector('.settings-btn').style.display = isTemplate ? 'none' : '';
         applyLang();
     }
 
