@@ -10,6 +10,8 @@ struct HomeView: View {
     var onUpdateKidWallpaper: (Wallpaper, Int) -> Void = { _, _ in }
     var onRemoveKid: (Int) -> Void = { _ in }
     var onAddActivity: (Activity) -> Void = { _ in }
+    var onUpdateActivity: (Activity) -> Void = { _ in }
+    var onRemoveActivity: (Activity) -> Void = { _ in }
 
     @FocusState private var focusedIndex: Int?
     @State private var lastFocusedIndex: Int?
@@ -18,6 +20,7 @@ struct HomeView: View {
     @State private var visibleCards: Set<Int> = []
     @State private var showProfiles = false
     @State private var showAddActivity = false
+    @State private var editingActivity: Activity?
 
     var body: some View {
         VStack(spacing: 30) {
@@ -112,10 +115,14 @@ struct HomeView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 LazyHStack(spacing: 32) {
                     ForEach(state.activityCards) { card in
-                        ActivityCardView(state: card)
-                            .focused($focusedIndex, equals: card.index)
-                            .scaleEffect(visibleCards.contains(card.index) ? 1 : 0.7)
-                            .opacity(visibleCards.contains(card.index) ? 1 : 0)
+                        ActivityCardView(
+                            state: card,
+                            onEdit: { editingActivity = $0 },
+                            onDelete: { onRemoveActivity($0) }
+                        )
+                        .focused($focusedIndex, equals: card.index)
+                        .scaleEffect(visibleCards.contains(card.index) ? 1 : 0.7)
+                        .opacity(visibleCards.contains(card.index) ? 1 : 0)
                     }
 
                     Button { showAddActivity = true } label: {
@@ -139,6 +146,11 @@ struct HomeView: View {
             }
             .scrollTargetBehavior(.viewAligned)
             .contentMargins(.horizontal, 80)
+            .fullScreenCover(item: $editingActivity) { activity in
+                EditActivityView(activity: activity) { updated in
+                    onUpdateActivity(updated)
+                }
+            }
             .onAppear {
                 scrollProxy = proxy
                 let targetIndex = state.currentActivityIndex ?? state.nextActivityIndex

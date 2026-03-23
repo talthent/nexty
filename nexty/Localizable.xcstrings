@@ -45,6 +45,22 @@
         }
       }
     },
+    "activity.delete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "מחיקה"
+          }
+        }
+      }
+    },
     "activity.dinner" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -58,6 +74,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ארוחת ערב"
+          }
+        }
+      }
+    },
+    "activity.edit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "עריכה"
+          }
+        }
+      }
+    },
+    "activity.save" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שמירה"
           }
         }
       }

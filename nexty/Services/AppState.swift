@@ -32,6 +32,15 @@ final class AppState {
         currentKid.activities.append(activity)
     }
 
+    func updateActivity(_ activity: Activity) {
+        guard let idx = currentKid.activities.firstIndex(where: { $0.id == activity.id }) else { return }
+        currentKid.activities[idx] = activity
+    }
+
+    func removeActivity(_ activity: Activity) {
+        currentKid.activities.removeAll { $0.id == activity.id }
+    }
+
     func replaceActivities(_ new: [Activity]) {
         currentKid.activities = new
     }

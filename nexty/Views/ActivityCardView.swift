@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ActivityCardView: View {
     let state: ActivityCardState
+    var onEdit: ((Activity) -> Void)?
+    var onDelete: ((Activity) -> Void)?
 
     var body: some View {
         Button { } label: {
@@ -43,6 +45,18 @@ struct ActivityCardView: View {
             }
         }
         .buttonStyle(.card)
+        .contextMenu {
+            Button {
+                onEdit?(state.activity)
+            } label: {
+                Label("activity.edit".localized(state.language), systemImage: "pencil")
+            }
+            Button(role: .destructive) {
+                onDelete?(state.activity)
+            } label: {
+                Label("activity.delete".localized(state.language), systemImage: "trash")
+            }
+        }
     }
 }
 
