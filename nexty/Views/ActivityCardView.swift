@@ -1,5 +1,10 @@
 import SwiftUI
 
+enum CardLayout {
+    static let width: CGFloat = 280
+    static let height: CGFloat = 340
+}
+
 struct ActivityCardView: View {
     let state: ActivityCardState
     var onEdit: ((Activity) -> Void)?
@@ -30,7 +35,7 @@ struct ActivityCardView: View {
                     .frame(width: 80, height: 80)
                     .frame(width: 140, height: 140)
             }
-            .frame(width: 280, height: 340)
+            .frame(width: CardLayout.width, height: CardLayout.height)
             .background(.ultraThinMaterial)
             .opacity(state.opacity)
             .overlay(alignment: .topLeading) {

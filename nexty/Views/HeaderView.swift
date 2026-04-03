@@ -17,7 +17,7 @@ struct HeaderView: View {
                     .symbolRenderingMode(.multicolor)
                     .font(.system(size: 30))
                     .transition(.scale.combined(with: .opacity))
-                Text(state.weatherTemperature != nil ? state.temperatureText : "--\u{00B0}\(state.useCelsius ? "C" : "F")")
+                Text(state.temperatureText)
                     .font(.system(size: 34, weight: .semibold, design: .rounded))
                     .contentTransition(.numericText())
             }

@@ -58,9 +58,12 @@ final class DashboardServer: Sendable {
     }
 
     private static func tomorrowString() -> String {
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) else {
+            return todayString()
+        }
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        return formatter.string(from: Calendar.current.date(byAdding: .day, value: 1, to: Date())!)
+        return formatter.string(from: tomorrow)
     }
 
     private static func loadTomorrow(kidId: String) -> [Activity] {
@@ -137,7 +140,7 @@ final class DashboardServer: Sendable {
     }
 
     private static func pruneOldWeekDays() {
-        let cutoff = Calendar.current.date(byAdding: .day, value: -14, to: Date())!
+        guard let cutoff = Calendar.current.date(byAdding: .day, value: -14, to: Date()) else { return }
         let cutoffString = dateFormatter.string(from: cutoff)
         for key in defaults.dictionaryRepresentation().keys where key.hasPrefix("weekDay.") {
             let parts = key.components(separatedBy: ".")
@@ -184,8 +187,8 @@ final class DashboardServer: Sendable {
         var query: [String: String] = [:]
         if pathParts.count > 1 {
             for param in pathParts[1].components(separatedBy: "&") {
-                let kv = param.components(separatedBy: "=")
-                if kv.count == 2 { query[kv[0]] = kv[1].removingPercentEncoding ?? kv[1] }
+                let pair = param.components(separatedBy: "=")
+                if pair.count == 2 { query[pair[0]] = pair[1].removingPercentEncoding ?? pair[1] }
             }
         }
         return (method, path, query, body)
@@ -234,22 +237,22 @@ final class DashboardServer: Sendable {
     }
 
     @MainActor private func routeActivities(method: String, query: [String: String], body: Data?) -> Response {
-        let idx = kidIndex(from: query)
+        let index = kidIndex(from: query)
         if method == "GET" {
-            let activities = appState?.kids[safe: idx]?.activities ?? []
+            let activities = appState?.kids[safe: index]?.activities ?? []
             let data = (try? JSONEncoder().encode(activities)) ?? Data("[]".utf8)
             return ("200 OK", "application/json", data)
         }
         if method == "PUT", let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body) {
-            appState?.replaceActivities(decoded, forKidAt: idx)
+            appState?.replaceActivities(decoded, forKidAt: index)
             return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
         }
         return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid json\"}".utf8))
     }
 
     @MainActor private func routeActivitiesTomorrow(method: String, query: [String: String], body: Data?) -> Response {
-        let idx = kidIndex(from: query)
-        let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+        let index = kidIndex(from: query)
+        let kidId = appState?.kids[safe: index]?.id.uuidString ?? ""
         if method == "GET" {
             let activities = Self.loadTomorrow(kidId: kidId)
             let data = (try? JSONEncoder().encode(activities)) ?? Data("[]".utf8)
@@ -263,8 +266,8 @@ final class DashboardServer: Sendable {
     }
 
     @MainActor private func routeGetAllTemplates(query: [String: String]) -> Response {
-        let idx = kidIndex(from: query)
-        let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+        let index = kidIndex(from: query)
+        let kidId = appState?.kids[safe: index]?.id.uuidString ?? ""
         let templates = Self.loadAllTemplates(kidId: kidId)
         var dict: [String: [[String: Any]]] = [:]
         for (day, activities) in templates {
@@ -282,8 +285,8 @@ final class DashboardServer: Sendable {
     @MainActor private func routePutTemplate(query: [String: String], body: Data?) -> Response {
         if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body),
            let dayStr = query["day"], let day = Int(dayStr), (0..<7).contains(day) {
-            let idx = kidIndex(from: query)
-            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+            let index = kidIndex(from: query)
+            let kidId = appState?.kids[safe: index]?.id.uuidString ?? ""
             if !kidId.isEmpty { Self.saveTemplate(decoded, kidId: kidId, day: day) }
             return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
         }
@@ -291,8 +294,8 @@ final class DashboardServer: Sendable {
     }
 
     @MainActor private func routeGetWeek(query: [String: String]) -> Response {
-        let idx = kidIndex(from: query)
-        let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+        let index = kidIndex(from: query)
+        let kidId = appState?.kids[safe: index]?.id.uuidString ?? ""
         let weekStart = query["weekStart"] ?? ""
         let dates = Self.weekDates(from: weekStart)
         let today = Self.todayString()
@@ -301,7 +304,7 @@ final class DashboardServer: Sendable {
         for dateStr in dates {
             let acts: [Activity]
             if dateStr == today {
-                acts = appState?.kids[safe: idx]?.activities ?? []
+                acts = appState?.kids[safe: index]?.activities ?? []
             } else if let stored = Self.loadWeekDay(kidId: kidId, date: dateStr) {
                 acts = stored
             } else if let dayIdx = Self.weekdayIndex(from: dateStr) {
@@ -323,11 +326,11 @@ final class DashboardServer: Sendable {
     @MainActor private func routePutWeekDay(query: [String: String], body: Data?) -> Response {
         if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body),
            let dateStr = query["date"], !dateStr.isEmpty {
-            let idx = kidIndex(from: query)
-            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+            let index = kidIndex(from: query)
+            let kidId = appState?.kids[safe: index]?.id.uuidString ?? ""
             if !kidId.isEmpty {
                 if dateStr == Self.todayString() {
-                    appState?.replaceActivities(decoded, forKidAt: idx)
+                    appState?.replaceActivities(decoded, forKidAt: index)
                 } else {
                     Self.saveWeekDay(decoded, kidId: kidId, date: dateStr)
                 }

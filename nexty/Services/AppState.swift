@@ -236,8 +236,10 @@ final class AppState {
         }
     }
 
+    private let clockInterval: TimeInterval = 30
+
     private func startClock() {
-        clockTimer = Timer.scheduledTimer(withTimeInterval: 30, repeats: true) { [weak self] _ in
+        clockTimer = Timer.scheduledTimer(withTimeInterval: clockInterval, repeats: true) { [weak self] _ in
             self?.currentTime = Date()
         }
     }

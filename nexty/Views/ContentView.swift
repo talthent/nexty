@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  nexty
-//
-//  Created by Tal Cohen on 18/03/2026.
-//
-
 import SwiftUI
 
 struct ContentView: View {

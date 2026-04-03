@@ -267,7 +267,7 @@ private struct EditPanel: View {
 
 // MARK: - Avatar Picker (full-screen)
 
-struct AvatarPickerView: View {
+private struct AvatarPickerView: View {
     let selectedAvatar: Avatar
     let onSelect: (Avatar) -> Void
 
@@ -412,7 +412,7 @@ private struct AddKidView: View {
 
 // MARK: - Avatar Preview (static or animated)
 
-struct AvatarPreview: View {
+private struct AvatarPreview: View {
     let avatar: Avatar
     let size: CGFloat
 

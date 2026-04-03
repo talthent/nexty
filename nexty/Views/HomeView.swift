@@ -1,5 +1,7 @@
 import SwiftUI
 
+private let idleTimeout: TimeInterval = 8
+
 struct HomeView: View {
     let state: HomeState
     var onSettingsTapped: () -> Void = {}
@@ -131,7 +133,7 @@ struct HomeView: View {
                                 .font(.system(size: 50, weight: .medium))
                                 .foregroundStyle(.white.opacity(0.6))
                         }
-                        .frame(width: 280, height: 340)
+                        .frame(width: CardLayout.width, height: CardLayout.height)
                         .background(.ultraThinMaterial.opacity(0.5))
                     }
                     .buttonStyle(.card)
@@ -189,7 +191,7 @@ struct HomeView: View {
 
     private func resetIdleTimer() {
         idleTimer?.invalidate()
-        idleTimer = Timer.scheduledTimer(withTimeInterval: 8.0, repeats: false) { _ in
+        idleTimer = Timer.scheduledTimer(withTimeInterval: idleTimeout, repeats: false) { _ in
             Task { @MainActor in
                 scrollToNow()
             }

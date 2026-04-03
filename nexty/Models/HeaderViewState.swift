@@ -15,9 +15,10 @@ struct HeaderViewState {
     }
 
     var temperatureText: String {
-        guard let temp = weatherTemperature else { return "" }
+        let unit = useCelsius ? "C" : "F"
+        guard let temp = weatherTemperature else { return "--\u{00B0}\(unit)" }
         let displayTemp = useCelsius ? temp : Int(Double(temp) * 9.0 / 5.0 + 32)
-        return "\(displayTemp)\u{00B0}\(useCelsius ? "C" : "F")"
+        return "\(displayTemp)\u{00B0}\(unit)"
     }
 }
 
