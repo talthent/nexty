@@ -200,122 +200,141 @@ final class DashboardServer: Sendable {
         return appState.selectedKidIndex
     }
 
-    @MainActor private func route(method: String, path: String, query: [String: String], body: Data?) -> (status: String, contentType: String, body: Data) {
+    private typealias Response = (status: String, contentType: String, body: Data)
+
+    @MainActor private func route(method: String, path: String, query: [String: String], body: Data?) -> Response {
         switch (method, path) {
         case ("GET", "/"):
             return ("200 OK", "text/html; charset=utf-8", Data(DashboardHTML.html.utf8))
-
         case ("GET", "/kids"):
-            let kids = appState?.kids.map { ["id": $0.id.uuidString, "name": $0.name] } ?? []
-            let data = (try? JSONSerialization.data(withJSONObject: kids)) ?? Data("[]".utf8)
-            return ("200 OK", "application/json", data)
-
-        case ("GET", "/activities"):
-            let idx = kidIndex(from: query)
-            let activities = appState?.kids[safe: idx]?.activities ?? []
-            let data = (try? JSONEncoder().encode(activities)) ?? Data("[]".utf8)
-            return ("200 OK", "application/json", data)
-
-        case ("PUT", "/activities"):
-            if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body) {
-                let idx = kidIndex(from: query)
-                appState?.replaceActivities(decoded, forKidAt: idx)
-                return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
-            }
-            return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid json\"}".utf8))
-
-        case ("GET", "/activities/tomorrow"):
-            let idx = kidIndex(from: query)
-            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
-            let activities = Self.loadTomorrow(kidId: kidId)
-            let data = (try? JSONEncoder().encode(activities)) ?? Data("[]".utf8)
-            return ("200 OK", "application/json", data)
-
-        case ("PUT", "/activities/tomorrow"):
-            if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body) {
-                let idx = kidIndex(from: query)
-                let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
-                if !kidId.isEmpty { Self.saveTomorrow(decoded, kidId: kidId) }
-                return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
-            }
-            return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid json\"}".utf8))
-
-        // MARK: Weekly Template
+            return routeGetKids()
+        case (_, "/activities"):
+            return routeActivities(method: method, query: query, body: body)
+        case (_, "/activities/tomorrow"):
+            return routeActivitiesTomorrow(method: method, query: query, body: body)
         case ("GET", "/weekly/template/all"):
-            let idx = kidIndex(from: query)
-            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
-            let templates = Self.loadAllTemplates(kidId: kidId)
-            var dict: [String: [[String: Any]]] = [:]
-            for (day, activities) in templates {
-                if let encoded = try? JSONEncoder().encode(activities),
-                   let arr = try? JSONSerialization.jsonObject(with: encoded) as? [[String: Any]] {
-                    dict["\(day)"] = arr
-                } else {
-                    dict["\(day)"] = []
-                }
-            }
-            let data = (try? JSONSerialization.data(withJSONObject: dict)) ?? Data("{}".utf8)
-            return ("200 OK", "application/json", data)
-
+            return routeGetAllTemplates(query: query)
         case ("PUT", "/weekly/template"):
-            if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body),
-               let dayStr = query["day"], let day = Int(dayStr), (0..<7).contains(day) {
-                let idx = kidIndex(from: query)
-                let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
-                if !kidId.isEmpty { Self.saveTemplate(decoded, kidId: kidId, day: day) }
-                return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
-            }
-            return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid request\"}".utf8))
-
-        // MARK: Weekly Days
+            return routePutTemplate(query: query, body: body)
         case ("GET", "/weekly/week"):
-            let idx = kidIndex(from: query)
-            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
-            let weekStart = query["weekStart"] ?? ""
-            let dates = Self.weekDates(from: weekStart)
-            let today = Self.todayString()
-            let templates = Self.loadAllTemplates(kidId: kidId)
-            var dict: [String: [[String: Any]]] = [:]
-            for dateStr in dates {
-                let acts: [Activity]
-                if dateStr == today {
-                    acts = appState?.kids[safe: idx]?.activities ?? []
-                } else if let stored = Self.loadWeekDay(kidId: kidId, date: dateStr) {
-                    acts = stored
-                } else if let dayIdx = Self.weekdayIndex(from: dateStr) {
-                    acts = templates[dayIdx] ?? []
-                } else {
-                    acts = []
-                }
-                if let encoded = try? JSONEncoder().encode(acts),
-                   let arr = try? JSONSerialization.jsonObject(with: encoded) as? [[String: Any]] {
-                    dict[dateStr] = arr
-                } else {
-                    dict[dateStr] = []
-                }
-            }
-            let data = (try? JSONSerialization.data(withJSONObject: dict)) ?? Data("{}".utf8)
-            return ("200 OK", "application/json", data)
-
+            return routeGetWeek(query: query)
         case ("PUT", "/weekly/day"):
-            if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body),
-               let dateStr = query["date"], !dateStr.isEmpty {
-                let idx = kidIndex(from: query)
-                let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
-                if !kidId.isEmpty {
-                    if dateStr == Self.todayString() {
-                        appState?.replaceActivities(decoded, forKidAt: idx)
-                    } else {
-                        Self.saveWeekDay(decoded, kidId: kidId, date: dateStr)
-                    }
-                }
-                return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
-            }
-            return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid request\"}".utf8))
-
+            return routePutWeekDay(query: query, body: body)
         default:
             return ("404 Not Found", "text/plain", Data("Not Found".utf8))
         }
+    }
+
+    // MARK: - Route Handlers
+
+    @MainActor private func routeGetKids() -> Response {
+        let kids = appState?.kids.map { ["id": $0.id.uuidString, "name": $0.name] } ?? []
+        let data = (try? JSONSerialization.data(withJSONObject: kids)) ?? Data("[]".utf8)
+        return ("200 OK", "application/json", data)
+    }
+
+    @MainActor private func routeActivities(method: String, query: [String: String], body: Data?) -> Response {
+        let idx = kidIndex(from: query)
+        if method == "GET" {
+            let activities = appState?.kids[safe: idx]?.activities ?? []
+            let data = (try? JSONEncoder().encode(activities)) ?? Data("[]".utf8)
+            return ("200 OK", "application/json", data)
+        }
+        if method == "PUT", let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body) {
+            appState?.replaceActivities(decoded, forKidAt: idx)
+            return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
+        }
+        return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid json\"}".utf8))
+    }
+
+    @MainActor private func routeActivitiesTomorrow(method: String, query: [String: String], body: Data?) -> Response {
+        let idx = kidIndex(from: query)
+        let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+        if method == "GET" {
+            let activities = Self.loadTomorrow(kidId: kidId)
+            let data = (try? JSONEncoder().encode(activities)) ?? Data("[]".utf8)
+            return ("200 OK", "application/json", data)
+        }
+        if method == "PUT", let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body) {
+            if !kidId.isEmpty { Self.saveTomorrow(decoded, kidId: kidId) }
+            return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
+        }
+        return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid json\"}".utf8))
+    }
+
+    @MainActor private func routeGetAllTemplates(query: [String: String]) -> Response {
+        let idx = kidIndex(from: query)
+        let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+        let templates = Self.loadAllTemplates(kidId: kidId)
+        var dict: [String: [[String: Any]]] = [:]
+        for (day, activities) in templates {
+            if let encoded = try? JSONEncoder().encode(activities),
+               let arr = try? JSONSerialization.jsonObject(with: encoded) as? [[String: Any]] {
+                dict["\(day)"] = arr
+            } else {
+                dict["\(day)"] = []
+            }
+        }
+        let data = (try? JSONSerialization.data(withJSONObject: dict)) ?? Data("{}".utf8)
+        return ("200 OK", "application/json", data)
+    }
+
+    @MainActor private func routePutTemplate(query: [String: String], body: Data?) -> Response {
+        if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body),
+           let dayStr = query["day"], let day = Int(dayStr), (0..<7).contains(day) {
+            let idx = kidIndex(from: query)
+            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+            if !kidId.isEmpty { Self.saveTemplate(decoded, kidId: kidId, day: day) }
+            return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
+        }
+        return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid request\"}".utf8))
+    }
+
+    @MainActor private func routeGetWeek(query: [String: String]) -> Response {
+        let idx = kidIndex(from: query)
+        let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+        let weekStart = query["weekStart"] ?? ""
+        let dates = Self.weekDates(from: weekStart)
+        let today = Self.todayString()
+        let templates = Self.loadAllTemplates(kidId: kidId)
+        var dict: [String: [[String: Any]]] = [:]
+        for dateStr in dates {
+            let acts: [Activity]
+            if dateStr == today {
+                acts = appState?.kids[safe: idx]?.activities ?? []
+            } else if let stored = Self.loadWeekDay(kidId: kidId, date: dateStr) {
+                acts = stored
+            } else if let dayIdx = Self.weekdayIndex(from: dateStr) {
+                acts = templates[dayIdx] ?? []
+            } else {
+                acts = []
+            }
+            if let encoded = try? JSONEncoder().encode(acts),
+               let arr = try? JSONSerialization.jsonObject(with: encoded) as? [[String: Any]] {
+                dict[dateStr] = arr
+            } else {
+                dict[dateStr] = []
+            }
+        }
+        let data = (try? JSONSerialization.data(withJSONObject: dict)) ?? Data("{}".utf8)
+        return ("200 OK", "application/json", data)
+    }
+
+    @MainActor private func routePutWeekDay(query: [String: String], body: Data?) -> Response {
+        if let body, let decoded = try? JSONDecoder().decode([Activity].self, from: body),
+           let dateStr = query["date"], !dateStr.isEmpty {
+            let idx = kidIndex(from: query)
+            let kidId = appState?.kids[safe: idx]?.id.uuidString ?? ""
+            if !kidId.isEmpty {
+                if dateStr == Self.todayString() {
+                    appState?.replaceActivities(decoded, forKidAt: idx)
+                } else {
+                    Self.saveWeekDay(decoded, kidId: kidId, date: dateStr)
+                }
+            }
+            return ("200 OK", "application/json", Data("{\"ok\":true}".utf8))
+        }
+        return ("400 Bad Request", "application/json", Data("{\"error\":\"invalid request\"}".utf8))
     }
 
     private static func sendResponse(_ connection: NWConnection, status: String, contentType: String, body: Data) {

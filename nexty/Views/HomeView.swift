@@ -113,7 +113,7 @@ struct HomeView: View {
     private var activityRail: some View {
         ScrollViewReader { proxy in
             ScrollView(.horizontal, showsIndicators: false) {
-                LazyHStack(spacing: 32) {
+                HStack(spacing: 32) {
                     ForEach(state.activityCards) { card in
                         ActivityCardView(
                             state: card,

@@ -1,1097 +1,985 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    "%lld / %lld" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld / %2$lld"
+  "sourceLanguage": "en",
+  "strings": {
+    "activity.bath": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bath"
           }
-        }
-      }
-    },
-    "activity.bath" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bath"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "אמבטיה"
-          }
-        }
-      }
-    },
-    "activity.breakfast" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Breakfast"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ארוחת בוקר"
-          }
-        }
-      }
-    },
-    "activity.delete" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מחיקה"
-          }
-        }
-      }
-    },
-    "activity.dinner" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dinner"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ארוחת ערב"
-          }
-        }
-      }
-    },
-    "activity.edit" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "עריכה"
-          }
-        }
-      }
-    },
-    "activity.save" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
-          }
-        },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שמירה"
-          }
-        }
-      }
-    },
-    "activity.getDressed" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Get Dressed"
-          }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "להתלבש"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "אמבטיה"
           }
         }
       }
     },
-    "activity.judo" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Judo"
+    "activity.breakfast": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Breakfast"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ג׳ודו"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ארוחת בוקר"
           }
         }
       }
     },
-    "activity.kindergarten" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kindergarten"
+    "activity.delete": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "גן"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מחיקה"
           }
         }
       }
     },
-    "activity.lunch" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lunch"
+    "activity.dinner": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dinner"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ארוחת צהריים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ארוחת ערב"
           }
         }
       }
     },
-    "activity.play" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Play"
+    "activity.edit": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "משחק"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "עריכה"
           }
         }
       }
     },
-    "activity.sleep" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sleep"
+    "activity.save": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שינה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "שמירה"
           }
         }
       }
     },
-    "activity.story" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Story"
+    "activity.getDressed": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get Dressed"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "סיפור"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "להתלבש"
           }
         }
       }
     },
-    "activity.teeth" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teeth"
+    "activity.judo": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Judo"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "צחצוח שיניים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ג׳ודו"
           }
         }
       }
     },
-    "activity.wakeUp" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wake Up"
+    "activity.kindergarten": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Kindergarten"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "השכמה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "גן"
           }
         }
       }
     },
-    "addActivity.back" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Back"
+    "activity.lunch": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lunch"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "חזרה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ארוחת צהריים"
           }
         }
       }
     },
-    "addActivity.custom" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Custom Activity"
+    "activity.play": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "פעילות מותאמת"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "משחק"
           }
         }
       }
     },
-    "addActivity.namePlaceholder" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Activity name"
+    "activity.sleep": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sleep"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שם הפעילות"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "שינה"
           }
         }
       }
     },
-    "addActivity.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Activity"
+    "activity.story": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Story"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הוספת פעילות"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "סיפור"
           }
         }
       }
     },
-    "comingNext" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "COMING NEXT"
+    "activity.teeth": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teeth"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הבא בתור"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "צחצוח שיניים"
           }
         }
       }
     },
-    "greeting.afternoon" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good afternoon"
+    "activity.wakeUp": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wake Up"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "צהריים טובים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "השכמה"
           }
         }
       }
     },
-    "greeting.evening" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good evening"
+    "addActivity.back": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Back"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ערב טוב"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "חזרה"
           }
         }
       }
     },
-    "greeting.morning" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good morning"
+    "addActivity.custom": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Custom Activity"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בוקר טוב"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "פעילות מותאמת"
           }
         }
       }
     },
-    "greeting.night" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Good night"
+    "addActivity.namePlaceholder": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activity name"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "לילה טוב"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "שם הפעילות"
           }
         }
       }
     },
-    "header.time" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, %@! It's %@"
+    "addActivity.title": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Activity"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%@, %@! השעה %@"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "הוספת פעילות"
           }
         }
       }
     },
-    "now" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "NOW"
+    "comingNext": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "COMING NEXT"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "עכשיו"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "הבא בתור"
           }
         }
       }
     },
-    "profiles.add" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add"
+    "greeting.afternoon": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good afternoon"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הוספה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "צהריים טובים"
           }
         }
       }
     },
-    "profiles.addTitle" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Profile"
+    "greeting.evening": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good evening"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "פרופיל חדש"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ערב טוב"
           }
         }
       }
     },
-    "profiles.avatar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Avatar"
+    "greeting.morning": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good morning"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "אווטאר"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "בוקר טוב"
           }
         }
       }
     },
-    "profiles.cancel" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
+    "greeting.night": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Good night"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ביטול"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "לילה טוב"
           }
         }
       }
     },
-    "profiles.chooseAvatar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose"
+    "header.time": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %@! It's %@"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בחירה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@, %@! השעה %@"
           }
         }
       }
     },
-    "profiles.delete" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete"
+    "now": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NOW"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מחיקה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "עכשיו"
           }
         }
       }
     },
-    "profiles.edit" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit"
+    "profiles.add": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "עריכה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "הוספה"
           }
         }
       }
     },
-    "profiles.selectToEdit" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select a profile to edit"
+    "profiles.addTitle": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Profile"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בחר פרופיל לעריכה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "פרופיל חדש"
           }
         }
       }
     },
-    "profiles.tapToChangeAvatar" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tap to change avatar"
+    "profiles.cancel": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "לחץ לשינוי אווטאר"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ביטול"
           }
         }
       }
     },
-    "profiles.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Profiles"
+    "profiles.chooseAvatar": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "פרופילים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "בחירה"
           }
         }
       }
     },
-    "settings.addKid" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Kid"
+    "profiles.delete": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הוספת ילד/ה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מחיקה"
           }
         }
       }
     },
-    "settings.childName" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Child's Name"
+    "profiles.selectToEdit": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select a profile to edit"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שם הילד/ה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "בחר פרופיל לעריכה"
           }
         }
       }
     },
-    "settings.cityPlaceholder" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "City name"
+    "profiles.tapToChangeAvatar": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to change avatar"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שם העיר"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "לחץ לשינוי אווטאר"
           }
         }
       }
     },
-    "settings.clockFormat" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clock Format"
+    "profiles.title": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Profiles"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "תצוגת שעון"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "פרופילים"
           }
         }
       }
     },
-    "settings.dashboard" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dashboard"
+    "settings.addKid": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Kid"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "לוח בקרה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "הוספת ילד/ה"
           }
         }
       }
     },
-    "settings.dashboardHint" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Scan to edit schedule from your phone"
+    "settings.childName": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Child's Name"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "סרקו כדי לערוך את לוח הזמנים מהטלפון"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "שם הילד/ה"
           }
         }
       }
     },
-    "settings.done" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
+    "settings.cityPlaceholder": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City name"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "סיום"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "שם העיר"
           }
         }
       }
     },
-    "settings.kids" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kids"
+    "settings.clockFormat": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clock Format"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ילדים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "תצוגת שעון"
           }
         }
       }
     },
-    "settings.language" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Language"
+    "settings.dashboard": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dashboard"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שפה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "לוח בקרה"
           }
         }
       }
     },
-    "settings.location" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Location"
+    "settings.dashboardHint": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan to edit schedule from your phone"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מיקום"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "סרקו כדי לערוך את לוח הזמנים מהטלפון"
           }
         }
       }
     },
-    "settings.namePlaceholder" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Name"
+    "settings.language": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Language"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "שם"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "שפה"
           }
         }
       }
     },
-    "settings.newKidName" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Kid"
+    "settings.location": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Location"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ילד/ה חדש/ה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מיקום"
           }
         }
       }
     },
-    "settings.noWifi" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connect to Wi-Fi to enable remote editing"
+    "settings.namePlaceholder": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Name"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "התחברו ל-Wi-Fi כדי לאפשר עריכה מרחוק"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "שם"
           }
         }
       }
     },
-    "settings.temperatureUnit" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Temperature"
+    "settings.noWifi": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect to Wi-Fi to enable remote editing"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "טמפרטורה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "התחברו ל-Wi-Fi כדי לאפשר עריכה מרחוק"
           }
         }
       }
     },
-    "settings.title" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Settings"
+    "settings.temperatureUnit": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Temperature"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "הגדרות"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "טמפרטורה"
           }
         }
       }
     },
-    "settings.wallpaper" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wallpaper"
+    "settings.title": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Settings"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "טפט"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "הגדרות"
           }
         }
       }
     },
-    "wallpaper.bluey" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bluey"
+    "settings.wallpaper": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wallpaper"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בלואי"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "טפט"
           }
         }
       }
     },
-    "wallpaper.gabby" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gabby"
+    "wallpaper.bluey": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bluey"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "גבי"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "בלואי"
           }
         }
       }
     },
-    "wallpaper.minions" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minions"
+    "wallpaper.gabby": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gabby"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מיניונים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "גבי"
           }
         }
       }
     },
-    "wallpaper.minionsGroup" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minions Gang"
+    "wallpaper.minions": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minions"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "חבורת מיניונים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מיניונים"
           }
         }
       }
     },
-    "wallpaper.minionsParty" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minions Party"
+    "wallpaper.minionsGroup": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minions Gang"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מסיבת מיניונים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "חבורת מיניונים"
           }
         }
       }
     },
-    "wallpaper.softBlue" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Soft Blue"
+    "wallpaper.minionsParty": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minions Party"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "כחול רך"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מסיבת מיניונים"
           }
         }
       }
     },
-    "wallpaper.gru" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gru"
+    "wallpaper.softBlue": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Soft Blue"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "גרו"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "כחול רך"
           }
         }
       }
     },
-    "wallpaper.minionCoffee" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coffee Minion"
+    "wallpaper.gru": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gru"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מיניון קפה"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "גרו"
           }
         }
       }
     },
-    "wallpaper.minionsSwimming" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Swimming Minions"
+    "wallpaper.minionCoffee": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coffee Minion"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מיניונים שוחים"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מיניון קפה"
           }
         }
       }
     },
-    "wallpaper.minionCat" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Minion & Cat"
+    "wallpaper.minionsSwimming": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swimming Minions"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "מיניון וחתול"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מיניונים שוחים"
           }
         }
       }
     },
-    "wallpicker.current" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Current Wallpaper"
+    "wallpaper.minionCat": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minion & Cat"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "טפט נוכחי"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מיניון וחתול"
           }
         }
       }
     },
-    "wallpicker.select" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Select Wallpaper"
+    "wallpicker.select": {
+      "extractionState": "stale",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select Wallpaper"
           }
         },
-        "he" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "בחירת טפט"
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "בחירת טפט"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

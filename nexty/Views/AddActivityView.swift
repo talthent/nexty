@@ -138,7 +138,7 @@ struct AddActivityView: View {
             }
 
             // Time picker
-            timePicker
+            TimePickerView(hour: $selectedHour, minute: $selectedMinute)
 
             // Action buttons
             HStack(spacing: 30) {
@@ -166,50 +166,6 @@ struct AddActivityView: View {
                 }
                 .buttonStyle(.card)
             }
-        }
-    }
-
-    // MARK: - Time Picker
-
-    private func adjustTime(by minutes: Int) {
-        var total = selectedHour * 60 + selectedMinute + minutes
-        if total < 0 { total += 24 * 60 }
-        total = total % (24 * 60)
-        selectedHour = total / 60
-        selectedMinute = total % 60
-    }
-
-    private var timePicker: some View {
-        HStack(spacing: 16) {
-            Button {
-                adjustTime(by: -30)
-            } label: {
-                Image("lucide-chevron-left")
-                    .resizable().scaledToFit()
-                    .foregroundStyle(.white.opacity(0.6))
-                    .frame(width: 28, height: 28)
-                    .padding(14)
-            }
-            .buttonStyle(.card)
-
-            Text(String(format: "%d:%02d", selectedHour, selectedMinute))
-                .font(.system(size: 56, weight: .bold, design: .rounded))
-                .foregroundStyle(.white)
-                .monospacedDigit()
-                .frame(minWidth: 200)
-                .contentTransition(.numericText())
-                .animation(.easeInOut(duration: 0.2), value: selectedHour * 60 + selectedMinute)
-
-            Button {
-                adjustTime(by: 30)
-            } label: {
-                Image("lucide-chevron-right")
-                    .resizable().scaledToFit()
-                    .foregroundStyle(.white.opacity(0.6))
-                    .frame(width: 28, height: 28)
-                    .padding(14)
-            }
-            .buttonStyle(.card)
         }
     }
 
