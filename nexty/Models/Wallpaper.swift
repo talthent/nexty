@@ -11,6 +11,7 @@ enum Wallpaper: String, CaseIterable, Codable, Identifiable {
     case minionCoffee = "minionCoffee"
     case minionsSwimming = "minionsSwimming"
     case minionCat = "minionCat"
+    case minionsLunch = "minionsLunch"
 
     var id: String { rawValue }
 
@@ -26,6 +27,7 @@ enum Wallpaper: String, CaseIterable, Codable, Identifiable {
         case .minionCoffee: "MinionCoffee"
         case .minionsSwimming: "MinionsSwimming"
         case .minionCat: "MinionCat"
+        case .minionsLunch: "MinionsLunch"
         }
     }
 
@@ -36,7 +38,7 @@ enum Wallpaper: String, CaseIterable, Codable, Identifiable {
                 colors: [Color(red: 0.68, green: 0.82, blue: 0.95), Color(red: 0.42, green: 0.56, blue: 0.78)],
                 startPoint: .topLeading, endPoint: .bottomTrailing
             )
-        case .minions, .minionsGroup, .minionsParty, .minionCoffee, .minionsSwimming, .minionCat:
+        case .minions, .minionsGroup, .minionsParty, .minionCoffee, .minionsSwimming, .minionCat, .minionsLunch:
             LinearGradient(
                 colors: [Color(red: 0.95, green: 0.85, blue: 0.30), Color(red: 0.40, green: 0.55, blue: 0.75)],
                 startPoint: .top, endPoint: .bottom
@@ -71,6 +73,7 @@ enum Wallpaper: String, CaseIterable, Codable, Identifiable {
         case .minionCoffee: "wallpaper.minionCoffee"
         case .minionsSwimming: "wallpaper.minionsSwimming"
         case .minionCat: "wallpaper.minionCat"
+        case .minionsLunch: "wallpaper.minionsLunch"
         }
     }
 

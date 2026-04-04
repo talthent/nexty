@@ -979,6 +979,23 @@
           }
         }
       }
+    },
+    "wallpaper.minionsLunch": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Minions Lunch"
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "מיניונים ארוחת צהריים"
+          }
+        }
+      }
     }
   },
   "version": "1.0"
