@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "SmurfsClassic.jpg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

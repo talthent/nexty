@@ -1,71 +1,75 @@
 import SwiftUI
+import UIKit
 
 struct WallpaperPickerView: View {
     @Binding var selectedWallpaper: Wallpaper
     @Environment(\.appLanguage) private var language
     @Environment(\.dismiss) private var dismiss
 
-    @State private var previewIndex: Int
-    @FocusState private var isFocused: Bool
+    @State private var previewWallpaper: Wallpaper
+    @State private var previewImage: UIImage?
+    @FocusState private var focusedWallpaper: Wallpaper?
 
     private let wallpapers = Wallpaper.allCases
+    private let columns = Array(repeating: GridItem(.fixed(120), spacing: 12), count: 6)
 
     init(selectedWallpaper: Binding<Wallpaper>) {
         self._selectedWallpaper = selectedWallpaper
-        let idx = Wallpaper.allCases.firstIndex(of: selectedWallpaper.wrappedValue) ?? 0
-        self._previewIndex = State(initialValue: idx)
-    }
-
-    private var currentWallpaper: Wallpaper {
-        wallpapers[previewIndex]
+        self._previewWallpaper = State(initialValue: selectedWallpaper.wrappedValue)
     }
 
     var body: some View {
-        VStack {
-            Spacer()
-
-            Text(currentWallpaper.title(for: language))
-                .font(.system(size: 72, weight: .bold, design: .rounded))
+        VStack(spacing: 0) {
+            // Title
+            Text(previewWallpaper.title(for: language))
+                .font(.system(size: 52, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
                 .shadow(color: .black.opacity(0.4), radius: 8, y: 4)
                 .contentTransition(.numericText())
-                .animation(.easeInOut(duration: 0.3), value: previewIndex)
+                .animation(.easeInOut(duration: 0.3), value: previewWallpaper)
+                .padding(.top, 40)
 
             Spacer()
 
-            HStack(spacing: 16) {
-                ForEach(Array(wallpapers.enumerated()), id: \.element.id) { index, wallpaper in
-                    ZStack {
-                        if let imageName = wallpaper.imageName {
-                            Image(imageName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 120, height: 70)
-                                .clipped()
-                        } else {
-                            wallpaper.gradient
+            // Grid
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 12) {
+                    ForEach(wallpapers) { wallpaper in
+                        Button {
+                            selectedWallpaper = wallpaper
+                            dismiss()
+                        } label: {
+                            ZStack {
+                                if let imageName = wallpaper.imageName {
+                                    Image(imageName)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 120, height: 68)
+                                        .clipped()
+                                } else {
+                                    wallpaper.gradient
+                                }
+                            }
+                            .frame(width: 120, height: 68)
+                            .clipShape(.rect(cornerRadius: 10))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(wallpaper == selectedWallpaper ? Color.yellow : Color.clear, lineWidth: 3)
+                            )
                         }
+                        .buttonStyle(.card)
+                        .focused($focusedWallpaper, equals: wallpaper)
                     }
-                    .frame(width: 120, height: 70)
-                    .clipShape(.rect(cornerRadius: 12))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(index == previewIndex ? Color.white : Color.clear, lineWidth: 3)
-                    )
-                    .opacity(index == previewIndex ? 1 : 0.5)
-                    .scaleEffect(index == previewIndex ? 1.1 : 1.0)
-                    .animation(.easeInOut(duration: 0.25), value: previewIndex)
                 }
+                .padding(.horizontal, 24)
             }
-            .padding(.bottom, 16)
+            .scrollClipDisabled()
 
-            Text("\(previewIndex + 1) / \(wallpapers.count)")
-                .font(.system(size: 29, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.7))
-                .padding(.bottom, 20)
+            Spacer()
 
+            // CTA
             Button {
-                selectedWallpaper = currentWallpaper
+                selectedWallpaper = previewWallpaper
                 dismiss()
             } label: {
                 Text("wallpicker.select".localized(language))
@@ -75,39 +79,47 @@ struct WallpaperPickerView: View {
                     .padding(.vertical, 16)
             }
             .buttonStyle(.card)
-            .focused($isFocused)
-            .padding(.bottom, 60)
+            .padding(.bottom, 50)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear { isFocused = true }
         .background {
             ZStack {
-                Color.black
-                    .ignoresSafeArea()
-                if let imageName = currentWallpaper.imageName {
-                    Image(imageName)
+                Color.black.ignoresSafeArea()
+                if let previewImage {
+                    Image(uiImage: previewImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .ignoresSafeArea()
-                } else {
-                    currentWallpaper.gradient
-                        .ignoresSafeArea()
+                        .transition(.opacity)
+                } else if previewWallpaper.imageName == nil {
+                    previewWallpaper.gradient.ignoresSafeArea()
                 }
-                Color.black.opacity(0.3)
-                    .ignoresSafeArea()
+                Color.black.opacity(0.3).ignoresSafeArea()
             }
-            .animation(.easeInOut(duration: 0.4), value: previewIndex)
+            .animation(.easeInOut(duration: 0.4), value: previewImage)
+            .animation(.easeInOut(duration: 0.4), value: previewWallpaper)
         }
-        .onMoveCommand { direction in
-            withAnimation {
-                switch direction {
-                case .left:
-                    if previewIndex > 0 { previewIndex -= 1 }
-                case .right:
-                    if previewIndex < wallpapers.count - 1 { previewIndex += 1 }
-                default:
-                    break
-                }
+        .task(id: previewWallpaper) {
+            await loadPreviewImage(for: previewWallpaper)
+        }
+        .onChange(of: focusedWallpaper) { _, newValue in
+            if let newValue {
+                previewWallpaper = newValue
+            }
+        }
+        .environment(\.layoutDirection, language.isRTL ? .rightToLeft : .leftToRight)
+    }
+
+    private func loadPreviewImage(for wallpaper: Wallpaper) async {
+        guard let imageName = wallpaper.imageName else {
+            previewImage = nil
+            return
+        }
+        guard let uiImage = UIImage(named: imageName) else { return }
+        if let prepared = await uiImage.byPreparingForDisplay() {
+            // Only update if we're still showing this wallpaper
+            if previewWallpaper == wallpaper {
+                previewImage = prepared
             }
         }
     }

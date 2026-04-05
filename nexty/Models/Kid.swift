@@ -18,6 +18,8 @@ enum Avatar: String, CaseIterable, Codable, Identifiable {
     /// Animated video file name in the bundle, if available
     var animatedVideoName: String? {
         switch self {
+        case .bear: return "bear_animated"
+        case .bunny: return "bunny_animated"
         case .cat: return "cat_animated"
         case .dinosaur: return "dinosaur_animated"
         case .fox: return "fox_animated"

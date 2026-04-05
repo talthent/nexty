@@ -28,10 +28,12 @@ struct HomeView: View {
         VStack(spacing: 30) {
             headerBar
                 .focusSection()
+            Spacer(minLength: 0)
             activityRail
                 .focusSection()
             progressDots
                 .opacity(visibleCards.count == state.activityCards.count ? 1 : 0)
+            Spacer(minLength: 0)
         }
         .padding(.top, 40)
         .onAppear {
@@ -146,6 +148,7 @@ struct HomeView: View {
                 .padding(.vertical, 30)
                 .animation(.spring(duration: 0.5, bounce: 0.2), value: state.activityCards.map(\.id))
             }
+            .scrollClipDisabled()
             .scrollTargetBehavior(.viewAligned)
             .contentMargins(.horizontal, 80)
             .fullScreenCover(item: $editingActivity) { activity in
