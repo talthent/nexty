@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Nexty Schedule</title>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo-group">
+            <h1 id="pageTitle">Nexty Schedule</h1>
+        </div>
+        <button class="settings-btn" onclick="openSettings()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+    </div>
+    <div class="tabs" id="kidTabs" style="display:none"></div>
+    <div class="back-bar" id="backBar" style="display:none" onclick="switchWeeklyMode('thisWeek')">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <span class="back-bar-text" id="backBarText">Back to Schedule</span>
+    </div>
+    <div class="day-tabs" id="dayTabs"></div>
+    <div class="activity-list" id="list"></div>
+    <div class="actions">
+        <button class="copy-btn" id="copyBtn" onclick="copyAction()" style="display:none">
+            <span id="copyBtnLabel">Copy from Template</span>
+        </button>
+        <button class="add-btn" id="addBtn" onclick="addActivity()">
+            <span class="plus-icon">+</span>
+            <span id="addBtnLabel">Add Activity</span>
+        </button>
+        <button class="save-btn" id="saveBtn" onclick="save()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span id="saveBtnLabel">Save Changes</span>
+        </button>
+    </div>
+</div>
+<div class="toast" id="toast"><span class="toast-icon"></span><span id="toastMsg"></span></div>
+<div class="modal-overlay" id="addModal" onclick="if(event.target===this)closeModal()">
+    <div class="modal" id="addModalContent"></div>
+</div>
+<div class="modal-overlay" id="settingsModal" onclick="if(event.target===this)closeSettings()">
+    <div class="modal" id="settingsContent"></div>
+</div>
+<div class="modal-overlay" id="iconPickerModal" onclick="if(event.target===this)closeIconPicker()">
+    <div class="modal" style="max-width:380px" id="iconPickerContent"></div>
+</div>
+<script src="/dashboard.js"></script>
+</body>
+</html>

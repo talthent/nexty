@@ -3,16 +3,19 @@ import SwiftUI
 struct TimePickerView: View {
     @Binding var hour: Int
     @Binding var minute: Int
+    @Environment(\.appLanguage) private var language
+
+    private var backChevron: String { language.isRTL ? "chevron.right" : "chevron.left" }
+    private var forwardChevron: String { language.isRTL ? "chevron.left" : "chevron.right" }
 
     var body: some View {
         HStack(spacing: 16) {
             Button {
                 adjustTime(by: -30)
             } label: {
-                Image("lucide-chevron-left")
-                    .resizable().scaledToFit()
+                Image(systemName: backChevron)
+                    .font(.system(size: 28, weight: .semibold))
                     .foregroundStyle(.white.opacity(0.6))
-                    .frame(width: 28, height: 28)
                     .padding(14)
             }
             .buttonStyle(.card)
@@ -28,10 +31,9 @@ struct TimePickerView: View {
             Button {
                 adjustTime(by: 30)
             } label: {
-                Image("lucide-chevron-right")
-                    .resizable().scaledToFit()
+                Image(systemName: forwardChevron)
+                    .font(.system(size: 28, weight: .semibold))
                     .foregroundStyle(.white.opacity(0.6))
-                    .frame(width: 28, height: 28)
                     .padding(14)
             }
             .buttonStyle(.card)

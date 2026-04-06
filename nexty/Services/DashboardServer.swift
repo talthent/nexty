@@ -209,6 +209,10 @@ final class DashboardServer: Sendable {
         switch (method, path) {
         case ("GET", "/"):
             return ("200 OK", "text/html; charset=utf-8", Data(DashboardHTML.html.utf8))
+        case ("GET", "/dashboard.css"):
+            return ("200 OK", "text/css; charset=utf-8", Data(DashboardHTML.css.utf8))
+        case ("GET", "/dashboard.js"):
+            return ("200 OK", "application/javascript; charset=utf-8", Data(DashboardHTML.js.utf8))
         case ("GET", "/kids"):
             return routeGetKids()
         case (_, "/activities"):

@@ -54,7 +54,9 @@ nexty/
 ├── Models/        # Activity, Kid, Wallpaper, Language, view state structs
 ├── Services/      # AppState, DashboardServer, Weather, Location
 ├── Views/         # SwiftUI views — Home, Profile, Settings, Activity cards
-├── Resources/     # Animated avatar videos, dashboard HTML
+├── Resources/
+│   ├── Dashboard/ # Web dashboard (HTML, CSS, JS)
+│   └── Videos/    # Animated avatar videos
 topShelf/          # Top Shelf extension showing current/next activity
 nextyTests/        # Unit tests (87 tests covering models and services)
 ```
