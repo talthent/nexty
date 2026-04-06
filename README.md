@@ -10,29 +10,33 @@ He also loves knowing the current time and checking the weather. These small pie
 
 So I built **nexty** — a tvOS app that turns our living room TV into a gentle, glanceable daily schedule. It sits there on the biggest screen in the house, always visible, always ready to answer the question: *"What's next?"*
 
-<p align="center">
-  <img src="screenshots/DailySchedule.png" width="800" alt="Daily schedule with Smurfs wallpaper">
-</p>
-
-<p align="center">
-  <img src="screenshots/CustomActivity.png" width="400" alt="Add custom activity">
-  <img src="screenshots/PickAvatar.png" width="400" alt="Pick an avatar">
-</p>
-
-<p align="center">
-  <img src="screenshots/Settings.png" width="400" alt="Settings with QR code dashboard">
-  <img src="screenshots/Dashboard.png" width="400" alt="Web dashboard for editing schedule">
-</p>
-
 ---
 
 ## What it does
 
 - **Visual schedule rail** — Activities scroll horizontally with clear "Now" and "Coming Next" badges so there's never a question about where we are in the day
 - **Time and weather** — Always visible in the header, because he always wants to know
+
+<p align="center">
+  <img src="screenshots/DailySchedule.png" width="800" alt="Daily schedule with Smurfs wallpaper">
+</p>
+
 - **Multiple kid profiles** — Each child gets their own avatar, wallpaper, and schedule
+- **Custom activities** — Add your own activities with custom icons and times
+
+<p align="center">
+  <img src="screenshots/PickAvatar.png" width="400" alt="Pick an avatar">
+  <img src="screenshots/CustomActivity.png" width="400" alt="Add custom activity">
+</p>
+
 - **Web dashboard** — Edit tomorrow's schedule from your phone by scanning a QR code — no need to navigate the TV UI with a remote
 - **Weekly templates** — Set up a weekly routine once, and each day auto-loads the right schedule
+
+<p align="center">
+  <img src="screenshots/Settings.png" width="400" alt="Settings with QR code dashboard">
+  <img src="screenshots/Dashboard.png" width="400" alt="Web dashboard for editing schedule">
+</p>
+
 - **Bilingual** — Full English and Hebrew support with proper RTL layout
 - **Top Shelf widget** — See current and next activities right from the tvOS home screen
 
@@ -49,10 +53,14 @@ Everything is designed for calm and clarity:
 
 Built entirely in SwiftUI for tvOS. No external dependencies — just system frameworks.
 
-- **State management** — Single `@Observable` `AppState` with derived read-only view states and closure-based callbacks. Views never mutate state directly.
-- **Dashboard** — A lightweight HTTP server (`NWListener`) serves a bundled web UI for remote schedule editing
+- **State management** — Single `@Observable` `AppState` with derived read-only view states and action structs (`HomeActions`, `ProfileActions`). Views never mutate state directly.
+- **Dashboard** — A lightweight HTTP server (`NWListener`) serves a bundled web UI (HTML/CSS/JS) for remote schedule editing
 - **Persistence** — `UserDefaults` with shared app groups for the Top Shelf extension
-- **Localization** — `Localizable.xcstrings` with per-language bundles and RTL layout support
+- **Localization** — Type-safe `LocalizedStringKey` enum with per-language bundles and RTL layout support
+- **Performance** — Async wallpaper decoding via `UIImage.byPreparingForDisplay()` to keep the main thread smooth
+- **Weather** — Open-Meteo API with WMO weather code mapping to SF Symbols
+- **Location** — `MKAddressRepresentations` for locale-aware city/country formatting
+- **Testing** — 87 unit tests covering models, state logic, and services
 
 ```
 nexty/
