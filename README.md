@@ -19,6 +19,11 @@ So I built **nexty** — a tvOS app that turns our living room TV into a gentle,
   <img src="screenshots/PickAvatar.png" width="400" alt="Pick an avatar">
 </p>
 
+<p align="center">
+  <img src="screenshots/Settings.png" width="400" alt="Settings with QR code dashboard">
+  <img src="screenshots/Dashboard.png" width="400" alt="Web dashboard for editing schedule">
+</p>
+
 ---
 
 ## What it does
