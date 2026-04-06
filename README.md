@@ -71,7 +71,7 @@ nexty/
 │   ├── Dashboard/ # Web dashboard (HTML, CSS, JS)
 │   └── Videos/    # Animated avatar videos
 topShelf/          # Top Shelf extension showing current/next activity
-nextyTests/        # Unit tests (87 tests covering models and services)
+nextyTests/        # Unit tests (unit tests covering models and services)
 ```
 
 ## Running it
