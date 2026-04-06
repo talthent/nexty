@@ -10,7 +10,7 @@ struct SettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
-            Text("settings.title".localized(language))
+            Text(LocalizedString(.settingsTitle, language))
                 .font(.system(size: 48, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
 
@@ -29,7 +29,7 @@ struct SettingsView: View {
                             .focusSection()
 
                         SettingsRow(
-                            title: "settings.clockFormat".localized(language),
+                            title: LocalizedString(.settingsClockFormat, language),
                             value: state.use24Hour ? "24H" : "12H"
                         ) {
                             state.toggleClockFormat()
@@ -37,7 +37,7 @@ struct SettingsView: View {
                         .focusSection()
 
                         SettingsRow(
-                            title: "settings.temperatureUnit".localized(language),
+                            title: LocalizedString(.settingsTemperatureUnit, language),
                             value: state.useCelsius ? "\u{00B0}C" : "\u{00B0}F"
                         ) {
                             state.toggleTemperatureUnit()
@@ -95,12 +95,12 @@ private struct LocationSection: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("settings.location".localized(language))
+            Text(LocalizedString(.settingsLocation, language))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
             HStack(spacing: 16) {
-                TextField("settings.cityPlaceholder".localized(language), text: $cityField)
+                TextField(LocalizedString(.settingsCityPlaceholder, language), text: $cityField)
                     .font(.system(size: 32, design: .rounded))
                     .frame(height: 66)
                     .onSubmit(onSubmit)
@@ -125,7 +125,7 @@ private struct LanguagePicker: View {
 
     var body: some View {
         HStack {
-            Text("settings.language".localized(selectedLanguage))
+            Text(LocalizedString(.settingsLanguage, selectedLanguage))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
@@ -143,7 +143,7 @@ private struct LanguagePicker: View {
             .buttonStyle(.card)
             .sheet(isPresented: $showPicker) {
                 VStack(spacing: 30) {
-                    Text("settings.language".localized(selectedLanguage))
+                    Text(LocalizedString(.settingsLanguage, selectedLanguage))
                         .font(.system(size: 42, weight: .bold, design: .rounded))
                         .foregroundStyle(.white)
 
@@ -176,7 +176,7 @@ private struct DashboardSection: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            Text("settings.dashboard".localized(language))
+            Text(LocalizedString(.settingsDashboard, language))
                 .font(.system(size: 31, weight: .semibold, design: .rounded))
                 .foregroundStyle(.white.opacity(0.8))
 
@@ -185,12 +185,12 @@ private struct DashboardSection: View {
                 Text(url)
                     .font(.system(size: 29, weight: .medium, design: .monospaced))
                     .foregroundStyle(.white.opacity(0.9))
-                Text("settings.dashboardHint".localized(language))
+                Text(LocalizedString(.settingsDashboardHint, language))
                     .font(.system(size: 29, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
                     .multilineTextAlignment(.center)
             } else {
-                Text("settings.noWifi".localized(language))
+                Text(LocalizedString(.settingsNoWifi, language))
                     .font(.system(size: 29, design: .rounded))
                     .foregroundStyle(.white.opacity(0.6))
             }

@@ -72,7 +72,7 @@ struct WallpaperPickerView: View {
                 selectedWallpaper = previewWallpaper
                 dismiss()
             } label: {
-                Text("wallpicker.select".localized(language))
+                Text(LocalizedString(.wallpickerSelect, language))
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
                     .padding(.horizontal, 50)

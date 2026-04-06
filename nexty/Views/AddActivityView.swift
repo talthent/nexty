@@ -19,7 +19,7 @@ struct AddActivityView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text("addActivity.title".localized(language))
+            Text(LocalizedString(.addActivityTitle, language))
                 .font(.system(size: 48, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
                 .padding(.top, 50)
@@ -74,7 +74,7 @@ struct AddActivityView: View {
                             .resizable().scaledToFit()
                             .foregroundStyle(.white)
                             .frame(width: 28, height: 28)
-                        Text("addActivity.custom".localized(language))
+                        Text(LocalizedString(.addActivityCustom, language))
                             .font(.system(size: 28, weight: .bold, design: .rounded))
                     }
                     .foregroundStyle(.white)
@@ -84,7 +84,7 @@ struct AddActivityView: View {
                 .buttonStyle(.card)
 
                 Button { dismiss() } label: {
-                    Text("profiles.cancel".localized(language))
+                    Text(LocalizedString(.profilesCancel, language))
                         .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundStyle(.white.opacity(0.7))
                         .padding(.horizontal, 36)
@@ -114,7 +114,7 @@ struct AddActivityView: View {
 
             // Custom name + icon
             if isCustom {
-                TextField("addActivity.namePlaceholder".localized(language), text: $customName)
+                TextField(LocalizedString(.addActivityNamePlaceholder, language), text: $customName)
                     .font(.system(size: 32, design: .rounded))
                     .frame(height: 60)
                     .frame(maxWidth: 500)
@@ -145,7 +145,7 @@ struct AddActivityView: View {
                 Button {
                     confirmAdd()
                 } label: {
-                    Text("profiles.add".localized(language))
+                    Text(LocalizedString(.profilesAdd, language))
                         .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 40)
@@ -158,7 +158,7 @@ struct AddActivityView: View {
                     isCustom = false
                     customName = ""
                 } label: {
-                    Text("addActivity.back".localized(language))
+                    Text(LocalizedString(.addActivityBack, language))
                         .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundStyle(.white.opacity(0.7))
                         .padding(.horizontal, 40)

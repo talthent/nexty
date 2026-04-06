@@ -2,18 +2,22 @@ import SwiftUI
 
 private let idleTimeout: TimeInterval = 8
 
+struct HomeActions {
+    let settingsTapped: () -> Void
+    let kidSelected: (Int) -> Void
+    let addKid: (String, Avatar) -> Void
+    let updateKidName: (String, Int) -> Void
+    let updateKidAvatar: (Avatar, Int) -> Void
+    let updateKidWallpaper: (Wallpaper, Int) -> Void
+    let removeKid: (Int) -> Void
+    let addActivity: (Activity) -> Void
+    let updateActivity: (Activity) -> Void
+    let removeActivity: (Activity) -> Void
+}
+
 struct HomeView: View {
     let state: HomeState
-    var onSettingsTapped: () -> Void = {}
-    var onKidSelected: (Int) -> Void = { _ in }
-    var onAddKid: (String, Avatar) -> Void = { _, _ in }
-    var onUpdateKidName: (String, Int) -> Void = { _, _ in }
-    var onUpdateKidAvatar: (Avatar, Int) -> Void = { _, _ in }
-    var onUpdateKidWallpaper: (Wallpaper, Int) -> Void = { _, _ in }
-    var onRemoveKid: (Int) -> Void = { _ in }
-    var onAddActivity: (Activity) -> Void = { _ in }
-    var onUpdateActivity: (Activity) -> Void = { _ in }
-    var onRemoveActivity: (Activity) -> Void = { _ in }
+    let actions: HomeActions
 
     @FocusState private var focusedIndex: Int?
     @State private var lastFocusedIndex: Int?
@@ -81,25 +85,27 @@ struct HomeView: View {
                     ProfileView(
                         kids: state.kids,
                         selectedIndex: state.selectedKidIndex,
-                        onSelect: { index in
-                            onKidSelected(index)
-                            showProfiles = false
-                        },
-                        onAdd: { name, avatar in
-                            onAddKid(name, avatar)
-                            showProfiles = false
-                        },
-                        onUpdateName: onUpdateKidName,
-                        onUpdateAvatar: onUpdateKidAvatar,
-                        onUpdateWallpaper: onUpdateKidWallpaper,
-                        onRemove: { index in
-                            onRemoveKid(index)
-                            showProfiles = false
-                        }
+                        actions: ProfileActions(
+                            select: { index in
+                                actions.kidSelected(index)
+                                showProfiles = false
+                            },
+                            add: { name, avatar in
+                                actions.addKid(name, avatar)
+                                showProfiles = false
+                            },
+                            updateName: actions.updateKidName,
+                            updateAvatar: actions.updateKidAvatar,
+                            updateWallpaper: actions.updateKidWallpaper,
+                            remove: { index in
+                                actions.removeKid(index)
+                                showProfiles = false
+                            }
+                        )
                     )
                 }
 
-                Button(action: onSettingsTapped) {
+                Button(action: actions.settingsTapped) {
                     Image(systemName: "gearshape.fill")
                         .font(.system(size: 36))
                         .foregroundStyle(.white.opacity(0.8))
@@ -122,7 +128,7 @@ struct HomeView: View {
                         ActivityCardView(
                             state: card,
                             onEdit: { editingActivity = $0 },
-                            onDelete: { onRemoveActivity($0) }
+                            onDelete: { actions.removeActivity($0) }
                         )
                         .focused($focusedIndex, equals: card.index)
                         .scaleEffect(visibleCards.contains(card.index) ? 1 : 0.7)
@@ -141,7 +147,7 @@ struct HomeView: View {
                     .buttonStyle(.card)
                     .id("add")
                     .fullScreenCover(isPresented: $showAddActivity) {
-                        AddActivityView(onAdd: onAddActivity)
+                        AddActivityView(onAdd: actions.addActivity)
                     }
                 }
                 .scrollTargetLayout()
@@ -153,7 +159,7 @@ struct HomeView: View {
             .contentMargins(.horizontal, 80)
             .fullScreenCover(item: $editingActivity) { activity in
                 EditActivityView(activity: activity) { updated in
-                    onUpdateActivity(updated)
+                    actions.updateActivity(updated)
                 }
             }
             .onAppear {

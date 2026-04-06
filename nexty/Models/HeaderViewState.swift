@@ -10,7 +10,7 @@ struct HeaderViewState {
     let useCelsius: Bool
 
     var headlineText: String {
-        let format = "header.time".localized(language)
+        let format = LocalizedString(.headerTime, language)
         return String(format: format, greeting, kidName, timeString)
     }
 

@@ -54,12 +54,12 @@ struct ActivityCardView: View {
             Button {
                 onEdit?(state.activity)
             } label: {
-                Label("activity.edit".localized(state.language), systemImage: "pencil")
+                Label(LocalizedString(.activityEdit, state.language), systemImage: "pencil")
             }
             Button(role: .destructive) {
                 onDelete?(state.activity)
             } label: {
-                Label("activity.delete".localized(state.language), systemImage: "trash")
+                Label(LocalizedString(.activityDelete, state.language), systemImage: "trash")
             }
         }
     }
@@ -93,7 +93,7 @@ private struct NowBadge: View {
     @Environment(\.appLanguage) private var language
 
     var body: some View {
-        Text("now".localized(language))
+        Text(LocalizedString(.now, language))
             .font(.system(size: 25, weight: .heavy, design: .rounded))
             .foregroundStyle(.black)
             .padding(.horizontal, 16)
@@ -106,7 +106,7 @@ private struct ComingNextBadge: View {
     @Environment(\.appLanguage) private var language
 
     var body: some View {
-        Text("comingNext".localized(language))
+        Text(LocalizedString(.comingNext, language))
             .font(.system(size: 25, weight: .heavy, design: .rounded))
             .foregroundStyle(.black)
             .padding(.horizontal, 16)

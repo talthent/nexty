@@ -1,15 +1,19 @@
 import SwiftUI
 import AVKit
 
+struct ProfileActions {
+    let select: (Int) -> Void
+    let add: (String, Avatar) -> Void
+    let updateName: (String, Int) -> Void
+    let updateAvatar: (Avatar, Int) -> Void
+    let updateWallpaper: (Wallpaper, Int) -> Void
+    let remove: (Int) -> Void
+}
+
 struct ProfileView: View {
     let kids: [Kid]
     let selectedIndex: Int
-    let onSelect: (Int) -> Void
-    let onAdd: (String, Avatar) -> Void
-    let onUpdateName: (String, Int) -> Void
-    let onUpdateAvatar: (Avatar, Int) -> Void
-    let onUpdateWallpaper: (Wallpaper, Int) -> Void
-    let onRemove: (Int) -> Void
+    let actions: ProfileActions
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.appLanguage) private var language
@@ -19,7 +23,7 @@ struct ProfileView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 30) {
-            Text("profiles.title".localized(language))
+            Text(LocalizedString(.profilesTitle, language))
                 .font(.system(size: 48, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
 
@@ -33,7 +37,7 @@ struct ProfileView: View {
                                 withAnimation(.easeInOut(duration: 0.25)) {
                                     editingIndex = index
                                 }
-                                onSelect(index)
+                                actions.select(index)
                             } label: {
                                 HStack(spacing: 16) {
                                     Image(kid.avatar.imageName)
@@ -76,7 +80,7 @@ struct ProfileView: View {
                                         .foregroundStyle(.white.opacity(0.6))
                                 }
 
-                                Text("settings.addKid".localized(language))
+                                Text(LocalizedString(.settingsAddKid, language))
                                     .font(.system(size: 28, weight: .bold, design: .rounded))
                                     .foregroundStyle(.white.opacity(0.6))
 
@@ -87,7 +91,7 @@ struct ProfileView: View {
                         .buttonStyle(.card)
                         .fullScreenCover(isPresented: $showAddSheet) {
                             AddKidView(onAdd: { name, avatar in
-                                onAdd(name, avatar)
+                                actions.add(name, avatar)
                                 showAddSheet = false
                                 editingIndex = kids.count
                             })
@@ -104,12 +108,12 @@ struct ProfileView: View {
                     EditPanel(
                         kid: kids[editIdx],
                         canDelete: kids.count > 1,
-                        onUpdateName: { onUpdateName($0, editIdx) },
-                        onUpdateAvatar: { onUpdateAvatar($0, editIdx) },
-                        onUpdateWallpaper: { onUpdateWallpaper($0, editIdx) },
+                        onUpdateName: { actions.updateName($0, editIdx) },
+                        onUpdateAvatar: { actions.updateAvatar($0, editIdx) },
+                        onUpdateWallpaper: { actions.updateWallpaper($0, editIdx) },
                         onDelete: {
                             editingIndex = nil
-                            onRemove(editIdx)
+                            actions.remove(editIdx)
                         }
                     )
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -118,7 +122,7 @@ struct ProfileView: View {
                 } else {
                     VStack {
                         Spacer()
-                        Text("profiles.selectToEdit".localized(language))
+                        Text(LocalizedString(.profilesSelectToEdit, language))
                             .font(.system(size: 28, design: .rounded))
                             .foregroundStyle(.white.opacity(0.4))
                         Spacer()
@@ -190,11 +194,11 @@ private struct EditPanel: View {
                     }
 
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("settings.childName".localized(language))
+                        Text(LocalizedString(.settingsChildName, language))
                             .font(.system(size: 22, weight: .semibold, design: .rounded))
                             .foregroundStyle(.white.opacity(0.6))
 
-                        TextField("settings.namePlaceholder".localized(language), text: $nameField)
+                        TextField(LocalizedString(.settingsNamePlaceholder, language), text: $nameField)
                             .font(.system(size: 30, design: .rounded))
                             .frame(height: 54)
                             .frame(maxWidth: 400)
@@ -206,7 +210,7 @@ private struct EditPanel: View {
 
                 // Wallpaper
                 VStack(alignment: .leading, spacing: 14) {
-                    Text("settings.wallpaper".localized(language))
+                    Text(LocalizedString(.settingsWallpaper, language))
                         .font(.system(size: 24, weight: .semibold, design: .rounded))
                         .foregroundStyle(.white.opacity(0.6))
 
@@ -248,7 +252,7 @@ private struct EditPanel: View {
                         HStack(spacing: 10) {
                             Image(systemName: "trash")
                                 .font(.system(size: 22))
-                            Text("profiles.delete".localized(language))
+                            Text(LocalizedString(.profilesDelete, language))
                                 .font(.system(size: 24, weight: .semibold, design: .rounded))
                         }
                         .foregroundStyle(.red)
@@ -314,7 +318,7 @@ private struct AvatarPickerView: View {
             Button {
                 onSelect(previewAvatar)
             } label: {
-                Text("profiles.chooseAvatar".localized(language))
+                Text(LocalizedString(.profilesChooseAvatar, language))
                     .font(.system(size: 32, weight: .bold, design: .rounded))
                     .foregroundStyle(.white)
                     .padding(.horizontal, 50)
@@ -345,7 +349,7 @@ private struct AddKidView: View {
 
     var body: some View {
         VStack(spacing: 40) {
-            Text("profiles.addTitle".localized(language))
+            Text(LocalizedString(.profilesAddTitle, language))
                 .font(.system(size: 48, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
 
@@ -368,11 +372,11 @@ private struct AddKidView: View {
                 )
             }
 
-            Text("profiles.tapToChangeAvatar".localized(language))
+            Text(LocalizedString(.profilesTapToChangeAvatar, language))
                 .font(.system(size: 24, design: .rounded))
                 .foregroundStyle(.white.opacity(0.5))
 
-            TextField("settings.namePlaceholder".localized(language), text: $name)
+            TextField(LocalizedString(.settingsNamePlaceholder, language), text: $name)
                 .font(.system(size: 36, design: .rounded))
                 .frame(height: 70)
                 .frame(maxWidth: 400)
@@ -380,7 +384,7 @@ private struct AddKidView: View {
 
             HStack(spacing: 30) {
                 Button { dismiss() } label: {
-                    Text("profiles.cancel".localized(language))
+                    Text(LocalizedString(.profilesCancel, language))
                         .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundStyle(.white.opacity(0.7))
                         .padding(.horizontal, 40)
@@ -393,7 +397,7 @@ private struct AddKidView: View {
                     guard !trimmed.isEmpty else { return }
                     onAdd(trimmed, selectedAvatar)
                 } label: {
-                    Text("profiles.add".localized(language))
+                    Text(LocalizedString(.profilesAdd, language))
                         .font(.system(size: 28, weight: .bold, design: .rounded))
                         .foregroundStyle(.white)
                         .padding(.horizontal, 40)

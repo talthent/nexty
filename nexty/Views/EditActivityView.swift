@@ -23,7 +23,7 @@ struct EditActivityView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Text("activity.edit".localized(language))
+            Text(LocalizedString(.activityEdit, language))
                 .font(.system(size: 48, weight: .bold, design: .rounded))
                 .foregroundStyle(.white)
                 .padding(.top, 50)
@@ -43,7 +43,7 @@ struct EditActivityView: View {
 
                 // Custom name editing
                 if activity.isCustom {
-                    TextField("addActivity.namePlaceholder".localized(language), text: $customName)
+                    TextField(LocalizedString(.addActivityNamePlaceholder, language), text: $customName)
                         .font(.system(size: 32, design: .rounded))
                         .frame(height: 60)
                         .frame(maxWidth: 500)
@@ -74,7 +74,7 @@ struct EditActivityView: View {
                     Button {
                         confirmSave()
                     } label: {
-                        Text("activity.save".localized(language))
+                        Text(LocalizedString(.activitySave, language))
                             .font(.system(size: 28, weight: .bold, design: .rounded))
                             .foregroundStyle(.white)
                             .padding(.horizontal, 40)
@@ -85,7 +85,7 @@ struct EditActivityView: View {
                     Button {
                         dismiss()
                     } label: {
-                        Text("profiles.cancel".localized(language))
+                        Text(LocalizedString(.profilesCancel, language))
                             .font(.system(size: 28, weight: .bold, design: .rounded))
                             .foregroundStyle(.white.opacity(0.7))
                             .padding(.horizontal, 40)

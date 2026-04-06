@@ -9,19 +9,21 @@ struct ContentView: View {
             if appState.isReady {
                 HomeView(
                     state: HomeState(appState: appState),
-                    onSettingsTapped: { showSettings = true },
-                    onKidSelected: { appState.selectedKidIndex = $0 },
-                    onAddKid: { name, avatar in
-                        appState.addKid(name: name, avatar: avatar)
-                        appState.selectedKidIndex = appState.kids.count - 1
-                    },
-                    onUpdateKidName: { appState.updateKidName($0, at: $1) },
-                    onUpdateKidAvatar: { appState.updateKidAvatar($0, at: $1) },
-                    onUpdateKidWallpaper: { appState.updateKidWallpaper($0, at: $1) },
-                    onRemoveKid: { appState.removeKid(at: $0) },
-                    onAddActivity: { appState.addActivity($0) },
-                    onUpdateActivity: { appState.updateActivity($0) },
-                    onRemoveActivity: { appState.removeActivity($0) }
+                    actions: HomeActions(
+                        settingsTapped: { showSettings = true },
+                        kidSelected: { appState.selectedKidIndex = $0 },
+                        addKid: { name, avatar in
+                            appState.addKid(name: name, avatar: avatar)
+                            appState.selectedKidIndex = appState.kids.count - 1
+                        },
+                        updateKidName: { appState.updateKidName($0, at: $1) },
+                        updateKidAvatar: { appState.updateKidAvatar($0, at: $1) },
+                        updateKidWallpaper: { appState.updateKidWallpaper($0, at: $1) },
+                        removeKid: { appState.removeKid(at: $0) },
+                        addActivity: { appState.addActivity($0) },
+                        updateActivity: { appState.updateActivity($0) },
+                        removeActivity: { appState.removeActivity($0) }
+                    )
                 )
             } else {
                 LoadingView(headerState: HeaderViewState(appState: appState))
