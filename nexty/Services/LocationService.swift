@@ -111,12 +111,13 @@ final class LocationService {
     }
 
     private static func formatCityName(from item: MKMapItem, locale: Locale) -> String? {
-        if let short = item.address?.shortAddress, !short.isEmpty {
-            let parts = short.components(separatedBy: ", ")
-            if parts.count > 2 {
-                return parts.suffix(2).joined(separator: ", ")
-            }
-            return short
+        guard let reps = item.addressRepresentations else { return item.name }
+        // cityWithContext(.full) gives "City, State, Country"
+        if let full = reps.cityWithContext(.full) {
+            return full
+        }
+        if let city = reps.cityName {
+            return city
         }
         return item.name
     }

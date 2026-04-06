@@ -19,6 +19,13 @@
 			remoteGlobalIDString = 609965CB2F6B49680090ED6D;
 			remoteInfo = topShelf;
 		};
+		E3BBCB6941C0973811FBAB9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 609965352F6ABC910090ED6D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6099653C2F6ABC910090ED6D;
+			remoteInfo = nexty;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,6 +46,7 @@
 		6099653D2F6ABC910090ED6D /* nexty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nexty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		609965CC2F6B49680090ED6D /* topShelf.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = topShelf.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		609965CE2F6B49680090ED6D /* TVServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TVServices.framework; path = System/Library/Frameworks/TVServices.framework; sourceTree = SDKROOT; };
+		FCBF5AB0D80B64A4AD846CED /* nextyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = nextyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -62,6 +70,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		25F3F6CDB471F373FC44D78D /* nextyTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = nextyTests;
+			sourceTree = "<group>";
+		};
 		6099653F2F6ABC910090ED6D /* nexty */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -81,6 +94,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		5755427771FFC67527DCA906 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6099653A2F6ABC910090ED6D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -103,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				6099653F2F6ABC910090ED6D /* nexty */,
+				25F3F6CDB471F373FC44D78D /* nextyTests */,
 				609965D02F6B49680090ED6D /* topShelf */,
 				609965CD2F6B49680090ED6D /* Frameworks */,
 				6099653E2F6ABC910090ED6D /* Products */,
@@ -113,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				6099653D2F6ABC910090ED6D /* nexty.app */,
+				FCBF5AB0D80B64A4AD846CED /* nextyTests.xctest */,
 				609965CC2F6B49680090ED6D /* topShelf.appex */,
 			);
 			name = Products;
@@ -129,6 +151,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		3B1EE585A2B29710DEE2DDD0 /* nextyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A45F0E8F94F798541263EA6 /* Build configuration list for PBXNativeTarget "nextyTests" */;
+			buildPhases = (
+				65BBEBD88D2DB2D8AEFF44B6 /* Sources */,
+				5755427771FFC67527DCA906 /* Frameworks */,
+				6BE9AB451832D55C8F0A109C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E9578BD6AA74F9B278013231 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				25F3F6CDB471F373FC44D78D /* nextyTests */,
+			);
+			name = nextyTests;
+			packageProductDependencies = (
+			);
+			productName = nextyTests;
+			productReference = FCBF5AB0D80B64A4AD846CED /* nextyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6099653C2F6ABC910090ED6D /* nexty */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 609965482F6ABC920090ED6D /* Build configuration list for PBXNativeTarget "nexty" */;
@@ -183,8 +228,12 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2630;
-				LastUpgradeCheck = 2630;
+				LastUpgradeCheck = 2640;
 				TargetAttributes = {
+					3B1EE585A2B29710DEE2DDD0 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 6099653C2F6ABC910090ED6D;
+					};
 					6099653C2F6ABC910090ED6D = {
 						CreatedOnToolsVersion = 26.3;
 					};
@@ -211,6 +260,7 @@
 			projectRoot = "";
 			targets = (
 				6099653C2F6ABC910090ED6D /* nexty */,
+				3B1EE585A2B29710DEE2DDD0 /* nextyTests */,
 				609965CB2F6B49680090ED6D /* topShelf */,
 			);
 		};
@@ -225,6 +275,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		609965CA2F6B49680090ED6D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6BE9AB451832D55C8F0A109C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -248,6 +305,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		65BBEBD88D2DB2D8AEFF44B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -255,6 +319,11 @@
 			isa = PBXTargetDependency;
 			target = 609965CB2F6B49680090ED6D /* topShelf */;
 			targetProxy = 609965D42F6B49680090ED6D /* PBXContainerItemProxy */;
+		};
+		E9578BD6AA74F9B278013231 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6099653C2F6ABC910090ED6D /* nexty */;
+			targetProxy = E3BBCB6941C0973811FBAB9E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -264,6 +333,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -317,6 +387,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = appletvos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TVOS_DEPLOYMENT_TARGET = 26.2;
@@ -328,6 +399,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -374,6 +446,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = appletvos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				TVOS_DEPLOYMENT_TARGET = 26.2;
 				VALIDATE_PRODUCT = YES;
@@ -500,9 +573,60 @@
 			};
 			name = Release;
 		};
+		8DABB21556C14B40E6C881A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9P63DYGH75;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.talthent.nexty.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nexty.app/nexty";
+			};
+			name = Release;
+		};
+		F2F8C5B015A95EDB70649A07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9P63DYGH75;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.talthent.nexty.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/nexty.app/nexty";
+			};
+			name = Debug;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0A45F0E8F94F798541263EA6 /* Build configuration list for PBXNativeTarget "nextyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2F8C5B015A95EDB70649A07 /* Debug */,
+				8DABB21556C14B40E6C881A7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		609965382F6ABC910090ED6D /* Build configuration list for PBXProject "nexty" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -10,6 +10,15 @@ He also loves knowing the current time and checking the weather. These small pie
 
 So I built **nexty** — a tvOS app that turns our living room TV into a gentle, glanceable daily schedule. It sits there on the biggest screen in the house, always visible, always ready to answer the question: *"What's next?"*
 
+<p align="center">
+  <img src="screenshots/DailySchedule.png" width="800" alt="Daily schedule with Smurfs wallpaper">
+</p>
+
+<p align="center">
+  <img src="screenshots/CustomActivity.png" width="400" alt="Add custom activity">
+  <img src="screenshots/PickAvatar.png" width="400" alt="Pick an avatar">
+</p>
+
 ---
 
 ## What it does
@@ -36,7 +45,7 @@ Everything is designed for calm and clarity:
 Built entirely in SwiftUI for tvOS. No external dependencies — just system frameworks.
 
 - **State management** — Single `@Observable` `AppState` with derived read-only view states and closure-based callbacks. Views never mutate state directly.
-- **Dashboard** — A lightweight HTTP server (`NWListener`) serves an embedded web UI for remote schedule editing
+- **Dashboard** — A lightweight HTTP server (`NWListener`) serves a bundled web UI for remote schedule editing
 - **Persistence** — `UserDefaults` with shared app groups for the Top Shelf extension
 - **Localization** — `Localizable.xcstrings` with per-language bundles and RTL layout support
 
@@ -45,7 +54,9 @@ nexty/
 ├── Models/        # Activity, Kid, Wallpaper, Language, view state structs
 ├── Services/      # AppState, DashboardServer, Weather, Location
 ├── Views/         # SwiftUI views — Home, Profile, Settings, Activity cards
-└── topShelf/      # Top Shelf extension showing current/next activity
+├── Resources/     # Animated avatar videos, dashboard HTML
+topShelf/          # Top Shelf extension showing current/next activity
+nextyTests/        # Unit tests (87 tests covering models and services)
 ```
 
 ## Running it
@@ -58,7 +69,7 @@ xcodebuild -scheme nexty -destination 'generic/platform=tvOS' build
 open nexty.xcodeproj
 ```
 
-Requires Xcode 16+ and a tvOS 18+ device or simulator.
+Requires Xcode 26+ and a tvOS 26+ device or simulator.
 
 ## License
 
