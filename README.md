@@ -9,7 +9,7 @@
 
 **A visual daily schedule app for Apple TV, built with love for my son.**
 
-## Why
+## How it started
 
 My son is five years old and has ASD. He really likes to know what comes next. Transitions between activities can be hard when they feel unexpected, but when he can *see* his day laid out — what's happening now, what's coming next, and what the rest of the day looks like — everything becomes calmer. More predictable. More okay.
 
