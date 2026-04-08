@@ -1,7 +1,5 @@
 # nexty
 
-**A visual daily schedule app for Apple TV, built with love for my son.**
-
 <p align="center">
   <a href="https://github.com/talthent/nexty/actions/workflows/build.yml"><img src="https://github.com/talthent/nexty/actions/workflows/build.yml/badge.svg" alt="Build"></a>
   <a href="https://developer.apple.com/tvos/"><img src="https://img.shields.io/badge/platform-tvOS_26+-black?logo=apple" alt="Platform"></a>
@@ -9,15 +7,15 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
 </p>
 
----
+**A visual daily schedule app for Apple TV, built with love for my son.**
+
+## Why
 
 My son is five years old and has ASD. He really likes to know what comes next. Transitions between activities can be hard when they feel unexpected, but when he can *see* his day laid out — what's happening now, what's coming next, and what the rest of the day looks like — everything becomes calmer. More predictable. More okay.
 
 He also loves knowing the current time and checking the weather. These small pieces of information give him a sense of control over his world.
 
 So I built **nexty** — a tvOS app that turns our living room TV into a gentle, glanceable daily schedule. It sits there on the biggest screen in the house, always visible, always ready to answer the question: *"What's next?"*
-
----
 
 ## What it does
 
