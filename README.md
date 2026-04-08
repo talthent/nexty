@@ -1,13 +1,13 @@
 # nexty
 
+**A visual daily schedule app for Apple TV, built with love for my son.**
+
 <p align="center">
   <a href="https://github.com/talthent/nexty/actions/workflows/build.yml"><img src="https://github.com/talthent/nexty/actions/workflows/build.yml/badge.svg" alt="Build"></a>
   <a href="https://developer.apple.com/tvos/"><img src="https://img.shields.io/badge/platform-tvOS_26+-black?logo=apple" alt="Platform"></a>
   <a href="https://swift.org"><img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="License"></a>
 </p>
-
-**A visual daily schedule app for Apple TV, built with love for my son.**
 
 ---
 
