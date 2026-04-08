@@ -1,5 +1,7 @@
 # nexty
 
+[![Build](https://github.com/talthent/nexty/actions/workflows/build.yml/badge.svg)](https://github.com/talthent/nexty/actions/workflows/build.yml)
+
 **A visual daily schedule app for Apple TV, built with love for my son.**
 
 ---

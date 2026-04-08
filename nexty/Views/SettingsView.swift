@@ -25,7 +25,7 @@ struct SettingsView: View {
                         )
                         .focusSection()
 
-                        LanguagePicker(selectedLanguage: state.languageBinding)
+                        LanguagePickerView(selectedLanguage: state.languageBinding)
                             .focusSection()
 
                         SettingsRow(
@@ -51,7 +51,7 @@ struct SettingsView: View {
                 .focusSection()
 
                 // MARK: - Right Column: Dashboard
-                DashboardSection(dashboardURL: state.dashboardURL)
+                DashboardSectionView(dashboardURL: state.dashboardURL)
                     .frame(maxWidth: .infinity)
                     .focusSection()
             }
@@ -85,7 +85,11 @@ struct SettingsView: View {
     }
 }
 
-// MARK: - Extracted Subviews
+#Preview {
+    SettingsView(state: SettingsViewState(appState: AppState()))
+}
+
+// MARK: - Private Subviews
 
 private struct LocationSection: View {
     @Binding var cityField: String
@@ -112,91 +116,6 @@ private struct LocationSection: View {
             }
             .frame(maxWidth: 600, alignment: .leading)
         }
-    }
-}
-
-#Preview {
-    SettingsView(state: SettingsViewState(appState: AppState()))
-}
-
-private struct LanguagePicker: View {
-    @Binding var selectedLanguage: Language
-    @State private var showPicker = false
-
-    var body: some View {
-        HStack {
-            Text(LocalizedString(.settingsLanguage, selectedLanguage))
-                .font(.system(size: 31, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.8))
-
-            Spacer()
-
-            Button {
-                showPicker = true
-            } label: {
-                Text(selectedLanguage.displayName)
-                    .font(.system(size: 28, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 30)
-                    .padding(.vertical, 12)
-            }
-            .buttonStyle(.card)
-            .sheet(isPresented: $showPicker) {
-                VStack(spacing: 30) {
-                    Text(LocalizedString(.settingsLanguage, selectedLanguage))
-                        .font(.system(size: 42, weight: .bold, design: .rounded))
-                        .foregroundStyle(.white)
-
-                    ForEach(Language.allCases) { lang in
-                        Button {
-                            selectedLanguage = lang
-                            showPicker = false
-                        } label: {
-                            Text(lang.displayName)
-                                .font(.system(size: 32, weight: selectedLanguage == lang ? .bold : .regular, design: .rounded))
-                                .foregroundStyle(.white)
-                                .padding(.horizontal, 40)
-                                .padding(.vertical, 14)
-                        }
-                        .buttonStyle(.card)
-                    }
-                }
-                .padding(60)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(.ultraThinMaterial)
-            }
-        }
-        .frame(maxWidth: 600)
-    }
-}
-
-private struct DashboardSection: View {
-    let dashboardURL: String?
-    @Environment(\.appLanguage) private var language
-
-    var body: some View {
-        VStack(spacing: 20) {
-            Text(LocalizedString(.settingsDashboard, language))
-                .font(.system(size: 31, weight: .semibold, design: .rounded))
-                .foregroundStyle(.white.opacity(0.8))
-
-            if let url = dashboardURL {
-                QRCodeView(url: url)
-                Text(url)
-                    .font(.system(size: 29, weight: .medium, design: .monospaced))
-                    .foregroundStyle(.white.opacity(0.9))
-                Text(LocalizedString(.settingsDashboardHint, language))
-                    .font(.system(size: 29, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.6))
-                    .multilineTextAlignment(.center)
-            } else {
-                Text(LocalizedString(.settingsNoWifi, language))
-                    .font(.system(size: 29, design: .rounded))
-                    .foregroundStyle(.white.opacity(0.6))
-            }
-        }
-        .padding(40)
-        .background(.ultraThinMaterial, in: .rect(cornerRadius: 24))
     }
 }
 

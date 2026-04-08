@@ -61,6 +61,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Models/Activity.swift,
+				Models/Avatar.swift,
 				Models/Kid.swift,
 				Models/Language.swift,
 				Models/Wallpaper.swift,
