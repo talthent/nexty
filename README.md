@@ -1,6 +1,9 @@
 # nexty
 
 [![Build](https://github.com/talthent/nexty/actions/workflows/build.yml/badge.svg)](https://github.com/talthent/nexty/actions/workflows/build.yml)
+[![Platform](https://img.shields.io/badge/platform-tvOS_26+-black?logo=apple)](https://developer.apple.com/tvos/)
+[![Swift](https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white)](https://swift.org)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
 **A visual daily schedule app for Apple TV, built with love for my son.**
 
