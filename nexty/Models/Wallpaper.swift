@@ -39,6 +39,11 @@ enum Wallpaper: String, CaseIterable, Codable, Identifiable {
     case spideySwing = "spideySwing"
     case spideyConfetti = "spideyConfetti"
 
+    // Hourglass / sand timers
+    case sandTimers = "sandTimers"
+    case hourglassPink = "hourglassPink"
+    case hourglassBeach = "hourglassBeach"
+
     var id: String { rawValue }
 
     var imageName: String? {
@@ -67,6 +72,9 @@ enum Wallpaper: String, CaseIterable, Codable, Identifiable {
         case .spidey: "Spidey"
         case .spideySwing: "SpideySwing"
         case .spideyConfetti: "SpideyConfetti"
+        case .sandTimers: "SandTimers"
+        case .hourglassPink: "HourglassPink"
+        case .hourglassBeach: "HourglassBeach"
         }
     }
 
@@ -135,6 +143,21 @@ enum Wallpaper: String, CaseIterable, Codable, Identifiable {
         case .spidey, .spideySwing, .spideyConfetti:
             LinearGradient(
                 colors: [Color(red: 0.45, green: 0.72, blue: 0.90), Color(red: 0.30, green: 0.50, blue: 0.75)],
+                startPoint: .top, endPoint: .bottom
+            )
+        case .sandTimers:
+            LinearGradient(
+                colors: [Color(red: 0.92, green: 0.55, blue: 0.65), Color(red: 0.90, green: 0.40, blue: 0.25)],
+                startPoint: .top, endPoint: .bottom
+            )
+        case .hourglassPink:
+            LinearGradient(
+                colors: [Color(red: 0.88, green: 0.45, blue: 0.55), Color(red: 0.60, green: 0.25, blue: 0.35)],
+                startPoint: .top, endPoint: .bottom
+            )
+        case .hourglassBeach:
+            LinearGradient(
+                colors: [Color(red: 0.98, green: 0.78, blue: 0.50), Color(red: 0.55, green: 0.60, blue: 0.72)],
                 startPoint: .top, endPoint: .bottom
             )
         }

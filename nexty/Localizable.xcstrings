@@ -1208,6 +1208,57 @@
         }
       }
     },
+    "wallpaper.sandTimers" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sand Timers"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שעוני חול"
+          }
+        }
+      }
+    },
+    "wallpaper.hourglassPink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pink Hourglass"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שעון חול ורוד"
+          }
+        }
+      }
+    },
+    "wallpaper.hourglassBeach" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Beach Hourglass"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שעון חול בחוף"
+          }
+        }
+      }
+    },
     "wallpicker.select" : {
       "extractionState" : "stale",
       "localizations" : {
