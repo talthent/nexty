@@ -91,10 +91,6 @@ open nexty.xcodeproj
 
 Requires Xcode 26+ and a tvOS 26+ device or simulator.
 
-## Disclaimer
-
-The character wallpapers depicted in the screenshots above are the property of their respective copyright holders and are not included in this repository's source code or assets. They are shown solely for illustrative purposes to demonstrate the app's wallpaper feature in a personal, non-commercial context. All rights remain with their respective owners.
-
 ## License
 
 MIT
