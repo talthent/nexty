@@ -1225,6 +1225,57 @@
         }
       }
     },
+    "wallpaper.rainbowTimers" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rainbow Timers"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "שעוני קשת"
+          }
+        }
+      }
+    },
+    "wallpaper.fishMarble" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fish Marble"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "גולת דגים"
+          }
+        }
+      }
+    },
+    "wallpaper.kitten" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kitten"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "חתלתול"
+          }
+        }
+      }
+    },
     "wallpaper.hourglassPink" : {
       "extractionState" : "manual",
       "localizations" : {
